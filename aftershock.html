@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ Aftershock — A WrestleFlix Sub-Brand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --after-primary: #7b2fff;
+      --after-secondary: #00c8ff;
+      --after-accent: #ff2fff;
+      --after-dark: #07050f;
+      --after-mid: #0d0b1a;
+      --after-card: #120f22;
+    }
+
+    body { background: var(--after-dark); }
+
+    .as-ticker-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 36px;
+      background: var(--after-primary);
+      overflow: hidden;
+    }
+
+    .as-ticker-inner {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .as-ticker-label {
+      flex-shrink: 0;
+      background: var(--after-dark);
+      color: var(--after-secondary);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .as-ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 35s linear infinite;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .as-ticker-track span { padding-right: 4rem; }
+
+    .as-nav {
+      position: fixed;
+      top: 36px; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(7,5,15,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(123,47,255,0.2);
+    }
+
+    .as-nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .as-logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(123,47,255,0.8);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .as-logo-bolt { font-size: 22px; filter: drop-shadow(0 0 8px var(--after-secondary)); }
+    .as-logo-back { font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 1rem; }
+
+    .as-logo-back:hover { color: rgba(255,255,255,0.8); }
+
+    .as-nav-links {
+      display: flex;
+      gap: 2rem;
+      flex: 1;
+    }
+
+    .as-nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s ease;
+    }
+
+    .as-nav-links a:hover { color: var(--after-secondary); }
+
+    /* HERO */
+    .as-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: calc(36px + 64px);
+      background: var(--after-dark);
+    }
+
+    .as-hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 30%, rgba(123,47,255,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,200,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255,47,255,0.06) 0%, transparent 50%);
+    }
+
+    .as-hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(123,47,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123,47,255,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .as-lightning-field {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .as-bolt {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--after-secondary), transparent);
+      animation: bolt-flash 4s infinite;
+      opacity: 0;
+    }
+
+    @keyframes bolt-flash {
+      0%, 88%, 100% { opacity: 0; }
+      90% { opacity: 1; transform: scaleY(1.2); }
+      93% { opacity: 0; }
+      95% { opacity: 0.6; }
+      98% { opacity: 0; }
+    }
+
+    .as-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      text-align: center;
+    }
+
+    .as-hero-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--after-secondary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .as-hero-badge::before, .as-hero-badge::after {
+      content: '';
+      height: 1px;
+      width: 60px;
+      background: linear-gradient(to right, transparent, var(--after-primary));
+    }
+
+    .as-hero-badge::after {
+      background: linear-gradient(to left, transparent, var(--after-primary));
+    }
+
+    .as-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(72px, 12vw, 160px);
+      letter-spacing: 8px;
+      color: #fff;
+      line-height: 0.9;
+      margin-bottom: 0.5rem;
+      text-shadow:
+        0 0 40px rgba(123,47,255,0.6),
+        0 0 80px rgba(123,47,255,0.3);
+    }
+
+    .as-hero-title span {
+      color: var(--after-secondary);
+      text-shadow:
+        0 0 20px rgba(0,200,255,0.8),
+        0 0 60px rgba(0,200,255,0.4);
+    }
+
+    .as-hero-sub {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 2.5rem;
+    }
+
+    .as-hero-desc {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .as-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-as-primary {
+      background: var(--after-primary);
+      color: #fff;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(123,47,255,0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-as-primary:hover {
+      background: #9444ff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(123,47,255,0.6);
+    }
+
+    .btn-as-ghost {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border: 1px solid rgba(123,47,255,0.4);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-as-ghost:hover {
+      background: rgba(123,47,255,0.15);
+      border-color: var(--after-primary);
+    }
+
+    /* CONTENT AREA */
+    .as-content {
+      background: var(--after-dark);
+      padding-bottom: 4rem;
+    }
+
+    .as-section {
+      padding: 3rem max(2rem, calc((100vw - 1400px) / 2 + 2rem));
+      border-top: 1px solid rgba(123,47,255,0.1);
+    }
+
+    .as-section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .as-section-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    .as-section-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--after-primary);
+      border: 1px solid rgba(123,47,255,0.4);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* Championship Display */
+    .as-championships {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .as-title-card {
+      background: rgba(123,47,255,0.08);
+      border: 1px solid rgba(123,47,255,0.2);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .as-title-card:hover {
+      border-color: var(--after-primary);
+      background: rgba(123,47,255,0.14);
+      box-shadow: 0 0 30px rgba(123,47,255,0.15);
+    }
+
+    .as-title-icon {
+      font-size: 32px;
+      margin-bottom: 0.75rem;
+    }
+
+    .as-title-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .as-title-holder {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--after-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .as-title-vacant {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* Schedule */
+    .as-schedule {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .as-schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(123,47,255,0.15);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .as-schedule-item:hover {
+      background: rgba(123,47,255,0.08);
+      border-color: rgba(123,47,255,0.35);
+    }
+
+    .as-sched-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--after-primary);
+      width: 100px;
+      flex-shrink: 0;
+    }
+
+    .as-sched-event {
+      flex: 1;
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .as-sched-type {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* Roster */
+    .as-roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .as-roster-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(123,47,255,0.15);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .as-roster-card:hover {
+      background: rgba(123,47,255,0.1);
+      border-color: var(--after-primary);
+    }
+
+    .as-roster-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .as-roster-role {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--after-primary);
+    }
+
+    /* Apply form */
+    .as-apply-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .as-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .as-form-group.full { grid-column: 1 / -1; }
+
+    .as-form-group label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .as-form-group input,
+    .as-form-group textarea,
+    .as-form-group select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(123,47,255,0.25);
+      border-radius: 6px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .as-form-group input:focus,
+    .as-form-group textarea:focus,
+    .as-form-group select:focus {
+      border-color: var(--after-primary);
+      box-shadow: 0 0 10px rgba(123,47,255,0.2);
+    }
+
+    .as-form-group textarea { resize: vertical; min-height: 100px; }
+
+    .btn-as-submit {
+      grid-column: 1 / -1;
+      background: var(--after-primary);
+      color: #fff;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(123,47,255,0.3);
+    }
+
+    .btn-as-submit:hover {
+      background: #9444ff;
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    .as-footer {
+      background: var(--after-mid);
+      border-top: 1px solid rgba(123,47,255,0.15);
+      padding: 2rem max(2rem, calc((100vw - 1400px) / 2 + 2rem));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .as-footer-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    .as-footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .as-apply-form { grid-template-columns: 1fr; }
+      .as-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TICKER -->
+  <div class="as-ticker-bar">
+    <div class="as-ticker-inner">
+      <span class="as-ticker-label">⚡ LIVE</span>
+      <div class="as-ticker-track">
+        <span>Aftershock debuts — new era, new chaos &nbsp;•&nbsp; Aftershock Championship — VACANT — apply now &nbsp;•&nbsp; Bi-weekly events every other Saturday &nbsp;•&nbsp; Open roster applications — WrestleFlix sub-brand &nbsp;•&nbsp; Aftershock: where the future of wrestling begins &nbsp;•&nbsp;</span>
+        <span aria-hidden="true">Aftershock debuts — new era, new chaos &nbsp;•&nbsp; Aftershock Championship — VACANT — apply now &nbsp;•&nbsp; Bi-weekly events every other Saturday &nbsp;•&nbsp; Open roster applications — WrestleFlix sub-brand &nbsp;•&nbsp; Aftershock: where the future of wrestling begins &nbsp;•&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="as-nav">
+    <div class="as-nav-inner">
+      <div class="as-logo">
+        <span class="as-logo-bolt">⚡</span>
+        AFTERSHOCK
+        <a href="index.html" class="as-logo-back">← WrestleFlix</a>
+      </div>
+      <nav class="as-nav-links">
+        <a href="#schedule">Schedule</a>
+        <a href="#championships">Championships</a>
+        <a href="#roster">Roster</a>
+        <a href="#apply">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="as-hero">
+    <div class="as-hero-bg"></div>
+    <div class="as-hero-grid"></div>
+    <div class="as-lightning-field">
+      <div class="as-bolt" style="height:60%;top:5%;left:15%;animation-delay:0s;"></div>
+      <div class="as-bolt" style="height:40%;top:20%;left:35%;animation-delay:1.3s;"></div>
+      <div class="as-bolt" style="height:70%;top:2%;left:55%;animation-delay:0.7s;"></div>
+      <div class="as-bolt" style="height:50%;top:10%;left:75%;animation-delay:2s;"></div>
+      <div class="as-bolt" style="height:35%;top:30%;left:90%;animation-delay:1.7s;"></div>
+    </div>
+    <div class="as-hero-content">
+      <div class="as-hero-badge">A WrestleFlix Sub-Brand</div>
+      <div class="as-hero-title">AFTER<span>SHOCK</span></div>
+      <div class="as-hero-sub">The Earth Moves Here</div>
+      <p class="as-hero-desc">The developmental brand that doesn't develop quietly. Aftershock is where new talent earns their place, where championships are contested with nothing to lose, and where the wrestling gets as cosmic as it gets brutal.</p>
+      <div class="as-ctas">
+        <button class="btn-as-primary" onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">View Schedule</button>
+        <button class="btn-as-ghost" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Apply to Compete</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="as-content">
+
+    <!-- SCHEDULE -->
+    <section class="as-section" id="schedule">
+      <div class="as-section-header">
+        <h2 class="as-section-title">Bi-Weekly Schedule</h2>
+        <span class="as-section-tag">Live Events</span>
+      </div>
+      <div class="as-schedule">
+        <div class="as-schedule-item">
+          <span class="as-sched-date">Apr 12, 2026</span>
+          <span class="as-sched-event">Aftershock — Episode 1: Ground Zero</span>
+          <span class="as-sched-type">Launch Event</span>
+        </div>
+        <div class="as-schedule-item">
+          <span class="as-sched-date">Apr 26, 2026</span>
+          <span class="as-sched-event">Aftershock — Episode 2: Tremors</span>
+          <span class="as-sched-type">Championship Qualifier</span>
+        </div>
+        <div class="as-schedule-item">
+          <span class="as-sched-date">May 10, 2026</span>
+          <span class="as-sched-event">Aftershock — Episode 3: Fault Line</span>
+          <span class="as-sched-type">Regular Event</span>
+        </div>
+        <div class="as-schedule-item">
+          <span class="as-sched-date">May 24, 2026</span>
+          <span class="as-sched-event">Aftershock — Episode 4: The Rupture</span>
+          <span class="as-sched-type">Championship Match</span>
+        </div>
+        <div class="as-schedule-item">
+          <span class="as-sched-date">Jun 7, 2026</span>
+          <span class="as-sched-event">Aftershock — Episode 5: Magnitude</span>
+          <span class="as-sched-type">F2W Bridge Event</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAMPIONSHIPS -->
+    <section class="as-section" id="championships">
+      <div class="as-section-header">
+        <h2 class="as-section-title">Championships</h2>
+        <span class="as-section-tag">Titles</span>
+      </div>
+      <div class="as-championships">
+        <div class="as-title-card">
+          <div class="as-title-icon">⚡</div>
+          <div class="as-title-name">AFTERSHOCK CHAMPIONSHIP</div>
+          <div class="as-title-holder">Holder</div>
+          <div class="as-title-vacant">VACANT</div>
+        </div>
+        <div class="as-title-card">
+          <div class="as-title-icon">🌐</div>
+          <div class="as-title-name">COSMIC TAG TITLES</div>
+          <div class="as-title-holder">Holders</div>
+          <div class="as-title-vacant">VACANT</div>
+        </div>
+        <div class="as-title-card">
+          <div class="as-title-icon">💥</div>
+          <div class="as-title-name">RUPTURE CHAMPIONSHIP</div>
+          <div class="as-title-holder">Holder</div>
+          <div class="as-title-vacant">VACANT</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROSTER -->
+    <section class="as-section" id="roster">
+      <div class="as-section-header">
+        <h2 class="as-section-title">Roster</h2>
+        <span class="as-section-tag">Active</span>
+      </div>
+      <div class="as-roster-grid" id="as-roster">
+        <div class="as-roster-card">
+          <div class="as-roster-name">TBA</div>
+          <div class="as-roster-role">Competitor</div>
+        </div>
+        <div class="as-roster-card" style="border-style:dashed;opacity:0.5;">
+          <div class="as-roster-name">Open</div>
+          <div class="as-roster-role">Apply Below</div>
+        </div>
+        <div class="as-roster-card" style="border-style:dashed;opacity:0.5;">
+          <div class="as-roster-name">Open</div>
+          <div class="as-roster-role">Apply Below</div>
+        </div>
+        <div class="as-roster-card" style="border-style:dashed;opacity:0.5;">
+          <div class="as-roster-name">Open</div>
+          <div class="as-roster-role">Apply Below</div>
+        </div>
+        <div class="as-roster-card" style="border-style:dashed;opacity:0.5;">
+          <div class="as-roster-name">Open</div>
+          <div class="as-roster-role">Apply Below</div>
+        </div>
+        <div class="as-roster-card" style="border-style:dashed;opacity:0.5;">
+          <div class="as-roster-name">Open</div>
+          <div class="as-roster-role">Apply Below</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPLY -->
+    <section class="as-section" id="apply">
+      <div class="as-section-header">
+        <h2 class="as-section-title">Apply to Compete</h2>
+        <span class="as-section-tag">Open Roster</span>
+      </div>
+      <form class="as-apply-form" onsubmit="submitAS(event)">
+        <div class="as-form-group">
+          <label>Ring Name</label>
+          <input type="text" placeholder="Your ring name" required />
+        </div>
+        <div class="as-form-group">
+          <label>Real Name</label>
+          <input type="text" placeholder="Your real name" required />
+        </div>
+        <div class="as-form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" required />
+        </div>
+        <div class="as-form-group">
+          <label>Fighting Style</label>
+          <select>
+            <option value="">Select style...</option>
+            <option>Technical / Submission</option>
+            <option>High Flyer / Aerial</option>
+            <option>Powerhouse / Brawler</option>
+            <option>Hybrid</option>
+            <option>Cosmic / Interdimensional</option>
+            <option>Robot / Cybernetic</option>
+            <option>Supernatural</option>
+            <option>Earthquake-Based</option>
+          </select>
+        </div>
+        <div class="as-form-group full">
+          <label>Why Aftershock?</label>
+          <textarea placeholder="Why do you belong in Aftershock? What do you bring? Be specific. Be dangerous."></textarea>
+        </div>
+        <div class="as-form-group full">
+          <label>Notable Achievements</label>
+          <textarea placeholder="Championships, feuds, notable matches, cosmic incidents..." style="min-height:80px;"></textarea>
+        </div>
+        <button type="submit" class="btn-as-submit">Send Application</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="as-footer">
+    <div class="as-footer-logo">⚡ AFTERSHOCK</div>
+    <div class="as-footer-text">A WrestleFlix Sub-Brand · Bi-Weekly Events · © WrestleFlix</div>
+    <a href="index.html" style="font-family:var(--font-mono);font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;">← Back to WrestleFlix</a>
+  </footer>
+
+  <script>
+    function submitAS(event) {
+      event.preventDefault();
+      const btn = event.target.querySelector('.btn-as-submit');
+      btn.textContent = '⚡ Application Received. The Earthquake Begins.';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Send Application';
+        btn.disabled = false;
+        event.target.reset();
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
