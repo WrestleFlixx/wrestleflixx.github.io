@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alpha Wrestling Empire — A WrestleFlix Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Rajdhani:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #8b0000;
+      --red-mid: #a01010;
+      --red-bright: #c41e1e;
+      --teal: #2a9d8f;
+      --teal-light: #3dbfb0;
+      --teal-dim: #1a6b60;
+      --silver: #c8c8d4;
+      --silver-light: #e8e8f0;
+      --silver-dim: #8888a0;
+      --bg: #0a0608;
+      --bg-mid: #120a0c;
+      --bg-card: #1a0e10;
+      --text: #e8e0e4;
+      --text-muted: #9090a0;
+      --text-dim: #555568;
+      --border: rgba(200,200,212,0.08);
+      --border-red: rgba(139,0,0,0.3);
+      --border-teal: rgba(42,157,143,0.3);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-ui: 'Rajdhani', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(10,6,8,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-red);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-back:hover { color: var(--teal-light); }
+
+    .nav-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--silver-light);
+      text-transform: uppercase;
+    }
+
+    .nav-logo span { color: var(--red-bright); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal-light); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 64px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(139,0,0,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(42,157,143,0.08) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0608 0%, #0f0408 50%, #0a0608 100%);
+    }
+
+    /* Diagonal silver lines */
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0.04;
+    }
+    .hero-lines::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(200,200,212,0.5) 40px,
+        rgba(200,200,212,0.5) 41px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 10vw, 140px);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -2px;
+      color: var(--silver-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title-sub {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 56px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--red-bright);
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--silver-dim);
+      max-width: 580px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 2px solid var(--red);
+      padding-left: 1rem;
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--silver-light);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    /* Decorative crest */
+    .hero-crest {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px;
+      height: 400px;
+      opacity: 0.06;
+      z-index: 1;
+    }
+
+    /* ===== SECTION COMMONS ===== */
+    .section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-red);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--silver-light);
+      letter-spacing: 1px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--border-teal);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    /* ===== CHAMPIONSHIPS ===== */
+    .champ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .champ-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-red);
+      border-radius: 4px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .champ-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--red), var(--teal));
+    }
+
+    .champ-card:hover {
+      border-color: rgba(42,157,143,0.4);
+      transform: translateY(-2px);
+    }
+
+    .champ-icon { font-size: 28px; margin-bottom: 1rem; }
+
+    .champ-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .champ-holder-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .champ-holder {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--silver);
+    }
+
+    .champ-vacant {
+      font-size: 13px;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* ===== DIVISIONS ===== */
+    .divisions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .division-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.2s;
+    }
+
+    .division-card:hover { border-color: var(--border-teal); }
+
+    .division-name {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .division-desc {
+      font-size: 14px;
+      color: var(--silver-dim);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .division-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red-bright);
+    }
+
+    /* ===== ROSTER ===== */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .roster-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roster-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--red), var(--teal));
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+
+    .roster-card:hover {
+      border-color: rgba(42,157,143,0.3);
+      background: rgba(42,157,143,0.05);
+    }
+
+    .roster-card:hover::after { transform: scaleX(1); }
+
+    .roster-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin-bottom: 4px;
+    }
+
+    .roster-division {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .roster-style {
+      font-size: 12px;
+      color: var(--silver-dim);
+    }
+
+    /* ===== SHOW ARCHIVE ===== */
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .archive-item {
+      display: grid;
+      grid-template-columns: 100px 1fr auto auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .archive-item:hover {
+      border-color: var(--border-teal);
+      background: rgba(42,157,143,0.04);
+    }
+
+    .archive-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 1px;
+    }
+
+    .archive-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--silver-light);
+    }
+
+    .archive-location {
+      font-size: 13px;
+      color: var(--silver-dim);
+    }
+
+    .archive-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    .type-massacre {
+      background: rgba(139,0,0,0.2);
+      color: var(--red-bright);
+      border: 1px solid var(--border-red);
+    }
+
+    .type-ppv {
+      background: rgba(42,157,143,0.15);
+      color: var(--teal-light);
+      border: 1px solid var(--border-teal);
+    }
+
+    /* ===== ALPHA CUP BRACKET ===== */
+    .bracket-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-red);
+      border-radius: 4px;
+      padding: 2rem;
+    }
+
+    .bracket-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .bracket-rounds {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+
+    .bracket-round {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-width: 160px;
+    }
+
+    .bracket-round-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .bracket-match {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bracket-competitor {
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--silver);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .bracket-competitor:last-child { border-bottom: none; }
+    .bracket-competitor.winner { color: var(--teal-light); background: rgba(42,157,143,0.08); }
+    .bracket-competitor.tbd { color: var(--text-dim); font-style: italic; }
+
+    /* ===== TITLE HISTORY ===== */
+    .title-history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .title-history-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-teal);
+      background: rgba(42,157,143,0.05);
+    }
+
+    .title-history-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--silver);
+    }
+
+    .title-history-table tr:hover td {
+      background: rgba(42,157,143,0.03);
+    }
+
+    .th-champ-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--silver-light);
+    }
+
+    /* ===== APPLY FORM ===== */
+    .apply-note {
+      background: rgba(139,0,0,0.1);
+      border: 1px solid var(--border-red);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 14px;
+      color: var(--silver-dim);
+      line-height: 1.7;
+    }
+
+    .apply-note strong { color: var(--red-bright); }
+
+    .apply-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--teal);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select option { background: var(--bg-mid); }
+
+    .btn-submit {
+      grid-column: 1 / -1;
+      background: var(--red);
+      color: var(--silver-light);
+      border: none;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--red-mid);
+      transform: translateY(-1px);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border-red);
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 100%;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--silver-light);
+      text-transform: uppercase;
+    }
+
+    .footer-logo span { color: var(--red-bright); }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+
+    .footer-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .footer-back:hover { color: var(--teal-light); }
+
+    /* ===== CONTENT MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(4,2,4,0.96);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-container {
+      background: var(--bg-mid);
+      border-radius: 8px 8px 0 0;
+      width: 100%;
+      max-width: 900px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border-red);
+      border-bottom: none;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.open .modal-container { transform: translateY(0); }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-meta {
+      font-size: 13px;
+      color: var(--silver-dim);
+    }
+
+    .modal-close {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--silver-dim);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      background: rgba(139,0,0,0.2);
+      border-color: var(--border-red);
+      color: var(--silver-light);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 2rem;
+      flex: 1;
+      font-family: 'Georgia', serif;
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(232,224,228,0.85);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .modal-body h2 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--silver-light);
+      margin: 2rem 0 1rem;
+    }
+
+    .modal-body p { margin-bottom: 1.25rem; }
+    .modal-body strong { color: var(--silver-light); font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .divisions-grid { grid-template-columns: 1fr; }
+      .archive-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .apply-form { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero-crest { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-logo"><span>A</span>WE</div>
+    <div class="nav-links">
+      <a href="#divisions">Divisions</a>
+      <a href="#roster">Roster</a>
+      <a href="#archive">Massacre Archive</a>
+      <a href="#titles">Title History</a>
+      <a href="#cup">Alpha Cup</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <svg class="hero-crest" viewBox="0 0 200 200" fill="none">
+      <polygon points="100,10 190,60 190,140 100,190 10,140 10,60" stroke="white" stroke-width="2" fill="none"/>
+      <polygon points="100,30 170,70 170,130 100,170 30,130 30,70" stroke="white" stroke-width="1" fill="none"/>
+      <text x="100" y="110" text-anchor="middle" font-size="32" fill="white" font-family="serif" font-weight="bold">AWE</text>
+    </svg>
+    <div class="hero-content">
+      <div class="hero-eyebrow">WrestleFlix Archive · Legacy Property</div>
+      <h1 class="hero-title">Alpha<br/>Wrestling<br/>Empire</h1>
+      <div class="hero-title-sub">Sunday Night Massacre</div>
+      <p class="hero-desc">From 2016 to 2017, the Alpha Wrestling Empire stood as one of the most prestigious e-federations in the game. Three divisions. The Alpha Cup. Sunday Night Massacre. This is the archive of everything it was.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">11</div>
+          <div class="hero-stat-label">Massacre Episodes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-label">Divisions</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">62</div>
+          <div class="hero-stat-label">Members</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2017</div>
+          <div class="hero-stat-label">Final Year</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAMPIONSHIPS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Championships</h2>
+        <span class="section-tag">Final Reign</span>
+      </div>
+      <div class="champ-grid">
+        <div class="champ-card">
+          <div class="champ-icon">👑</div>
+          <div class="champ-name">AWE Championship</div>
+          <div class="champ-holder-label">Final Champion</div>
+          <div class="champ-vacant">Vacated — AWE Closed April 2017</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">⚡</div>
+          <div class="champ-name">Paramount Championship</div>
+          <div class="champ-holder-label">Division Title</div>
+          <div class="champ-vacant">Paramount Division</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">🔥</div>
+          <div class="champ-name">Resilience Championship</div>
+          <div class="champ-holder-label">Division Title</div>
+          <div class="champ-vacant">Resilience Division</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">💥</div>
+          <div class="champ-name">Dynamic Championship</div>
+          <div class="champ-holder-label">Division Title</div>
+          <div class="champ-vacant">Dynamic Division</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">🏆</div>
+          <div class="champ-name">Alpha Cup Trophy</div>
+          <div class="champ-holder-label">Tournament Prize</div>
+          <div class="champ-vacant">Annual Tournament</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVISIONS -->
+  <section class="section" id="divisions">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The Three Divisions</h2>
+        <span class="section-tag">Structure</span>
+      </div>
+      <div class="divisions-grid">
+        <div class="division-card">
+          <div class="division-name">Paramount</div>
+          <div class="division-tag">Premier Division</div>
+          <div class="division-desc" style="margin-top:0.75rem;">The crown jewel of the AWE brand. The Paramount Division housed the most decorated competitors — those competing for the AWE Championship itself.</div>
+        </div>
+        <div class="division-card">
+          <div class="division-name">Resilience</div>
+          <div class="division-tag">Rising Division</div>
+          <div class="division-desc" style="margin-top:0.75rem;">Built for competitors who earned their place through persistence. The Resilience Division produced some of AWE's most memorable underdog stories.</div>
+        </div>
+        <div class="division-card">
+          <div class="division-name">Dynamic</div>
+          <div class="division-tag">High-Velocity Division</div>
+          <div class="division-desc" style="margin-top:0.75rem;">Fast. Innovative. Unpredictable. The Dynamic Division was where high-flyers and rule-breakers made their names before ascending to Paramount.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROSTER -->
+  <section class="section" id="roster">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The Roster</h2>
+        <span class="section-tag">62 Members</span>
+      </div>
+      <div class="roster-grid">
+        <div class="roster-card">
+          <div class="roster-name">Ronnie Harris</div>
+          <div class="roster-division">Paramount</div>
+          <div class="roster-style">Technical · Veteran</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Aokigahara Zombie</div>
+          <div class="roster-division">Paramount</div>
+          <div class="roster-style">Horror · Powerhouse</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Tornado Desencadenado</div>
+          <div class="roster-division">Dynamic</div>
+          <div class="roster-style">Lucha · High Flyer</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">No Ca$h Value</div>
+          <div class="roster-division">Resilience</div>
+          <div class="roster-style">Brawler · Street Fighter</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Mr. Highway</div>
+          <div class="roster-division">Paramount</div>
+          <div class="roster-style">Technical · Submission</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">The Big Dog</div>
+          <div class="roster-division">Paramount</div>
+          <div class="roster-style">Powerhouse · Dominant</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">+ 56 Others</div>
+          <div class="roster-division">All Divisions</div>
+          <div class="roster-style">Full archive in Drive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOW ARCHIVE -->
+  <section class="section" id="archive">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Massacre Archive</h2>
+        <span class="section-tag">11 Episodes</span>
+      </div>
+      <div class="archive-list">
+        <div class="archive-item" onclick="openShow('massacre11')">
+          <div class="archive-date">Apr 2, 2017</div>
+          <div>
+            <div class="archive-title">Massacre #11 — The Pitch</div>
+            <div class="archive-location">Sioux Falls, South Dakota</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-massacre">Final Episode</div>
+        </div>
+        <div class="archive-item" onclick="openShow('massacre10')">
+          <div class="archive-date">Mar 22, 2017</div>
+          <div>
+            <div class="archive-title">Massacre #10</div>
+            <div class="archive-location">Des Moines, Iowa</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-massacre">Massacre</div>
+        </div>
+        <div class="archive-item" onclick="openShow('execaction')">
+          <div class="archive-date">Feb 22, 2017</div>
+          <div>
+            <div class="archive-title">Executive Action</div>
+            <div class="archive-location">Milwaukee, Wisconsin</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-ppv">PPV Event</div>
+        </div>
+        <div class="archive-item" onclick="openShow('massacre9')">
+          <div class="archive-date">Mar 5, 2017</div>
+          <div>
+            <div class="archive-title">Massacre #9</div>
+            <div class="archive-location">Milwaukee, Wisconsin</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-massacre">Massacre</div>
+        </div>
+        <div class="archive-item" onclick="openShow('alphacup')">
+          <div class="archive-date">2017</div>
+          <div>
+            <div class="archive-title">The Alpha Cup</div>
+            <div class="archive-location">Annual Tournament</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-ppv">Tournament</div>
+        </div>
+        <div class="archive-item" style="opacity:0.5;cursor:default;">
+          <div class="archive-date">2016–2017</div>
+          <div>
+            <div class="archive-title">Massacres #1–8</div>
+            <div class="archive-location">Midwest Circuit</div>
+          </div>
+          <div></div>
+          <div class="archive-type type-massacre">Archive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALPHA CUP -->
+  <section class="section" id="cup">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The Alpha Cup</h2>
+        <span class="section-tag">Annual Tournament</span>
+      </div>
+      <div class="bracket-container">
+        <div class="bracket-title">Alpha Cup — Final Tournament Bracket</div>
+        <div class="bracket-rounds">
+          <div class="bracket-round">
+            <div class="bracket-round-label">Quarter Finals</div>
+            <div class="bracket-match">
+              <div class="bracket-competitor winner">Ronnie Harris</div>
+              <div class="bracket-competitor">Competitor B</div>
+            </div>
+            <div class="bracket-match">
+              <div class="bracket-competitor">Competitor C</div>
+              <div class="bracket-competitor winner">Aokigahara Zombie</div>
+            </div>
+            <div class="bracket-match">
+              <div class="bracket-competitor winner">Mr. Highway</div>
+              <div class="bracket-competitor">Competitor E</div>
+            </div>
+            <div class="bracket-match">
+              <div class="bracket-competitor">Competitor F</div>
+              <div class="bracket-competitor winner">Tornado Desencadenado</div>
+            </div>
+          </div>
+          <div class="bracket-round">
+            <div class="bracket-round-label">Semi Finals</div>
+            <div class="bracket-match">
+              <div class="bracket-competitor winner">Ronnie Harris</div>
+              <div class="bracket-competitor">Aokigahara Zombie</div>
+            </div>
+            <div class="bracket-match">
+              <div class="bracket-competitor">Mr. Highway</div>
+              <div class="bracket-competitor winner">Tornado Desencadenado</div>
+            </div>
+          </div>
+          <div class="bracket-round">
+            <div class="bracket-round-label">Final</div>
+            <div class="bracket-match">
+              <div class="bracket-competitor winner">Ronnie Harris</div>
+              <div class="bracket-competitor">Tornado Desencadenado</div>
+            </div>
+          </div>
+          <div class="bracket-round">
+            <div class="bracket-round-label">Champion</div>
+            <div class="bracket-match">
+              <div class="bracket-competitor winner" style="padding:1rem;font-size:15px;">🏆 Ronnie Harris</div>
+            </div>
+          </div>
+        </div>
+        <p style="text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-top:1.5rem;">* Bracket reconstructed from archive records. Full match content available in WrestleFlix Drive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TITLE HISTORY -->
+  <section class="section" id="titles">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Title History</h2>
+        <span class="section-tag">Championship Records</span>
+      </div>
+      <table class="title-history-table">
+        <thead>
+          <tr>
+            <th>Championship</th>
+            <th>Champion</th>
+            <th>Reign</th>
+            <th>Event Won</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AWE Championship</td>
+            <td class="th-champ-name">To Be Confirmed</td>
+            <td style="font-family:var(--font-mono);font-size:12px;">Final Reign</td>
+            <td style="color:var(--silver-dim);">Archive</td>
+          </tr>
+          <tr>
+            <td>Paramount Championship</td>
+            <td class="th-champ-name">To Be Confirmed</td>
+            <td style="font-family:var(--font-mono);font-size:12px;">Final Reign</td>
+            <td style="color:var(--silver-dim);">Archive</td>
+          </tr>
+          <tr>
+            <td>Resilience Championship</td>
+            <td class="th-champ-name">To Be Confirmed</td>
+            <td style="font-family:var(--font-mono);font-size:12px;">Final Reign</td>
+            <td style="color:var(--silver-dim);">Archive</td>
+          </tr>
+          <tr>
+            <td>Dynamic Championship</td>
+            <td class="th-champ-name">To Be Confirmed</td>
+            <td style="font-family:var(--font-mono);font-size:12px;">Final Reign</td>
+            <td style="color:var(--silver-dim);">Archive</td>
+          </tr>
+          <tr>
+            <td>Alpha Cup</td>
+            <td class="th-champ-name">Ronnie Harris</td>
+            <td style="font-family:var(--font-mono);font-size:12px;">2017</td>
+            <td style="color:var(--silver-dim);">Alpha Cup Finals</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);">Full title history being restored from archive. Add confirmed reigns via the WrestleFlix Drive.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo"><span>A</span>lpha Wrestling Empire</div>
+    <div class="footer-text">Legacy Property · 2016–2017 · A WrestleFlix Archive</div>
+    <a href="index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <div class="modal-eyebrow" id="modal-eyebrow"></div>
+          <div class="modal-title" id="modal-title"></div>
+          <div class="modal-meta" id="modal-meta"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const SHOWS = {
+      massacre11: {
+        eyebrow: 'Sunday Night Massacre · Episode 11',
+        title: 'Massacre #11 — The Pitch',
+        meta: 'April 2, 2017 · Sioux Falls, South Dakota',
+        content: `<h2>The Final Massacre</h2>
+<p>Massacre #11 — The Pitch — was the final episode of Sunday Night Massacre, broadcast live from Sioux Falls, South Dakota on April 2, 2017. The show was the last before the official AWE Closing Notice posted by the Alpha Wrestling Empire staff on April 3, 2017.</p>
+<p>The card featured some of the most compelling in-ring storytelling the AWE had produced across its run — fitting for a final chapter. Ronnie Harris, fresh from his Alpha Cup victory, appeared in a position of earned credibility. Aokigahara Zombie, a constant presence throughout the federation's history, loomed as a force unresolved.</p>
+<p><strong>Full match results and roleplay content available in the WrestleFlix Drive archive.</strong></p>`
+      },
+      massacre10: {
+        eyebrow: 'Sunday Night Massacre · Episode 10',
+        title: 'Massacre #10',
+        meta: 'March 22, 2017 · Des Moines, Iowa',
+        content: `<h2>Massacre #10</h2><p>The penultimate episode of Sunday Night Massacre. Broadcast from Des Moines, Iowa. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      execaction: {
+        eyebrow: 'AWE PPV Event',
+        title: 'Executive Action',
+        meta: 'February 22, 2017 · Milwaukee, Wisconsin',
+        content: `<h2>Executive Action</h2><p>The Alpha Wrestling Empire's signature PPV event. Broadcast from Milwaukee, Wisconsin. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      massacre9: {
+        eyebrow: 'Sunday Night Massacre · Episode 9',
+        title: 'Massacre #9',
+        meta: 'March 5, 2017 · Milwaukee, Wisconsin',
+        content: `<h2>Massacre #9</h2><p>Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      alphacup: {
+        eyebrow: 'AWE Annual Tournament',
+        title: 'The Alpha Cup',
+        meta: '2017 · Annual Tournament',
+        content: `<h2>The Alpha Cup</h2><p>The Alpha Wrestling Empire's annual tournament. Eight competitors entered. One left with the Alpha Cup. Ronnie Harris claimed the trophy in the final tournament of AWE's run. Full bracket and match content available in the WrestleFlix Drive archive.</p>`
+      }
+    };
+
+    function openShow(id) {
+      const show = SHOWS[id];
+      if (!show) return;
+      document.getElementById('modal-eyebrow').textContent = show.eyebrow;
+      document.getElementById('modal-title').textContent = show.title;
+      document.getElementById('modal-meta').textContent = show.meta;
+      document.getElementById('modal-body').innerHTML = show.content;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal-overlay')) return;
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function submitForm(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      btn.textContent = 'Application Received';
+      btn.disabled = true;
+      setTimeout(() => { btn.textContent = 'Submit Application'; btn.disabled = false; e.target.reset(); }, 4000);
+    }
+  </script>
+</body>
+</html>

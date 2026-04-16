@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pure Amusement Wrestling — A WrestleFlix Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Permanent+Marker&family=Nunito:wght@300;400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --yellow: #ffd500;
+      --yellow-dark: #e0a800;
+      --pink: #ff2d78;
+      --pink-dark: #cc1a5a;
+      --teal: #00e5cc;
+      --teal-dark: #00b8a3;
+      --orange: #ff6b00;
+      --purple: #9b00ff;
+      --bg: #08060a;
+      --bg-mid: #0d0a12;
+      --bg-card: #120f1a;
+      --text: #f5f0ff;
+      --text-muted: #a090c0;
+      --text-dim: #604080;
+      --border: rgba(255,213,0,0.1);
+      --border-pink: rgba(255,45,120,0.3);
+      --border-teal: rgba(0,229,204,0.3);
+      --font-display: 'Permanent Marker', cursive;
+      --font-fun: 'Boogaloo', cursive;
+      --font-body: 'Nunito', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== CARNIVAL LIGHTS ===== */
+    @keyframes bulb-flicker {
+      0%, 95%, 100% { opacity: 1; }
+      96% { opacity: 0.3; }
+      97% { opacity: 1; }
+      98% { opacity: 0.1; }
+    }
+
+    @keyframes marquee-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { text-shadow: 0 0 20px var(--yellow), 0 0 40px var(--yellow); }
+      50% { text-shadow: 0 0 40px var(--yellow), 0 0 80px var(--yellow), 0 0 120px rgba(255,213,0,0.3); }
+    }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(8,6,10,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    /* Carnival light dots on nav border */
+    .nav::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0; right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--yellow) 0px,
+        var(--yellow) 8px,
+        var(--pink) 8px,
+        var(--pink) 16px,
+        var(--teal) 16px,
+        var(--teal) 24px,
+        var(--orange) 24px,
+        var(--orange) 32px
+      );
+      animation: none;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--yellow); }
+
+    .nav-divider { width: 1px; height: 24px; background: rgba(255,213,0,0.3); }
+
+    .nav-logo {
+      font-family: var(--font-fun);
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      text-shadow: 0 0 15px rgba(255,213,0,0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 64px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Stars/dots background */
+    .hero-stars {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,213,0,0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(255,45,120,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,229,204,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(255,213,0,0.08) 0%, transparent 50%);
+    }
+
+    /* Carnival tent stripes */
+    .hero-stripes {
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--yellow),
+        var(--yellow) 20px,
+        transparent 20px,
+        transparent 60px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 2rem 5rem;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      font-family: var(--font-fun);
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 10vw, 120px);
+      line-height: 0.95;
+      color: var(--yellow);
+      animation: glow-pulse 3s ease-in-out infinite;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title-sub {
+      font-family: var(--font-fun);
+      font-size: clamp(28px, 5vw, 56px);
+      color: var(--teal);
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0,229,204,0.5);
+      margin-bottom: 1rem;
+    }
+
+    .hero-location {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 2rem;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-fun);
+      font-size: 40px;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Carnival bulb decorations */
+    .bulb-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 2rem 0;
+    }
+
+    .bulb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: bulb-flicker 4s infinite;
+    }
+
+    .bulb-y { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); animation-delay: 0s; }
+    .bulb-p { background: var(--pink); box-shadow: 0 0 8px var(--pink); animation-delay: 0.5s; }
+    .bulb-t { background: var(--teal); box-shadow: 0 0 8px var(--teal); animation-delay: 1s; }
+    .bulb-o { background: var(--orange); box-shadow: 0 0 8px var(--orange); animation-delay: 1.5s; }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-fun);
+      font-size: 42px;
+      color: var(--text);
+      letter-spacing: 1px;
+    }
+
+    .section-title span { color: var(--yellow); }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--border-teal);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== SHOWS ===== */
+    .shows-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .show-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .show-card:hover { transform: translateY(-4px); }
+
+    .show-card.wicked {
+      border: 2px solid var(--pink);
+      box-shadow: 0 0 30px rgba(255,45,120,0.1);
+    }
+
+    .show-card.addiction {
+      border: 2px solid var(--teal);
+      box-shadow: 0 0 30px rgba(0,229,204,0.1);
+    }
+
+    .show-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+
+    .show-card.wicked::before { background: var(--pink); }
+    .show-card.addiction::before { background: var(--teal); }
+
+    .show-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .show-card.wicked .show-label { color: var(--pink); }
+    .show-card.addiction .show-label { color: var(--teal); }
+
+    .show-name {
+      font-family: var(--font-fun);
+      font-size: 36px;
+      margin-bottom: 0.5rem;
+    }
+
+    .show-card.wicked .show-name { color: var(--pink); text-shadow: 0 0 20px rgba(255,45,120,0.4); }
+    .show-card.addiction .show-name { color: var(--teal); text-shadow: 0 0 20px rgba(0,229,204,0.4); }
+
+    .show-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ===== CHAMPIONSHIPS ===== */
+    .champ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .champ-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1.75rem;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .champ-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--yellow), var(--pink), var(--teal));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    .champ-card:hover { transform: translateY(-3px); background: rgba(255,213,0,0.04); }
+
+    .champ-icon { font-size: 32px; margin-bottom: 1rem; }
+    .champ-name { font-family: var(--font-fun); font-size: 22px; color: var(--yellow); margin-bottom: 0.5rem; }
+    .champ-holder-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+    .champ-holder { font-size: 14px; color: var(--text-muted); }
+
+    /* ===== ARCHIVE ===== */
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .archive-item {
+      display: grid;
+      grid-template-columns: 100px 1fr auto auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .archive-item:hover {
+      border-color: rgba(255,213,0,0.3);
+      background: rgba(255,213,0,0.03);
+      transform: translateX(4px);
+    }
+
+    .archive-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--yellow);
+      letter-spacing: 1px;
+    }
+
+    .archive-title {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .archive-location { font-size: 12px; color: var(--text-dim); }
+
+    .archive-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .type-wicked { background: rgba(255,45,120,0.15); color: var(--pink); border: 1px solid var(--border-pink); }
+    .type-addiction { background: rgba(0,229,204,0.1); color: var(--teal); border: 1px solid var(--border-teal); }
+    .type-ppv { background: rgba(255,213,0,0.1); color: var(--yellow); border: 1px solid rgba(255,213,0,0.3); }
+    .type-report { background: rgba(155,0,255,0.1); color: #c060ff; border: 1px solid rgba(155,0,255,0.3); }
+
+    /* ===== ROSTER ===== */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .roster-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .roster-card:hover {
+      border-color: rgba(255,45,120,0.4);
+      background: rgba(255,45,120,0.04);
+      transform: translateY(-2px);
+    }
+
+    .roster-name {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .roster-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 6px;
+    }
+
+    .roster-style { font-size: 12px; color: var(--text-muted); }
+
+    /* PAW Report section */
+    .report-section {
+      background: linear-gradient(135deg, rgba(155,0,255,0.1) 0%, var(--bg-card) 60%);
+      border: 2px solid rgba(155,0,255,0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .report-icon { font-size: 64px; flex-shrink: 0; animation: float 4s ease-in-out infinite; }
+
+    .report-title {
+      font-family: var(--font-fun);
+      font-size: 36px;
+      color: #c060ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .report-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(155,0,255,0.6);
+      margin-bottom: 0.75rem;
+    }
+
+    .report-desc { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--bg-mid);
+      border-top: 2px solid var(--yellow);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer::before {
+      content: '';
+      display: block;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--yellow) 0px, var(--yellow) 8px,
+        var(--pink) 8px, var(--pink) 16px,
+        var(--teal) 16px, var(--teal) 24px,
+        var(--orange) 24px, var(--orange) 32px
+      );
+      margin-bottom: 2rem;
+      border-radius: 3px;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--yellow);
+      text-shadow: 0 0 20px rgba(255,213,0,0.4);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--teal);
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .footer-back:hover { color: var(--yellow); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(4,3,8,0.96);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-container {
+      background: var(--bg-mid);
+      border-radius: 16px 16px 0 0;
+      width: 100%;
+      max-width: 900px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid var(--yellow);
+      border-bottom: none;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.open .modal-container { transform: translateY(0); }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.5rem; }
+    .modal-title { font-family: var(--font-fun); font-size: 32px; color: var(--yellow); margin-bottom: 0.5rem; }
+    .modal-meta { font-size: 13px; color: var(--text-muted); }
+
+    .modal-close {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover { background: rgba(255,213,0,0.15); border-color: rgba(255,213,0,0.4); color: var(--yellow); }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 2rem;
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-muted);
+      scrollbar-width: thin;
+    }
+
+    .modal-body h2 { font-family: var(--font-fun); font-size: 28px; color: var(--yellow); margin: 2rem 0 1rem; }
+    .modal-body p { margin-bottom: 1.25rem; }
+    .modal-body strong { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .shows-grid { grid-template-columns: 1fr; }
+      .archive-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .report-section { flex-direction: column; text-align: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-logo">P·A·W</div>
+    <div class="nav-links">
+      <a href="#shows">Shows</a>
+      <a href="#roster">Roster</a>
+      <a href="#archive">Archive</a>
+      <a href="#titles">Championships</a>
+      <a href="#report">PAW Report</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-stars"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-stripes"></div>
+    <div class="hero-content">
+      <div class="hero-badge">WrestleFlix Archive · Legacy Property</div>
+      <div class="bulb-row">
+        <div class="bulb bulb-y"></div><div class="bulb bulb-p"></div><div class="bulb bulb-t"></div>
+        <div class="bulb bulb-o"></div><div class="bulb bulb-y"></div><div class="bulb bulb-p"></div>
+        <div class="bulb bulb-t"></div><div class="bulb bulb-o"></div><div class="bulb bulb-y"></div>
+        <div class="bulb bulb-p"></div><div class="bulb bulb-t"></div><div class="bulb bulb-o"></div>
+      </div>
+      <h1 class="hero-title">Pure<br/>Amusement<br/>Wrestling</h1>
+      <div class="hero-title-sub">WICKED · ADDICTION · PAW</div>
+      <div class="hero-location">📍 Purity, Louisiana · Pure Amusement Park</div>
+      <p class="hero-desc">Step right up. In the heart of Purity, Louisiana, inside an amusement park carved into the American South, Pure Amusement Wrestling ran WICKED Live and Addiction DVD tapings from 2015 to 2016. Come on in. The park never really closes.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">4</div>
+          <div class="hero-stat-label">WICKED Episodes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">4</div>
+          <div class="hero-stat-label">Addiction DVDs</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">97</div>
+          <div class="hero-stat-label">Members</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2016</div>
+          <div class="hero-stat-label">Final Year</div>
+        </div>
+      </div>
+      <div class="bulb-row" style="margin-top:2rem;">
+        <div class="bulb bulb-o"></div><div class="bulb bulb-t"></div><div class="bulb bulb-p"></div>
+        <div class="bulb bulb-y"></div><div class="bulb bulb-o"></div><div class="bulb bulb-t"></div>
+        <div class="bulb bulb-p"></div><div class="bulb bulb-y"></div><div class="bulb bulb-o"></div>
+        <div class="bulb bulb-t"></div><div class="bulb bulb-p"></div><div class="bulb bulb-y"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWS -->
+  <section class="section" id="shows">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The <span>Shows</span></h2>
+        <span class="section-tag">Programming</span>
+      </div>
+      <div class="shows-grid">
+        <div class="show-card wicked">
+          <div class="show-label">Weekly Live Broadcast</div>
+          <div class="show-name">WICKED Live</div>
+          <div class="show-desc">The flagship live event of Pure Amusement Wrestling. Broadcast from inside the Pure Amusement Park in Purity, Louisiana. Four episodes streamed, all available in the WrestleFlix archive. WICKED Live set the tone — strange, electric, and unlike anything else in the game.</div>
+        </div>
+        <div class="show-card addiction">
+          <div class="show-label">DVD Taping Series</div>
+          <div class="show-name">Addiction</div>
+          <div class="show-desc">The tape-exclusive companion to WICKED Live. Four issues of the Addiction DVD taping series were released, each featuring content that didn't make it to broadcast. Collectable, raw, and completely essential for the true PAW completionist.</div>
+        </div>
+      </div>
+      <div class="report-section" id="report">
+        <div class="report-icon">📻</div>
+        <div>
+          <div class="report-sub">Radio Program · 8 Episodes</div>
+          <div class="report-title">The PAW Report</div>
+          <div class="report-desc">A radio show hosted by Press and Lady Munin. Eight episodes of commentary, rumors, and coverage from inside the PAW universe. The PAW Report ran alongside WICKED Live and Addiction, offering an in-universe audio experience unlike anything else in e-fed history.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAMPIONSHIPS -->
+  <section class="section" id="titles">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title"><span>Championships</span></h2>
+        <span class="section-tag">Title History</span>
+      </div>
+      <div class="champ-grid">
+        <div class="champ-card">
+          <div class="champ-icon">🏆</div>
+          <div class="champ-name">PAW Championship</div>
+          <div class="champ-holder-label">Flagship Title</div>
+          <div class="champ-holder">Full title history in WrestleFlix Drive archive</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">🔩</div>
+          <div class="champ-name">Crank Championship</div>
+          <div class="champ-holder-label">Secondary Title</div>
+          <div class="champ-holder">Hunter Storms competed — Addiction #3 & #4</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">🏷️</div>
+          <div class="champ-name">Tag Team Titles</div>
+          <div class="champ-holder-label">Tag Division</div>
+          <div class="champ-holder">Full history in WrestleFlix Drive archive</div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-icon">💀</div>
+          <div class="champ-name">Seven Deadly Sins Trophy</div>
+          <div class="champ-holder-label">PPV · October 28, 2016</div>
+          <div class="champ-holder">The PAW signature PPV. Purity, Louisiana.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="section" id="archive">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Show <span>Archive</span></h2>
+        <span class="section-tag">WICKED · Addiction · Seven Deadly Sins</span>
+      </div>
+      <div class="archive-list">
+        <div class="archive-item" onclick="openShow('sevendeadlysins')">
+          <div class="archive-num">PPV</div>
+          <div class="archive-title">Seven Deadly Sins</div>
+          <div class="archive-location">October 28, 2016 · Purity, Louisiana</div>
+          <div class="archive-type type-ppv">PPV Event</div>
+        </div>
+        <div class="archive-item" onclick="openShow('wicked4')">
+          <div class="archive-num">WICKED #4</div>
+          <div class="archive-title">WICKED Live — Episode 4</div>
+          <div class="archive-location">Homewood, Alabama · Oct 14, 2016</div>
+          <div class="archive-type type-wicked">WICKED Live</div>
+        </div>
+        <div class="archive-item" onclick="openShow('addiction4')">
+          <div class="archive-num">Addiction #4</div>
+          <div class="archive-title">Addiction DVD Taping #4</div>
+          <div class="archive-location">Oct 2016 · Purity, Louisiana</div>
+          <div class="archive-type type-addiction">Addiction</div>
+        </div>
+        <div class="archive-item" onclick="openShow('wicked3')">
+          <div class="archive-num">WICKED #3</div>
+          <div class="archive-title">WICKED Live — Episode 3</div>
+          <div class="archive-location">Purity, Louisiana</div>
+          <div class="archive-type type-wicked">WICKED Live</div>
+        </div>
+        <div class="archive-item" onclick="openShow('addiction3')">
+          <div class="archive-num">Addiction #3</div>
+          <div class="archive-title">Addiction DVD Taping #3</div>
+          <div class="archive-location">Purity, Louisiana</div>
+          <div class="archive-type type-addiction">Addiction</div>
+        </div>
+        <div class="archive-item" onclick="openShow('pawreport8')">
+          <div class="archive-num">PAW Report #8</div>
+          <div class="archive-title">The PAW Report — Episode 8</div>
+          <div class="archive-location">Radio · Hosted by Press & Lady Munin</div>
+          <div class="archive-type type-report">Radio</div>
+        </div>
+        <div class="archive-item" style="opacity:0.5;cursor:default;">
+          <div class="archive-num">WICKED #1–2</div>
+          <div class="archive-title">WICKED Live Episodes 1–2 + Addiction #1–2 + PAW Report #1–7</div>
+          <div class="archive-location">2015–2016 · Purity, Louisiana</div>
+          <div class="archive-type type-wicked">Archive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROSTER -->
+  <section class="section" id="roster">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The <span>Roster</span></h2>
+        <span class="section-tag">97 Members</span>
+      </div>
+      <div class="roster-grid">
+        <div class="roster-card">
+          <div class="roster-name">Black Jack Colter</div>
+          <div class="roster-type">Active Competitor</div>
+          <div class="roster-style">WICKED #4 main card</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Cross Recoba</div>
+          <div class="roster-type">Active Competitor</div>
+          <div class="roster-style">WICKED #4 match — vs. Black Jack</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Hunter Storms</div>
+          <div class="roster-type">Active · Crank Champion</div>
+          <div class="roster-style">Addiction #3 & #4</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Lady Munin</div>
+          <div class="roster-type">Talent · Host</div>
+          <div class="roster-style">PAW Report co-host</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Kelsey Spencer</div>
+          <div class="roster-type">Active Competitor</div>
+          <div class="roster-style">Blue Thunder · Character Pieces</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Amis FN Shelton</div>
+          <div class="roster-type">Active Competitor</div>
+          <div class="roster-style">Final signee — Oct 4, 2016</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Press</div>
+          <div class="roster-type">Host · Staff</div>
+          <div class="roster-style">PAW Report co-host</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">+ 90 Others</div>
+          <div class="roster-type">Full Roster</div>
+          <div class="roster-style">Archive in WrestleFlix Drive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Pure Amusement Wrestling</div>
+    <div class="footer-text">Legacy Property · 2015–2016 · Purity, Louisiana · A WrestleFlix Archive</div>
+    <div class="bulb-row" style="justify-content:center;margin:1rem 0;">
+      <div class="bulb bulb-y"></div><div class="bulb bulb-p"></div>
+      <div class="bulb bulb-t"></div><div class="bulb bulb-o"></div>
+      <div class="bulb bulb-y"></div><div class="bulb bulb-p"></div>
+    </div>
+    <a href="index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <div class="modal-eyebrow" id="modal-eyebrow"></div>
+          <div class="modal-title" id="modal-title"></div>
+          <div class="modal-meta" id="modal-meta"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const SHOWS = {
+      sevendeadlysins: {
+        eyebrow: 'Pure Amusement Wrestling · Pay Per View',
+        title: 'Seven Deadly Sins',
+        meta: 'October 28, 2016 · Purity, Louisiana',
+        content: `<h2>Seven Deadly Sins</h2>
+<p>The signature Pay Per View event of Pure Amusement Wrestling. Held on October 28, 2016 in Purity, Louisiana, inside the Pure Amusement Park. Full match card and roleplay content available in the WrestleFlix Drive archive.</p>`
+      },
+      wicked4: {
+        eyebrow: 'Pure Amusement Wrestling · WICKED Live',
+        title: 'WICKED Live — Episode 4',
+        meta: 'October 14, 2016 · Homewood, Alabama',
+        content: `<h2>WICKED Live #4</h2>
+<p>The fourth and final episode of WICKED Live, broadcast live from Homewood, Alabama. Featured Black Jack Colter versus Cross Recoba. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      addiction4: {
+        eyebrow: 'Pure Amusement Wrestling · Addiction',
+        title: 'Addiction DVD Taping #4',
+        meta: 'October 2016 · Purity, Louisiana',
+        content: `<h2>Addiction #4</h2><p>The fourth issue of the Addiction DVD taping series. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      wicked3: {
+        eyebrow: 'Pure Amusement Wrestling · WICKED Live',
+        title: 'WICKED Live — Episode 3',
+        meta: 'Purity, Louisiana',
+        content: `<h2>WICKED Live #3</h2><p>The third episode of WICKED Live, one wild ride from start to finish. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      addiction3: {
+        eyebrow: 'Pure Amusement Wrestling · Addiction',
+        title: 'Addiction DVD Taping #3',
+        meta: 'Purity, Louisiana',
+        content: `<h2>Addiction #3</h2><p>Off the hook. Hunter Storms competed for the Crank Championship. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      pawreport8: {
+        eyebrow: 'Pure Amusement Wrestling · Radio',
+        title: 'The PAW Report — Episode 8',
+        meta: 'Hosted by Press & Lady Munin',
+        content: `<h2>The PAW Report #8</h2><p>The eighth episode of the PAW Report radio program, hosted by Press and Lady Munin. Full audio transcript available in the WrestleFlix Drive archive.</p>`
+      }
+    };
+
+    function openShow(id) {
+      const show = SHOWS[id];
+      if (!show) return;
+      document.getElementById('modal-eyebrow').textContent = show.eyebrow;
+      document.getElementById('modal-title').textContent = show.title;
+      document.getElementById('modal-meta').textContent = show.meta;
+      document.getElementById('modal-body').innerHTML = show.content;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal-overlay')) return;
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>
