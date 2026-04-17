@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hatchet Gully — The Gully Hatchet · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--brown:#8b5e3c;--brown-dim:rgba(139,94,60,.15);--brown-border:rgba(139,94,60,.3);--bg:#060402;--bg-card:#0c0804;--text:#ede0cc;--text-muted:#8a7258;--text-dim:#342820;--border:rgba(139,94,60,.12)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(6,4,2,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--brown)}
+    .nav-div{width:1px;height:20px;background:var(--border)}
+    .nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#0c0600 0%,#060402 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--brown);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,138px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-size:18px;font-style:italic;color:rgba(237,224,204,.45);margin-bottom:2rem}
+    .hero-quote{font-size:15px;font-weight:300;color:rgba(237,224,204,.45);max-width:520px;line-height:1.8;border-left:3px solid var(--brown-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--brown-border);background:var(--brown-dim);color:var(--brown)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--brown);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--brown-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .vital-val.lore{color:var(--brown)}
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .moves-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--brown-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .champ-list{display:flex;flex-direction:column;gap:.5rem}
+    .champ-item{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;font-size:14px;color:var(--text-muted)}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}
+    .footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--brown)}
+    @media(max-width:800px){.two-col,.moves-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Hatchet Gully</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Gettysburg, PA · 6'1 · 225 lbs · Born April 28, 1990</div>
+      <h1 class="hero-name">HATCHET<br/>GULLY</h1>
+      <div class="hero-alias">Birth Name: Tyrell Otis Ulster · "The Gully Hatchet"</div>
+      <p class="hero-quote">Loud, proud, and a show-off. On the other side of the coin is a jealous and paranoid man who thinks the world is out to get him. He's already lost everything twice now. Any threat to his comfort is to be met with threats and violence.</p>
+      <div class="pills"><span class="pill">Heel</span><span class="pill">Cowardly → Cold Killer</span><span class="pill">One Eye</span><span class="pill">Juggalo</span><span class="pill">Fight 2 Win</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Birth Name</div><div class="vital-val">Tyrell Otis Ulster</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">Hatchet Gully</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">6'1 / 225 lbs</div></div>
+        <div class="vital"><div class="vital-label">Born</div><div class="vital-val">April 28, 1990 · Gettysburg, PA</div></div>
+        <div class="vital"><div class="vital-label">Resides</div><div class="vital-val">Erie, Pennsylvania</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Mazza" — Slowthai ft. ASAP Rocky</div></div>
+        <div class="vital"><div class="vital-label">Style</div><div class="vital-val lore">Cowardly heel → cold killer. Wolf in sheep's clothing.</div></div>
+        <div class="vital"><div class="vital-label">Wrestles Like</div><div class="vital-val">Taichi · Adam Cole · Jericho</div></div>
+        <div class="vital"><div class="vital-label">Left Eye</div><div class="vital-val lore">Lost in Japanese prison. Doesn't talk about it.</div></div>
+        <div class="vital"><div class="vital-label">Weapon of Choice</div><div class="vital-val">Axe Handle</div></div>
+        <div class="vital"><div class="vital-label">Motivations</div><div class="vital-val">Money · Glory · Platform</div></div>
+        <div class="vital"><div class="vital-label">Cheating Tendency</div><div class="vital-val lore">Often</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Biography</div>
+      <div class="bio-text">
+        <p>Hatchet Gully grew up all around Pennsylvania, never really fitting in anywhere. He adjusted and adapted to whatever life brought him, and felt at home in the streets as well as in the mountains. His status as an outcast made the life of a Juggalo appealing — he met A$hley Quid at a Gathering event and from then on strove to make life better for the both of them.</p>
+        <p>They tried to do this legitimately through wrestling and somewhat illegally through whatever hustle they could get away with. This led to troubles with the law — particularly an ill-fated tour of Japan where he was sent to prison. He lost his left eye while inside. He doesn't talk about how. Forced to rebuild, they put their focus more into wrestling.</p>
+        <p>Gully is a dreamer underneath the menace. A glory hunter. He's already lost everything twice and built it back up both times. Any threat to what he's built is met with threats and violence. He never really grew out of the high school mentality, even after traveling the world. His comfort zone is his hometown. He will fight his way to the top on his own special terms, whether you like it or not.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="moves-3">
+        <div class="card"><div class="card-title">Common Moves</div>
+          <div class="list-item">Sitout Facebuster</div><div class="list-item">European Uppercut</div><div class="list-item">Spinebuster</div><div class="list-item">Jumping Brainbuster</div><div class="list-item">Running Knee</div><div class="list-item">Slingblade</div><div class="list-item">Footstomp</div><div class="list-item">Mounted Punches</div><div class="list-item">Neck Figure 4</div>
+        </div>
+        <div class="card"><div class="card-title">Signature Moves</div>
+          <div class="list-item"><strong>Pennsyltucky Chuck</strong>Sky High Back Body Drop into the turnbuckle</div>
+          <div class="list-item"><strong>KTFO</strong>Spinning Back Fist</div>
+          <div class="list-item"><strong>Ode to Quid</strong>Northern Lights Suplex</div>
+        </div>
+        <div class="card"><div class="card-title">Finishing Moves</div>
+          <div class="list-item" style="color:var(--brown);font-weight:700"><strong>Hidden Path to Shangri-La</strong>Hangman's Neckbreaker</div>
+          <div class="list-item" style="color:var(--brown);font-weight:700"><strong>Outlaw Buster</strong>Muscle Buster</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Championship History</div>
+      <div class="champ-list">
+        <div class="champ-item">🏆 GEW Defiance Championship</div>
+        <div class="champ-item">🏆 GEW Mana Cup Winner</div>
+        <div class="champ-item">🏆 RSR Southern Heavyweight Championship</div>
+        <div class="champ-item">🏆 King's Road Supremacy Championship (Now National Championship)</div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Hatchet Gully · Character Profile · WrestleFlix Universe</div><a href="roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

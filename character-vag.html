@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>V.A.G. — Victoria Ann Gable · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--red:#e03060;--red-dim:rgba(224,48,96,.12);--red-border:rgba(224,48,96,.28);--bg:#080204;--bg-card:#100408;--text:#f8d4e4;--text-muted:#906070;--text-dim:#3a1020;--border:rgba(224,48,96,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(8,2,4,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--red)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(180deg,#0e0206 0%,#080204 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,11vw,150px);line-height:.88;letter-spacing:4px;color:var(--text);margin-bottom:.4rem}
+    .hero-fullname{font-size:20px;color:rgba(248,212,228,.45);font-style:italic;margin-bottom:2rem}
+    .hero-quote{font-size:17px;font-style:italic;color:rgba(248,212,228,.55);max-width:540px;line-height:1.8;border-left:3px solid var(--red-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--red-border);background:var(--red-dim);color:var(--red)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--red-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--red-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--red)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ V.A.G.</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Heel · High Flyer · Striker · 5'8 · 134 lbs · Age 23</div>
+      <h1 class="hero-name">V.A.G.</h1>
+      <div class="hero-fullname">Victoria Ann Gable · "The Notorious V.A.G." · "Queen Victoria"</div>
+      <p class="hero-quote">Not born to be a professional wrestler — the sport was where her budding modeling career took her. With unwavering determination and the support of her mentor Shawn Clarke, V.A.G. is poised to dominate the wrestling world and cement her legacy as a true queen of the ring.</p>
+      <div class="pills"><span class="pill">Heel</span><span class="pill">High Flyer</span><span class="pill">Striker</span><span class="pill">Versatile</span><span class="pill">Provocateur</span><span class="pill">Flirtatious</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Full Name</div><div class="vital-val">Victoria Ann Gable</div></div>
+        <div class="vital"><div class="vital-label">Age / Birthday</div><div class="vital-val">23 · October 28, 2002</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'8 / 134 lbs</div></div>
+        <div class="vital"><div class="vital-label">Style</div><div class="vital-val">High Flyer · Striker</div></div>
+        <div class="vital"><div class="vital-label">Alignment</div><div class="vital-val">Heel</div></div>
+        <div class="vital"><div class="vital-label">Years Active</div><div class="vital-val">1</div></div>
+        <div class="vital"><div class="vital-label">Mentor</div><div class="vital-val">Shawn Clarke</div></div>
+        <div class="vital"><div class="vital-label">Traits</div><div class="vital-val">Versatile · Ambitious · Resilient · Charismatic · Competitive</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Biography</div>
+      <p class="bio-text">Victoria Ann Gable wasn't supposed to be a wrestler. Her budding modeling career brought her to the sport — and what started as a curiosity became an obsession. Under the guidance and mentorship of Shawn Clarke, V.A.G. was forged in training gyms, taking her early beatings and coming back stronger each time. Her repertoire has evolved rapidly: a versatile striker, high flyer, and budding submission technician. She'll find any advantage. She'll use it. She doesn't apologize for being good at this.</p>
+    </section>
+    <section class="section">
+      <div class="section-title">Allies &amp; Enemies</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Allies</div>
+          <div class="list-item">Paid "advisors" (hired muscle)</div>
+          <div class="list-item">Any wrestler who acknowledges her superiority</div>
+        </div>
+        <div class="card"><div class="card-title">Enemies</div>
+          <div class="list-item">Commoners who disrespect her</div>
+          <div class="list-item">Veterans who call her out for buying opportunities</div>
+          <div class="list-item">Fellow nepo-babies (frenemies)</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">V.A.G. (Victoria Ann Gable) · Character Profile · WrestleFlix Universe</div><a href="roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>
