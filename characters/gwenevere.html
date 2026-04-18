@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gwenevere — Temporal Anomaly Designation 7B · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600;900&family=IM+Fell+English:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--sage:#5a8a6a;--sage-dim:rgba(90,138,106,.15);--sage-border:rgba(90,138,106,.3);--gold:#b89a5c;--bg:#040806;--bg-card:#080e0a;--text:#d8edd8;--text-muted:#6a8a6a;--text-dim:#243424;--border:rgba(90,138,106,.12)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'IM Fell English',serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 40% at 50% 20%,rgba(90,138,106,.08) 0%,transparent 70%);pointer-events:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,8,6,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--sage)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .classified{position:fixed;top:56px;left:0;right:0;z-index:99;background:rgba(90,138,106,.08);border-bottom:1px solid var(--sage-border);padding:6px 2rem;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);text-align:center}
+    .hero{min-height:100vh;padding-top:96px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#040d06 0%,#040806 100%)}
+    .hero-runes{position:absolute;top:5%;right:5%;font-size:clamp(80px,15vw,200px);color:rgba(90,138,106,.04);pointer-events:none;line-height:1.2;text-align:center}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--sage);margin-bottom:1rem}
+    .hero-name{font-family:'Cinzel',serif;font-size:clamp(60px,10vw,140px);line-height:.88;letter-spacing:3px;color:var(--text);margin-bottom:.5rem;text-shadow:0 0 40px rgba(90,138,106,.3)}
+    .hero-alias{font-size:16px;font-style:italic;color:rgba(216,237,216,.45);margin-bottom:2rem}
+    .hero-quote{font-size:17px;font-style:italic;color:rgba(216,237,216,.55);max-width:560px;line-height:1.85;border-left:2px solid var(--sage-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--sage-border);background:var(--sage-dim);color:var(--sage)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--sage);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--sage-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;color:var(--text)}
+    .vital-val.classified-val{color:var(--sage);font-style:italic}
+    .ability-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .ability-card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .ability-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--sage-border)}
+    .ability-item{font-size:14px;color:var(--text-muted);padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.03);line-height:1.6}
+    .ability-item:last-child{border-bottom:none}
+    .ability-item strong{color:var(--text);display:block;margin-bottom:2px}
+    .threat-box{background:rgba(90,138,106,.08);border:1px solid var(--sage-border);border-radius:8px;padding:2rem;text-align:center}
+    .threat-level{font-family:'Cinzel',serif;font-size:48px;color:var(--sage);letter-spacing:4px;margin-bottom:.5rem}
+    .threat-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem}
+    .threat-desc{font-size:15px;font-style:italic;color:rgba(216,237,216,.65);line-height:1.8}
+    .bio-text{font-size:15px;line-height:1.9;color:rgba(216,237,216,.7);max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--sage)}
+    @media(max-width:700px){.ability-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Gwenevere</span></div></nav>
+  <div class="classified">⚠ CONFIDENTIAL — WRESTLEFLIX ORIGINALS — EYES ONLY — CLASSIFIED: TEMPORAL AFFAIRS ⚠</div>
+  <section class="hero">
+    <div class="hero-runes">ᚷᚹᛖᚾ<br/>ᛖᚹᛖᚱᛖ</div>
+    <div class="hero-content">
+      <div class="hero-tag">Temporal Anomaly Designation 7B · Manager · S-Tier Asset · Class-3 Risk</div>
+      <h1 class="hero-name">GWENEVERE</h1>
+      <div class="hero-alias">The Caledonian Seer · The Bog Witch · The Timeline Weaver · Manager for Oceiros</div>
+      <p class="hero-quote">"She is not a performer. She is a force of nature with a booking contract."<br/><br/>— WrestleFlix Asset Relations, Internal Memo</p>
+      <div class="pills"><span class="pill">S-Tier Asset</span><span class="pill">Class-3 Risk</span><span class="pill">Timeline Weaver</span><span class="pill">Camlann Pact</span><span class="pill">Do Not Touch Her Artifacts</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">Asset File — Temporal Anomaly Designation 7B</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Legal Name</div><div class="vital-val classified-val">N/A — See: TAD-7B</div></div>
+        <div class="vital"><div class="vital-label">Presenting Name</div><div class="vital-val">Gwenevere (Self-Identified)</div></div>
+        <div class="vital"><div class="vital-label">Date of Birth</div><div class="vital-val classified-val">Unknown</div></div>
+        <div class="vital"><div class="vital-label">Stated Age</div><div class="vital-val classified-val">"From a time before your stone circles."</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'4" / 119 lbs</div></div>
+        <div class="vital"><div class="vital-label">Current Residence</div><div class="vital-val">New York, New York</div></div>
+        <div class="vital"><div class="vital-label">Role</div><div class="vital-val">Manager · Advocate for Oceiros</div></div>
+        <div class="vital"><div class="vital-label">Metaphysical Binding</div><div class="vital-val classified-val">The Camlann Pact (cannot leave WF timeline)</div></div>
+        <div class="vital"><div class="vital-label">Entrance Music</div><div class="vital-val">Celtic vocals + glitching electronic undertone (18.5 Hz — RESTRICTED)</div></div>
+        <div class="vital"><div class="vital-label">Previous Form</div><div class="vital-val classified-val">Elderly "bog witch" — sustained psychic glamour</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Psychological Profile</div>
+      <div class="bio-text">
+        <p>Profoundly pragmatic, utterly alien in her moral compass. She does not see "good" or "evil" but "alignment" and "obstruction." Her loyalty is to the prophecy of Oceiros's bloodline and its perpetuation. She views WrestleFlix not as an employer, but as a powerful new "tribe" to be manipulated for her ends.</p>
+        <p>She is patient, calculating, and considers modern technology a fascinating, crude form of magic. Her current presentation is strikingly athletic with long, dark hair often adorned with feathers or small carved bones that seem to shift when not directly observed. Her eyes appear ancient and perceive more than what is visually present.</p>
+        <p>Asset Relations notes: Do not offer her artifacts of significant age. Do not give her access to the ring canvas without the synthesized polymer lining. Do not allow eye contact with opponents during Oceiros's finisher sequences.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Temporal &amp; Paranormal Abilities</div>
+      <div class="ability-grid">
+        <div class="ability-card">
+          <div class="ability-title">Confirmed Abilities</div>
+          <div class="ability-item"><strong>Chronal Anchoring</strong>Unable to leave the primary WrestleFlix timeline due to the Camlann Pact. A metaphysical binding.</div>
+          <div class="ability-item"><strong>Probability Manipulation (Micro)</strong>Influences small-scale chance events. A rope breaking. A light malfunctioning. An opponent slipping on a dry spot. She calls this "weaving threads."</div>
+          <div class="ability-item"><strong>Post-Cognitive Vision</strong>Perceives the historical "resonance" of objects and people by touch or proximity. Knows a wrestler's past injuries, fears, and key life moments.</div>
+        </div>
+        <div class="ability-card">
+          <div class="ability-title">Hypothesized Abilities</div>
+          <div class="ability-item"><strong>Glamour / Illusion</strong>Ability to project false appearances (see: previous bog witch form, maintained for an indeterminate period).</div>
+          <div class="ability-item"><strong>Empathic Projection</strong>Can project emotions — doubt, fear, rage — onto a target individual.</div>
+          <div class="ability-item"><strong>Limited Geomancy</strong>Draws power from ley lines. Power may be location-dependent. She positions herself at "geomantic power points" at ringside.</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">In-Ring Interference Methods</div>
+      <div class="ability-grid">
+        <div class="ability-card">
+          <div class="ability-title">The Weave</div>
+          <div class="ability-item">A series of small, improbable events that lead to a major shift in match momentum. Individual occurrences are undetectable. The cumulative effect is statistically impossible.</div>
+        </div>
+        <div class="ability-card">
+          <div class="ability-title">The Glimpse of Fate</div>
+          <div class="ability-item">She locks eyes with an opponent just before Oceiros's finisher. This causes a documented, critical half-second of hesitation. That half-second is enough.</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Threat Assessment</div>
+      <div class="threat-box">
+        <div class="threat-level">CLASS 3</div>
+        <div class="threat-label">Existential Risk Level — WrestleFlix Omniverse Stability</div>
+        <p class="threat-desc">Gwenevere is an S-Tier narrative asset and a Class-3 existential risk. Her value in creating "must-see," reality-bending television is incalculable. Her potential for destabilizing the known WrestleFlix Omniverse is equally so. In the event of a hostile manifestation, deploy high-intensity strobes and the 18.5 Hz sonic agitation frequency. Do not attempt direct negotiation without Asset Relations present.</p>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Gwenevere · TAD-7B · WrestleFlix Originals · CLASSIFIED</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

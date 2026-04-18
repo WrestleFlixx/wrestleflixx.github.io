@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valor Pro Wrestling — A WrestleFlix Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #6b21a8;
+      --purple-mid: #8b3fc0;
+      --purple-light: #a855f7;
+      --purple-dim: #4a1680;
+      --silver: #94a3b8;
+      --silver-light: #e2e8f0;
+      --silver-dim: #64748b;
+      --grey: #1e2030;
+      --grey-mid: #252840;
+      --grey-light: #2e3250;
+      --white: #f8fafc;
+      --bg: #0d0f1a;
+      --bg-mid: #111428;
+      --bg-card: #161930;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim: #475569;
+      --border: rgba(148,163,184,0.1);
+      --border-purple: rgba(107,33,168,0.4);
+      --border-light: rgba(148,163,184,0.15);
+      --font-display: 'Outfit', sans-serif;
+      --font-serif: 'Libre Baskerville', serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(13,15,26,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--purple-light); }
+
+    .nav-divider { width: 1px; height: 24px; background: var(--border); }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .nav-logo span { color: var(--purple-light); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--silver-dim);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--purple-light); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 64px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* Geometric grid background */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(107,33,168,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(107,33,168,0.08) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 70% at 70% 30%, rgba(107,33,168,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(168,85,247,0.06) 0%, transparent 50%);
+    }
+
+    /* Vertical accent bars */
+    .hero-bars {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: linear-gradient(to bottom, var(--purple-dim), var(--purple-light), var(--purple-dim));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 5rem 2rem 5rem 4rem;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(56px, 8vw, 110px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -3px;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title-accent {
+      font-family: var(--font-display);
+      font-size: clamp(56px, 8vw, 110px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -3px;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--purple-light);
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--silver-dim);
+      max-width: 500px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--purple-mid); transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid var(--border-light);
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--purple-light); color: var(--purple-light); }
+
+    /* Stats panel */
+    .hero-panel {
+      background: rgba(22,25,48,0.9);
+      border: 1px solid var(--border-purple);
+      border-radius: 8px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-panel-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-purple);
+    }
+
+    .panel-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-stat:last-child { border-bottom: none; }
+
+    .panel-stat-label {
+      font-size: 13px;
+      color: var(--silver-dim);
+      font-weight: 500;
+    }
+
+    .panel-stat-value {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .panel-stat-value.purple { color: var(--purple-light); }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      border: 1px solid var(--border-purple);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== CHAMPIONSHIPS ===== */
+    .champ-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .champ-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: all 0.2s;
+    }
+
+    .champ-card:hover {
+      border-color: var(--border-purple);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(107,33,168,0.15);
+    }
+
+    .champ-card.featured {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(107,33,168,0.15) 0%, var(--bg-card) 60%);
+      border-color: var(--border-purple);
+    }
+
+    .champ-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 900;
+      color: rgba(107,33,168,0.3);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 60px;
+    }
+
+    .champ-details { flex: 1; }
+
+    .champ-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .champ-holder-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 4px;
+    }
+
+    .champ-holder { font-size: 14px; color: var(--silver); }
+
+    /* ===== SHOWS ===== */
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .show-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      transition: all 0.2s;
+    }
+
+    .show-card:hover {
+      border-color: var(--border-purple);
+      transform: translateY(-2px);
+    }
+
+    .show-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .show-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .show-desc {
+      font-size: 13px;
+      color: var(--silver-dim);
+      line-height: 1.6;
+    }
+
+    /* ===== ARCHIVE ===== */
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .archive-item {
+      display: grid;
+      grid-template-columns: 90px 1fr 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .archive-item:hover {
+      border-color: var(--border-purple);
+      background: rgba(107,33,168,0.05);
+    }
+
+    .archive-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--purple-light);
+      letter-spacing: 1px;
+    }
+
+    .archive-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .archive-location {
+      font-size: 13px;
+      color: var(--silver-dim);
+    }
+
+    .archive-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .type-blitz {
+      background: rgba(107,33,168,0.15);
+      color: var(--purple-light);
+      border: 1px solid var(--border-purple);
+    }
+
+    .type-ppv {
+      background: rgba(148,163,184,0.1);
+      color: var(--silver);
+      border: 1px solid var(--border-light);
+    }
+
+    .type-fts {
+      background: rgba(30,32,48,0.8);
+      color: var(--silver-dim);
+      border: 1px solid var(--border);
+    }
+
+    /* ===== ROSTER ===== */
+    .roster-categories {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .roster-tab {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--silver-dim);
+      background: transparent;
+      transition: all 0.2s;
+    }
+
+    .roster-tab.active, .roster-tab:hover {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .roster-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .roster-card:hover {
+      border-color: var(--border-purple);
+      background: rgba(107,33,168,0.07);
+      transform: translateY(-2px);
+    }
+
+    .roster-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .roster-status {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 6px;
+    }
+
+    .roster-style {
+      font-size: 12px;
+      color: var(--silver-dim);
+    }
+
+    /* 7 Pillars section */
+    .pillars-section {
+      background: linear-gradient(135deg, rgba(107,33,168,0.15) 0%, rgba(13,15,26,0) 60%);
+      border: 1px solid var(--border-purple);
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .pillars-title {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .pillars-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pillars-desc {
+      font-size: 15px;
+      color: var(--silver-dim);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .pillars-gauntlet {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .gauntlet-slot {
+      background: var(--bg-card);
+      border: 1px solid var(--border-purple);
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--silver);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .gauntlet-slot .slot-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--purple-light);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-logo span { color: var(--purple-light); }
+    .footer-text { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+    .footer-back { font-family: var(--font-mono); font-size: 11px; color: var(--purple-light); transition: color 0.2s; }
+    .footer-back:hover { color: var(--purple-mid); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(8,8,20,0.96);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-container {
+      background: var(--bg-mid);
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      max-width: 900px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border-purple);
+      border-bottom: none;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.open .modal-container { transform: translateY(0); }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-meta { font-size: 13px; color: var(--silver-dim); }
+
+    .modal-close {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--silver-dim);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      background: rgba(107,33,168,0.2);
+      border-color: var(--border-purple);
+      color: var(--white);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      padding: 2rem;
+      flex: 1;
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(226,232,240,0.85);
+      scrollbar-width: thin;
+    }
+
+    .modal-body h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+      margin: 2rem 0 1rem;
+    }
+
+    .modal-body p { margin-bottom: 1.25rem; }
+    .modal-body strong { color: var(--white); }
+
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-panel { display: none; }
+      .champ-grid { grid-template-columns: 1fr; }
+      .champ-card.featured { grid-column: 1; }
+      .shows-grid { grid-template-columns: 1fr; }
+      .archive-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-logo"><span>VALOR</span> PRO</div>
+    <div class="nav-links">
+      <a href="#shows">Shows</a>
+      <a href="#roster">Roster</a>
+      <a href="#archive">Archive</a>
+      <a href="#titles">Championships</a>
+      <a href="#pillars">7 Pillars</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-bars"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-eyebrow">WrestleFlix Archive · Legacy Property · 2018–2019</div>
+        <h1 class="hero-title">VALOR</h1>
+        <span class="hero-title-accent">PRO</span>
+        <p class="hero-desc">Built for prestige. Blitz ran every week. Flipping the Script broke it all down. 7 Pillars crowned champions. And in every match, every promo, every moment — Valor Pro Wrestling was something worth watching.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="document.getElementById('archive').scrollIntoView({behavior:'smooth'})">Browse Archive</button>
+          <button class="btn-ghost" onclick="document.getElementById('roster').scrollIntoView({behavior:'smooth'})">View Roster</button>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="hero-panel-title">Federation Stats</div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Total Members</span>
+          <span class="panel-stat-value">84</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Total Threads</span>
+          <span class="panel-stat-value">888</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Total Posts</span>
+          <span class="panel-stat-value">5,315</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Flagship Show</span>
+          <span class="panel-stat-value purple">Blitz</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Signature PPV</span>
+          <span class="panel-stat-value purple">7 Pillars</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-label">Final Status</span>
+          <span class="panel-stat-value" style="color:#64748b;">Closed 2019</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWS -->
+  <section class="section" id="shows">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The Shows</h2>
+        <span class="section-tag">Programming</span>
+      </div>
+      <div class="shows-grid">
+        <div class="show-card">
+          <div class="show-label">Weekly · Flagship</div>
+          <div class="show-name">Blitz</div>
+          <div class="show-desc">The weekly flagship of Valor Pro Wrestling. Where stories were built, feuds were ignited, and careers were made or broken every single week.</div>
+        </div>
+        <div class="show-card">
+          <div class="show-label">Recap · Analysis</div>
+          <div class="show-name">Flipping the Script</div>
+          <div class="show-desc">The recap show. Every Blitz, broken down, analyzed, and debated. FTS kept the community sharp and the canon accountable.</div>
+        </div>
+        <div class="show-card">
+          <div class="show-label">Pay Per View · Annual</div>
+          <div class="show-name">Super Shows</div>
+          <div class="show-desc">The biggest nights in Valor Pro history. 7 Pillars. Marquee matches. Championships on the line. Everything built to these moments.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 PILLARS -->
+  <section class="section" id="pillars">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">7 Pillars</h2>
+        <span class="section-tag">Signature PPV</span>
+      </div>
+      <div class="pillars-section">
+        <div class="pillars-title">7 PILLARS</div>
+        <div class="pillars-sub">Live from Madison Square Garden · New York, New York · November 3rd</div>
+        <div class="pillars-desc">The most prestigious night in Valor Pro Wrestling. Seven competitors. One Gauntlet Match. The UnYielding Championship on the line. Madison Square Garden would never forget it.</div>
+        <div style="margin-bottom:1rem;font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:var(--purple-light);text-transform:uppercase;">UnYielding Championship Gauntlet — 7 Pillars Participants</div>
+        <div class="pillars-gauntlet">
+          <div class="gauntlet-slot"><span class="slot-num">#1</span> Fukushima Zombie</div>
+          <div class="gauntlet-slot"><span class="slot-num">#2</span> Kaven Drell</div>
+          <div class="gauntlet-slot"><span class="slot-num">#3</span> Indi Rhyder</div>
+          <div class="gauntlet-slot"><span class="slot-num">#4</span> Cross Recoba</div>
+          <div class="gauntlet-slot"><span class="slot-num">#5</span> Zachariah Krahe</div>
+          <div class="gauntlet-slot"><span class="slot-num">#6</span> Katya Djurdjevic</div>
+          <div class="gauntlet-slot"><span class="slot-num">#7</span> Moxie James</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAMPIONSHIPS -->
+  <section class="section" id="titles">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Championships</h2>
+        <span class="section-tag">Title Lineage</span>
+      </div>
+      <div class="champ-grid">
+        <div class="champ-card featured">
+          <div class="champ-num">01</div>
+          <div class="champ-details">
+            <div class="champ-name">The UnYielding Championship</div>
+            <div class="champ-holder-label">Flagship Title</div>
+            <div class="champ-holder">The most prestigious title in Valor Pro Wrestling. Competed for in the 7 Pillars Gauntlet Match at the signature PPV. Chris Callum and Danny Rizzo were set for a one-on-one collision at 7 Pillars after their explosive Double Count Out on Blitz #22.</div>
+          </div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-num">02</div>
+          <div class="champ-details">
+            <div class="champ-name">Apex Championship</div>
+            <div class="champ-holder-label">Secondary Title</div>
+            <div class="champ-holder">Chris Callum vs. Danny Rizzo — Blitz #22 Main Event</div>
+          </div>
+        </div>
+        <div class="champ-card">
+          <div class="champ-num">03</div>
+          <div class="champ-details">
+            <div class="champ-name">Chimera Tag Team Titles</div>
+            <div class="champ-holder-label">Tag Division</div>
+            <div class="champ-holder">Fantanasy · NSFW · Zombie Vice Squad · An active scene at final broadcast</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="section" id="archive">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Show Archive</h2>
+        <span class="section-tag">Blitz · FTS · Super Shows</span>
+      </div>
+      <div class="archive-list">
+        <div class="archive-item" onclick="openShow('pillars2')">
+          <div class="archive-num">PPV</div>
+          <div class="archive-title">7 Pillars 2</div>
+          <div class="archive-location">Sep 2, 2019</div>
+          <div class="archive-type type-ppv">Super Show</div>
+        </div>
+        <div class="archive-item" onclick="openShow('blitz24')">
+          <div class="archive-num">Blitz #24</div>
+          <div class="archive-title">Blitz — Episode 24</div>
+          <div class="archive-location">Oct 2019</div>
+          <div class="archive-type type-blitz">Blitz</div>
+        </div>
+        <div class="archive-item" onclick="openShow('blitz23')">
+          <div class="archive-num">Blitz #23</div>
+          <div class="archive-title">Blitz — Episode 23</div>
+          <div class="archive-location">Oct 2019</div>
+          <div class="archive-type type-blitz">Blitz</div>
+        </div>
+        <div class="archive-item" onclick="openShow('blitz22')">
+          <div class="archive-num">Blitz #22</div>
+          <div class="archive-title">Blitz — Episode 22 · Callum/Rizzo Double Count Out</div>
+          <div class="archive-location">Oct 2019</div>
+          <div class="archive-type type-blitz">Blitz</div>
+        </div>
+        <div class="archive-item" onclick="openShow('fts7')">
+          <div class="archive-num">FTS #7</div>
+          <div class="archive-title">Flipping the Script — Episode 7</div>
+          <div class="archive-location">Oct 2019</div>
+          <div class="archive-type type-fts">Recap Show</div>
+        </div>
+        <div class="archive-item" style="opacity:0.5;cursor:default;">
+          <div class="archive-num">Blitz #1–21</div>
+          <div class="archive-title">Full Blitz Archive</div>
+          <div class="archive-location">2018–2019</div>
+          <div class="archive-type type-blitz">Archive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROSTER -->
+  <section class="section" id="roster">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">The Roster</h2>
+        <span class="section-tag">84 Members</span>
+      </div>
+      <div class="roster-grid">
+        <div class="roster-card">
+          <div class="roster-name">Chris Callum</div>
+          <div class="roster-status">Active · Apex Championship</div>
+          <div class="roster-style">Technical · Veteran</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Danny Rizzo</div>
+          <div class="roster-status">Active · Apex #1 Contender</div>
+          <div class="roster-style">Brawler · Intense</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Katya Djurdjevic</div>
+          <div class="roster-status">Active · #6 — 7 Pillars</div>
+          <div class="roster-style">Technical · Submission</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Zachariah Krahe</div>
+          <div class="roster-status">Active · #5 — 7 Pillars</div>
+          <div class="roster-style">Powerhouse · Methodical</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Moxie James</div>
+          <div class="roster-status">Active · #7 — 7 Pillars</div>
+          <div class="roster-style">High Flyer · Strategist</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Fukushima Zombie</div>
+          <div class="roster-status">Active · #1 — 7 Pillars</div>
+          <div class="roster-style">Horror · Unpredictable</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Indi Rhyder</div>
+          <div class="roster-status">Active · #3 — 7 Pillars</div>
+          <div class="roster-style">Hybrid · Resilient</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Cross Recoba</div>
+          <div class="roster-status">Active · #4 — 7 Pillars</div>
+          <div class="roster-style">Technical · Calculating</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Roman Novack</div>
+          <div class="roster-status">Departed</div>
+          <div class="roster-style">Walked out after Krahe loss</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Lady Munin</div>
+          <div class="roster-status">Active · Rising</div>
+          <div class="roster-style">Confronted Siberia Zombie</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">Brodie</div>
+          <div class="roster-status">Suspended</div>
+          <div class="roster-style">Suspended post-Blitz #22</div>
+        </div>
+        <div class="roster-card">
+          <div class="roster-name">+ 73 Others</div>
+          <div class="roster-status">Full Roster</div>
+          <div class="roster-style">Archive in WrestleFlix Drive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo"><span>VALOR</span> PRO WRESTLING</div>
+    <div class="footer-text">Legacy Property · 2018–2019 · A WrestleFlix Archive</div>
+    <a href="/index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <div class="modal-eyebrow" id="modal-eyebrow"></div>
+          <div class="modal-title" id="modal-title"></div>
+          <div class="modal-meta" id="modal-meta"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const SHOWS = {
+      pillars2: {
+        eyebrow: 'Valor Pro Wrestling · Super Show',
+        title: '7 Pillars 2',
+        meta: 'September 2, 2019',
+        content: `<h2>7 Pillars 2</h2><p>The second iteration of Valor Pro's signature PPV event. Full content available in the WrestleFlix Drive archive.</p>`
+      },
+      blitz24: {
+        eyebrow: 'Valor Pro Wrestling · Blitz',
+        title: 'Blitz #24',
+        meta: 'October 2019',
+        content: `<h2>Blitz #24</h2><p>Full episode content available in the WrestleFlix Drive archive.</p>`
+      },
+      blitz23: {
+        eyebrow: 'Valor Pro Wrestling · Blitz',
+        title: 'Blitz #23',
+        meta: 'October 2019',
+        content: `<h2>Blitz #23</h2><p>Full episode content available in the WrestleFlix Drive archive.</p>`
+      },
+      blitz22: {
+        eyebrow: 'Valor Pro Wrestling · Blitz',
+        title: 'Blitz #22 — Callum vs. Rizzo',
+        meta: 'October 2019 · Main Event Double Count Out',
+        content: `<h2>Blitz #22</h2>
+<p>The episode that set the stage for 7 Pillars. Chris Callum and Danny Rizzo went to a Double Count Out in an explosive Main Event — leading to the announcement that they would meet one-on-one at 7 Pillars for the Apex Championship.</p>
+<p>Brodie was suspended for the next two shows following her actions on this broadcast. Zachariah Krahe was announced as making his way into the 7 Pillars Gauntlet Match for the second time after Roman Novack walked out following a loss to Krahe. Fantanasy defeated Zombie Vice Squad only for NSFW to exact retribution on The Zombies after the match.</p>
+<p>Full match content and roleplay archive available in WrestleFlix Drive.</p>`
+      },
+      fts7: {
+        eyebrow: 'Valor Pro Wrestling · Flipping the Script',
+        title: 'Flipping the Script #7',
+        meta: 'October 2019',
+        content: `<h2>Flipping the Script #7</h2><p>Recap and analysis of Blitz #24. Full content available in the WrestleFlix Drive archive.</p>`
+      }
+    };
+
+    function openShow(id) {
+      const show = SHOWS[id];
+      if (!show) return;
+      document.getElementById('modal-eyebrow').textContent = show.eyebrow;
+      document.getElementById('modal-title').textContent = show.title;
+      document.getElementById('modal-meta').textContent = show.meta;
+      document.getElementById('modal-body').innerHTML = show.content;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal-overlay')) return;
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

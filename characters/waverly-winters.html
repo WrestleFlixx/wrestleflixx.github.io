@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waverly Winters — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #f8f6f2;
+      --ice: #d4e8f5;
+      --ice-dim: rgba(212,232,245,0.15);
+      --slate: #8aa8c0;
+      --slate-dim: rgba(138,168,192,0.2);
+      --bg: #070a10;
+      --bg-mid: #0c1018;
+      --bg-card: #101520;
+      --text: #eef2f7;
+      --text-muted: #8898b0;
+      --text-dim: #404860;
+      --border: rgba(212,232,245,0.08);
+      --border-ice: rgba(212,232,245,0.2);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 56px; background: rgba(7,10,16,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+    .nav-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s; }
+    .nav-back:hover { color: var(--ice); }
+    .nav-divider { width: 1px; height: 20px; background: var(--border); }
+    .nav-crumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--text-dim); }
+    .nav-crumb span { color: var(--text-muted); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      padding-top: 56px;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 5rem 3rem 4rem;
+      z-index: 2;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #080d16 0%, #0d1520 60%, #070a10 100%);
+    }
+
+    .hero-right-placeholder {
+      width: 100%; height: 100%; min-height: calc(100vh - 56px);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 140px; letter-spacing: 4px;
+      color: rgba(212,232,245,0.04);
+    }
+
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(7,10,16,1) 0%, transparent 30%);
+    }
+
+    /* Ice crystal decorations */
+    .hero-right::before {
+      content: '❄';
+      position: absolute;
+      top: 20%;
+      right: 10%;
+      font-size: 200px;
+      color: rgba(212,232,245,0.03);
+      z-index: 1;
+    }
+
+    .hero-accent { width: 2px; height: 100px; background: linear-gradient(to bottom, transparent, var(--ice), transparent); margin-bottom: 2rem; }
+
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--ice); margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--ice); }
+
+    .hero-name { font-family: var(--font-display); font-size: clamp(60px, 8vw, 120px); line-height: 0.88; letter-spacing: 2px; color: var(--white); margin-bottom: 0.4rem; }
+
+    .hero-alias { font-family: var(--font-serif); font-size: 18px; font-style: italic; color: var(--slate); margin-bottom: 2rem; }
+
+    .hero-entrance { font-size: 14px; font-weight: 300; color: var(--text-muted); max-width: 460px; line-height: 1.75; padding: 1rem 1.25rem; background: var(--ice-dim); border: 1px solid var(--border-ice); border-radius: 6px; margin-bottom: 2rem; font-style: italic; }
+
+    .hero-quick { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .hq { display: flex; flex-direction: column; gap: 3px; }
+    .hq-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); }
+    .hq-val { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    /* CONTENT */
+    .page-content { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+    .section { padding: 3rem 0; border-top: 1px solid var(--border); }
+    .section-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--ice); margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-ice); }
+
+    .vitals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .vital-item { background: var(--bg-card); padding: 1rem 1.25rem; }
+    .vital-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+    .vital-val { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    .bio-text { font-size: 15px; font-weight: 300; color: var(--text-muted); line-height: 1.8; max-width: 750px; }
+    .bio-text p { margin-bottom: 1.25rem; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-bar-row { margin-bottom: 0.875rem; }
+    .stat-bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+    .stat-bar-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .stat-bar-num { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .stat-track { height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; border-radius: 3px; }
+
+    .moves-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .moves-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .moves-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ice); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-ice); }
+    .move-item { font-size: 14px; color: var(--text-muted); padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .move-item.finisher { color: var(--ice); font-weight: 600; }
+    .move-item:last-child { border-bottom: none; }
+
+    .manager-card { background: var(--bg-card); border: 1px solid var(--border-ice); border-radius: 8px; padding: 1.5rem; display: flex; gap: 1.5rem; align-items: center; }
+    .manager-icon { font-size: 40px; flex-shrink: 0; }
+    .manager-name { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .manager-role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ice); margin-bottom: 0.5rem; }
+    .manager-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    .footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+    .footer-text { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+    .footer-back { font-family: var(--font-mono); font-size: 11px; color: var(--ice); }
+
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .hero-right { height: 300px; } .hero-right-placeholder { min-height: 300px; font-size: 80px; } .stats-grid, .moves-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/rosters/universal-roster.html" class="nav-back">← Roster</a>
+    <div class="nav-divider"></div>
+    <div class="nav-crumb">Character Profile <span>/ Waverly Winters</span></div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-accent"></div>
+      <div class="hero-eyebrow">WrestleFlix · Character Profile</div>
+      <h1 class="hero-name">WAVERLY<br/>WINTERS</h1>
+      <div class="hero-alias">"The Country Emma Frost"</div>
+      <div class="hero-entrance">The venue goes dark. Wind whistling fills the arena. "Six Feet Deep" by Royale Lynn plays as Waverly steps onto the stage in a long white plush robe, accompanied by her momager Claudia Winters in an ice blue skirt suit. Claudia waves at the fans. Waverly does not. Waverly strikes a pose. The bell rings.</div>
+      <div class="hero-quick">
+        <div class="hq"><span class="hq-label">Style</span><span class="hq-val">Powerhouse · Martial Arts</span></div>
+        <div class="hq"><span class="hq-label">Alignment</span><span class="hq-val">Face</span></div>
+        <div class="hq"><span class="hq-label">From</span><span class="hq-val">Pigeon Forge, TN</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-placeholder">WW</div>
+    </div>
+  </section>
+
+  <div class="page-content">
+
+    <section class="section">
+      <div class="section-title">Personal File</div>
+      <div class="vitals-grid">
+        <div class="vital-item"><div class="vital-label">Ring Name</div><div class="vital-val">Waverly Winters</div></div>
+        <div class="vital-item"><div class="vital-label">Hometown</div><div class="vital-val">Pigeon Forge, Tennessee</div></div>
+        <div class="vital-item"><div class="vital-label">Height</div><div class="vital-val">5'3"</div></div>
+        <div class="vital-item"><div class="vital-label">Weight</div><div class="vital-val">138 lbs</div></div>
+        <div class="vital-item"><div class="vital-label">Style</div><div class="vital-val">Powerhouse · Martial Arts</div></div>
+        <div class="vital-item"><div class="vital-label">Alignment</div><div class="vital-val">Face</div></div>
+        <div class="vital-item"><div class="vital-label">Entrance Theme</div><div class="vital-val">"Six Feet Deep" — Royale Lynn</div></div>
+        <div class="vital-item"><div class="vital-label">Accomplishments</div><div class="vital-val" style="color:var(--text-dim);">N/A — Building</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Biography</div>
+      <div class="bio-text">
+        <p>Waverly Winters comes from a family long embedded in the music and entertainment industries of Pigeon Forge, Tennessee. Despite showing no interest in either endeavor herself, her mother Claudia found an opportunity to capitalize on Waverly's exceptional athletic ability — first entering her in fitness competitions, which led to meeting a local wrestling promoter who saw something in her.</p>
+        <p>She reluctantly took the promoter's advice and began training. She kept her day job as a physical trainer. She still has it. When it's showtime, she fights off the jitters to channel her version of what she privately calls "a country Emma Frost." She keeps to herself for the most part. She may seem intimidating to some — until you strike up a conversation with her. Then she is fine. She just doesn't initiate.</p>
+        <p>Claudia Winters, her mother and manager — a force in an ice blue skirt suit — is far more talkative. Someone has to be.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="stats-grid">
+        <div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Power</span><span class="stat-bar-num" style="color:#ff9f43;">90</span></div><div class="stat-track"><div class="stat-fill" style="width:90%;background:#ff9f43;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Striking</span><span class="stat-bar-num" style="color:#ff6b6b;">82</span></div><div class="stat-track"><div class="stat-fill" style="width:82%;background:#ff6b6b;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Grappling</span><span class="stat-bar-num" style="color:#4a9eff;">78</span></div><div class="stat-track"><div class="stat-fill" style="width:78%;background:#4a9eff;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Endurance</span><span class="stat-bar-num" style="color:#c9a84c;">85</span></div><div class="stat-track"><div class="stat-fill" style="width:85%;background:#c9a84c;"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Speed</span><span class="stat-bar-num" style="color:#4aff9e;">68</span></div><div class="stat-track"><div class="stat-fill" style="width:68%;background:#4aff9e;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Aerial</span><span class="stat-bar-num" style="color:#a855f7;">45</span></div><div class="stat-track"><div class="stat-fill" style="width:45%;background:#a855f7;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Charisma</span><span class="stat-bar-num" style="color:#d4e8f5;">62</span></div><div class="stat-track"><div class="stat-fill" style="width:62%;background:#d4e8f5;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Psychology</span><span class="stat-bar-num" style="color:#00e5cc;">70</span></div><div class="stat-track"><div class="stat-fill" style="width:70%;background:#00e5cc;"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="moves-layout">
+        <div class="moves-card">
+          <div class="moves-title">Signature Moves</div>
+          <div class="move-item">Suplex Slam</div>
+          <div class="move-item">DDT</div>
+          <div class="move-item">Elbow Smash</div>
+          <div class="move-item">Enziguri Kick</div>
+          <div class="move-item">Gorilla Press Slam</div>
+        </div>
+        <div class="moves-card">
+          <div class="moves-title">Finishing Moves</div>
+          <div class="move-item finisher">Sit-out Powerbomb — Primary</div>
+          <div class="move-item finisher">Dragon Sleeper — Secondary</div>
+          <div style="margin-top:1.5rem;font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;">Manager</div>
+          <div class="move-item" style="color:var(--ice);">Claudia Winters · Momager</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Management</div>
+      <div class="manager-card">
+        <div class="manager-icon">👩‍💼</div>
+        <div>
+          <div class="manager-role">Momager</div>
+          <div class="manager-name">Claudia Winters</div>
+          <div class="manager-desc">Waverly's mother. Dressed in an ice blue skirt suit. Waves at fans from both directions on the way to the ring. Removes Waverly's robe upon ring entry. Significantly more personable than her daughter. Has always believed in Waverly, even when Waverly was not entirely sure she believed in herself. The kind of stage mother whose presence is both the reason everything happens and the reason some things are more complicated than they need to be.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">Waverly Winters · Character Profile · WrestleFlix Universe</div>
+    <a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a>
+  </footer>
+
+</body>
+</html>

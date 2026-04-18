@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universal Roster — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --red: #d42b2b;
+      --bg: #080810;
+      --bg-mid: #0e0e1a;
+      --bg-card: #111120;
+      --text: #f2efe8;
+      --text-muted: #9090a8;
+      --text-dim: #555568;
+      --border: rgba(255,255,255,0.07);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(8,8,16,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--gold); }
+
+    .nav-divider { width: 1px; height: 24px; background: var(--border); }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+    }
+
+    .nav-logo .w { color: var(--gold); }
+    .nav-logo .flix { color: var(--red); }
+
+    .nav-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-search input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 7px 16px;
+      outline: none;
+      width: 220px;
+      transition: border-color 0.2s, width 0.3s;
+    }
+
+    .nav-search input:focus {
+      border-color: var(--gold);
+      width: 300px;
+    }
+
+    /* ===== HEADER ===== */
+    .page-header {
+      padding: calc(64px + 3rem) 2rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 96px);
+      letter-spacing: 3px;
+      line-height: 0.9;
+      color: var(--text);
+    }
+
+    .page-title span { color: var(--gold); }
+
+    .page-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+
+    .page-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .page-stat {
+      text-align: right;
+    }
+
+    .page-stat-num {
+      font-family: var(--font-display);
+      font-size: 40px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .page-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ===== FILTERS ===== */
+    .filters {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg);
+    }
+
+    /* ===== ROSTER GRID ===== */
+    .roster-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* ===== FIGHTER CARD ===== */
+    .fighter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .fighter-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(201,168,76,0.4);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    }
+
+    .fighter-card:hover .fighter-overlay { opacity: 1; }
+    .fighter-card:hover .fighter-img { transform: scale(1.05); filter: brightness(0.7); }
+
+    /* Image area */
+    .fighter-img-wrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--bg-mid);
+    }
+
+    /* Placeholder gradient when no image */
+    .fighter-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 72px;
+      letter-spacing: 2px;
+      color: rgba(201,168,76,0.15);
+    }
+
+    .fighter-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    /* Property badge */
+    .fighter-property {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    .prop-f2w { background: rgba(212,43,43,0.9); color: #fff; }
+    .prop-wm { background: rgba(201,168,76,0.9); color: var(--bg); }
+    .prop-awe { background: rgba(139,0,0,0.9); color: #ccc; }
+    .prop-vpw { background: rgba(107,33,168,0.9); color: #fff; }
+    .prop-paw { background: rgba(255,45,120,0.9); color: #fff; }
+    .prop-aftershock { background: rgba(123,47,255,0.9); color: #fff; }
+    .prop-multi { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.4); }
+
+    /* Hover overlay */
+    .fighter-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,16,0.95) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.25rem;
+    }
+
+    .overlay-btn {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+
+    /* Card body */
+    .fighter-info {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .fighter-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 1.5px;
+      color: var(--text);
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+
+    .fighter-alias {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Mini stat bars */
+    .fighter-mini-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mini-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-stat-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      width: 60px;
+      flex-shrink: 0;
+    }
+
+    .mini-stat-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .mini-stat-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+
+    .fill-gold { background: var(--gold); }
+    .fill-red { background: var(--red); }
+    .fill-blue { background: #4a9eff; }
+    .fill-green { background: #4aff9e; }
+    .fill-purple { background: #a855f7; }
+
+    .mini-stat-val {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      width: 24px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ===== PROFILE MODAL ===== */
+    .profile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(4,4,10,0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .profile-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .profile-container {
+      background: var(--bg-mid);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.96);
+      transition: transform 0.3s;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .profile-overlay.open .profile-container { transform: scale(1); }
+
+    .profile-close {
+      position: sticky;
+      top: 1.25rem;
+      float: right;
+      margin: 1.25rem 1.25rem 0 0;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+
+    .profile-close:hover { background: rgba(212,43,43,0.2); color: var(--text); }
+
+    /* Profile hero */
+    .profile-hero {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      min-height: 340px;
+    }
+
+    .profile-img-col {
+      position: relative;
+      background: var(--bg);
+      border-radius: 16px 0 0 0;
+      overflow: hidden;
+    }
+
+    .profile-img-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .profile-img-placeholder-lg {
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 100px;
+      color: rgba(201,168,76,0.1);
+    }
+
+    .profile-info-col {
+      padding: 2rem 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .profile-property-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-property-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: 2px;
+      line-height: 0.9;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-alias {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-meta-item { }
+
+    .profile-meta-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+    }
+
+    .profile-meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .profile-record {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .record-stat { }
+
+    .record-num {
+      font-family: var(--font-display);
+      font-size: 32px;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .record-num.wins { color: #4aff9e; }
+    .record-num.losses { color: var(--red); }
+    .record-num.draws { color: var(--gold); }
+
+    .record-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Profile body */
+    .profile-body {
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Radar chart stat section */
+    .profile-stats-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stats-radar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stats-radar-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    /* SVG Radar chart */
+    .radar-chart {
+      width: 100%;
+      max-width: 260px;
+    }
+
+    /* Stat bars section */
+    .stats-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stats-bars-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .stat-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-bar-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .stat-bar-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .stat-bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+
+    /* Biography */
+    .profile-bio {
+      margin-bottom: 2rem;
+    }
+
+    .profile-section-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .profile-bio p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* Championships */
+    .profile-titles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .title-chip {
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    /* Finisher */
+    .finisher-box {
+      background: rgba(212,43,43,0.08);
+      border: 1px solid rgba(212,43,43,0.2);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .finisher-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 3px;
+    }
+
+    .finisher-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 1px;
+      color: var(--text);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .footer-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 700px) {
+      .profile-hero { grid-template-columns: 1fr; }
+      .profile-img-col { border-radius: 16px 16px 0 0; max-height: 300px; }
+      .profile-stats-section { grid-template-columns: 1fr; }
+      .roster-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-logo"><span class="w">W</span>restle<span class="flix">Flix</span></div>
+    <div class="nav-search">
+      <input type="text" placeholder="Search fighters..." id="search-input" oninput="filterRoster(this.value)" />
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">UNIVERSAL<br/><span>ROSTER</span></h1>
+      <p class="page-subtitle">All WrestleFlix Properties · Active &amp; Legacy</p>
+    </div>
+    <div class="page-stats">
+      <div class="page-stat">
+        <div class="page-stat-num" id="total-count">—</div>
+        <div class="page-stat-label">Total Fighters</div>
+      </div>
+      <div class="page-stat">
+        <div class="page-stat-num">6</div>
+        <div class="page-stat-label">Properties</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('f2w', this)">Fight 2 Win</button>
+    <button class="filter-btn" onclick="setFilter('wm', this)">WrestleMecca</button>
+    <button class="filter-btn" onclick="setFilter('aftershock', this)">Aftershock</button>
+    <button class="filter-btn" onclick="setFilter('awe', this)">AWE Legacy</button>
+    <button class="filter-btn" onclick="setFilter('vpw', this)">Valor Pro Legacy</button>
+    <button class="filter-btn" onclick="setFilter('paw', this)">PAW Legacy</button>
+  </div>
+
+  <!-- ROSTER GRID -->
+  <div class="roster-grid" id="roster-grid"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo"><span style="color:var(--gold)">W</span>restle<span style="color:var(--red)">Flix</span></div>
+    <div class="footer-text">Universal Roster · All Properties · A WrestleFlix Platform</div>
+    <a href="/index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <!-- PROFILE MODAL -->
+  <div class="profile-overlay" id="profile-overlay" onclick="closeProfile(event)">
+    <div class="profile-container" id="profile-container">
+      <button class="profile-close" onclick="closeProfile()">✕</button>
+      <div id="profile-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // ===========================
+    // ROSTER DATA
+    // Add new fighters here — they automatically appear on the page
+    // All stats are out of 100
+    // ===========================
+    const ROSTER = [
+      {
+        id: 'zack-fantana',
+        name: 'ZACK FANTANA',
+        alias: '"The Fantanasy"',
+        property: 'multi',
+        propertyLabel: 'F2W · WrestleMecca',
+        hometown: 'Unknown',
+        height: '6\'1"',
+        weight: '215 lbs',
+        style: 'High Flyer · Technician',
+        status: 'Digitized',
+        record: { w: 47, l: 8, d: 2 },
+        finisher: 'Lucid Dreams (450 Splash)',
+        image: null,
+        initials: 'ZF',
+        championships: ['AWE Paramount Championship', 'Unity Championship (F2W)'],
+        bio: 'Harvard and Wharton graduate. The world\'s foremost Wrestling Symbologist. Author of "Wrestling Symbology." Former Grandmaster candidate of the Dead Graps Society. Currently exists as a digitized consciousness inside a data chip. Considers the dubstep remix of his entrance music a personal affront.',
+        stats: { striking: 78, grappling: 85, aerial: 95, power: 62, speed: 90, endurance: 80, charisma: 98, psychology: 97 }
+      },
+      {
+        id: 'brennan-devlin',
+        name: 'BRENNAN DEVLIN',
+        alias: '"The Wish"',
+        property: 'wm',
+        propertyLabel: 'WrestleMecca Champion',
+        hometown: 'Ireland',
+        height: '6\'3"',
+        weight: '232 lbs',
+        style: 'Technical · Brawler',
+        status: 'WrestleMecca Champion',
+        record: { w: 51, l: 0, d: 0 },
+        finisher: 'The Face Off (Diamond Cutter)',
+        image: null,
+        initials: 'BD',
+        championships: ['WrestleMecca Infinite Championship', 'Unity Championship (F2W)', 'Various — Legacy'],
+        bio: 'Made a wish at WrestleMecca. The wish rewrote reality. Fifty-one years later the world is still dealing with the consequences. His hologram watches over Fight2Win City from DevlinSaka Tower. Undefeated. Unreachable. The only man to hold the Infinite Championship.',
+        stats: { striking: 88, grappling: 92, aerial: 70, power: 86, speed: 75, endurance: 95, charisma: 82, psychology: 94 }
+      },
+      {
+        id: 'cordelia-scott',
+        name: 'CORDELIA SCOTT',
+        alias: '"The Last Stand"',
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win',
+        hometown: 'Unknown',
+        height: '5\'8"',
+        weight: '145 lbs',
+        style: 'Technical · Submission · Tactical',
+        status: 'Active',
+        record: { w: 12, l: 3, d: 0 },
+        finisher: 'Virtue Signal (Crossface Submission)',
+        image: null,
+        initials: 'CS',
+        championships: ['F2W Melee Championship'],
+        bio: 'Survived a compound siege. Survived a 100-foot dam drop. Survived Silas Romero, Butch Dawson, a WrestleJet QuinCopter crash, and Brennan Devlin\'s betrayal. Former F2W Melee Champion. Trained by Brennan Devlin himself — a fact neither of them discusses comfortably.',
+        stats: { striking: 82, grappling: 90, aerial: 68, power: 70, speed: 88, endurance: 96, charisma: 75, psychology: 92 }
+      },
+      {
+        id: 'jove-belane',
+        name: 'JOVE BELANE',
+        alias: null,
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win',
+        hometown: 'Unknown',
+        height: '6\'2"',
+        weight: '228 lbs',
+        style: 'Powerhouse · Brawler',
+        status: 'Active',
+        record: { w: 9, l: 4, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'JB',
+        championships: [],
+        bio: 'Once fought a liquid-metal mop to a standstill. Uses Temp V — a synthesized compound with origins in Francis Ford Cuppola\'s personal lab — for a limited super-soldier effect. A gypsy woman told him this day was coming. She was right about everything.',
+        stats: { striking: 86, grappling: 78, aerial: 55, power: 94, speed: 72, endurance: 85, charisma: 65, psychology: 70 }
+      },
+      {
+        id: 'the-mop',
+        name: 'THE MOP',
+        alias: '"The Liquid Sovereign"',
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win · F2W2',
+        hometown: 'Signal Alpha',
+        height: 'Variable',
+        weight: 'Unknown',
+        style: 'Terminator · Cosmic',
+        status: 'Anchor Hunt — Signal Alpha',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Tsk Tsk Tsk (Finger Wave)',
+        image: null,
+        initials: '🧹',
+        championships: [],
+        bio: 'Lost Jackie in the Dexter DeShaun job. Carries the digitized ghost of Zack Fantana in its neural substrate. Composed of an unstable liquid-metal compound. Can reform after virtually any injury. Currently in Signal Alpha retrieving the first displaced Anchor. Does not appreciate being underestimated.',
+        stats: { striking: 92, grappling: 88, aerial: 60, power: 99, speed: 95, endurance: 99, charisma: 72, psychology: 80 }
+      },
+      {
+        id: 'maddie-stokes',
+        name: 'MADDIE STOKES',
+        alias: '"The Last Scion"',
+        property: 'wm',
+        propertyLabel: 'WrestleMecca · Corporate',
+        hometown: 'Classified',
+        height: '5\'7"',
+        weight: '138 lbs',
+        style: 'Technical · Corporate',
+        status: 'Corporate — F2W City',
+        record: { w: 0, l: 0, d: 1 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'MS',
+        championships: ['WrestleMecca Complete Championship (disputed)', 'Various (gifted)'],
+        bio: 'The Last Scion of WrestleMecca bloodline. Brad Stokes\' real daughter — hidden from the world for her protection. Her blood is required to forge the Infinite Championship. Betrayed Zack Fantana on a yacht. Now runs corporate strategy from the penthouse of DevlinSaka Tower. History is complicated.',
+        stats: { striking: 68, grappling: 72, aerial: 60, power: 58, speed: 70, endurance: 65, charisma: 85, psychology: 90 }
+      },
+      {
+        id: 'bbc',
+        name: 'BBC',
+        alias: '"Benny Busfin-Carter"',
+        property: 'multi',
+        propertyLabel: 'F2W · WrestleMecca',
+        hometown: 'Unknown',
+        height: '6\'0"',
+        weight: '210 lbs',
+        style: 'Veteran · Technician',
+        status: 'Commissioner — Resistance',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'BC',
+        championships: [],
+        bio: 'Tried to stop a floating island from landing on Manhattan at the exact moment Brennan Devlin made his wish. Has been living in the wreckage of that failure for fifty-one years. Skylar\'s partner. Leads the resistance against the Fight2Win City regime. Was given fifty-one years to think about what to do next. He has a plan.',
+        stats: { striking: 75, grappling: 80, aerial: 50, power: 72, speed: 65, endurance: 88, charisma: 90, psychology: 96 }
+      },
+      {
+        id: 'skylar-wright-virtue',
+        name: 'SKYLAR WRIGHT-VIRTUE',
+        alias: '"The Virtue"',
+        property: 'multi',
+        propertyLabel: 'WrestleMecca · Flex Appeal',
+        hometown: 'Unknown',
+        height: '5\'9"',
+        weight: '148 lbs',
+        style: 'Technical · Submission · Businesswoman',
+        status: 'Active',
+        record: { w: 8, l: 2, d: 1 },
+        finisher: 'Virtue Signal (Submission Hold)',
+        image: null,
+        initials: 'SW',
+        championships: ['WrestleMecca Unity Championship (Flex Appeal)'],
+        bio: 'The operational backbone of the Flex Appeal gym chain. Operationally brilliant, technically gifted, and the most patient person currently alive. Partner to BBC. Wife to Matt Wright-Virtue. Part of Flex Appeal. Has absorbed a remarkable amount of chaos with extraordinary composure.',
+        stats: { striking: 80, grappling: 94, aerial: 72, power: 70, speed: 82, endurance: 90, charisma: 88, psychology: 93 }
+      },
+      {
+        id: 'lana-cuppola',
+        name: 'LANA CUPPOLA',
+        alias: '"The Empire"',
+        property: 'multi',
+        propertyLabel: 'WrestleFlix · F2W · WM Commissioner',
+        hometown: 'Unknown',
+        height: '5\'10"',
+        weight: 'None of your business',
+        style: 'Non-Competitor · Executive',
+        status: 'WrestleFlix Owner',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Legal Action',
+        image: null,
+        initials: 'LC',
+        championships: ['WrestleFlix Empire (Owner)'],
+        bio: 'At 26, built an empire on her father\'s estate money. Authorized a documentary about herself. Correct about everything, always, by her own account. Runs Fight 2 Win and WrestleFlix with Dario Cinema. Has never lost an argument — or at least, no record exists of her doing so.',
+        stats: { striking: 40, grappling: 30, aerial: 20, power: 45, speed: 55, endurance: 70, charisma: 99, psychology: 98 }
+      },
+      {
+        id: 'flynn-howell',
+        name: 'FLYNN HOWELL',
+        alias: '"The Correction"',
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win · F2W2',
+        hometown: 'The Future',
+        height: '6\'2"',
+        weight: '235 lbs + Cyberware',
+        style: 'Cybernetic · Striker · Assassin',
+        status: '133-0 · F2W2 Timeline',
+        record: { w: 133, l: 0, d: 0 },
+        finisher: 'Wrist Blades (Future Tech)',
+        image: null,
+        initials: 'FH',
+        championships: ['F2W Melee Championship (F2W2 Timeline)'],
+        bio: 'Sent back from the future by a teacher whose identity remains unknown. Shot Brad Stokes in the Louvre. Lost his sister and mother in a garage fire. Has cyberware embedded throughout his body including extendable wrist blades. Carries their engrams in a digital vault. Calls it protection. It is not protection.',
+        stats: { striking: 96, grappling: 88, aerial: 75, power: 90, speed: 97, endurance: 92, charisma: 55, psychology: 78 }
+      },
+      {
+        id: 'jd-driftwood',
+        name: 'JD DRIFTWOOD',
+        alias: '"The Apocalypse"',
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win',
+        hometown: 'His Own Venue, Florida',
+        height: '6\'5"',
+        weight: '280 lbs',
+        style: 'Powerhouse · Destroyer',
+        status: 'Active',
+        record: { w: 8, l: 5, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'JD',
+        championships: ['WrestleMecca Apocalypse Championship'],
+        bio: 'Owns a personal fight venue in the Florida backwoods. Survived a gunshot wound to the chest, a compound collapse, and being run over by a car in a parking garage. Declared dead. Got up. Apocalypse Championship holder. Rightfully irritated about Hatchet and A$hley.',
+        stats: { striking: 85, grappling: 78, aerial: 30, power: 98, speed: 55, endurance: 99, charisma: 68, psychology: 60 }
+      },
+      {
+        id: 'gregg-peake',
+        name: 'GREGG PEAKE',
+        alias: null,
+        property: 'wm',
+        propertyLabel: 'WrestleMecca',
+        hometown: 'Unknown',
+        height: '6\'0"',
+        weight: '212 lbs',
+        style: 'High Flyer · Technical',
+        status: 'Active',
+        record: { w: 6, l: 5, d: 1 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'GP',
+        championships: ['1/5 Apocalypse Championship (WrestleMecca Ep. 0)'],
+        bio: 'Concerned about the kind of world he\'s bringing his son into. Co-holder of the Apocalypse Championship by virtue of a seven-way ladder match draw. Has been struck by a beer can. Ongoing feud with El Hijo del Señor Ass.',
+        stats: { striking: 72, grappling: 75, aerial: 83, power: 68, speed: 80, endurance: 74, charisma: 70, psychology: 72 }
+      },
+      {
+        id: 'el-hijo-del-senor-ass',
+        name: 'EL HIJO DEL SEÑOR ASS',
+        alias: null,
+        property: 'wm',
+        propertyLabel: 'WrestleMecca',
+        hometown: 'Unknown',
+        height: '5\'11"',
+        weight: '205 lbs',
+        style: 'Lucha · Brawler',
+        status: 'Active',
+        record: { w: 5, l: 7, d: 1 },
+        finisher: 'Karate Judo Chop',
+        image: null,
+        initials: 'EA',
+        championships: ['1/5 Apocalypse Championship (WrestleMecca Ep. 0)'],
+        bio: 'Randomly karate chops people he has ongoing issues with. Inquired whether he could kidnap Gregg Peake\'s son. The answer was no. Ongoing feud with Gregg Peake. Co-holder of the Apocalypse Championship.',
+        stats: { striking: 78, grappling: 65, aerial: 88, power: 70, speed: 85, endurance: 72, charisma: 80, psychology: 65 }
+      },
+      {
+        id: 'american-tommy',
+        name: 'AMERICAN TOMMY',
+        alias: null,
+        property: 'multi',
+        propertyLabel: 'WrestleMecca · F2W',
+        hometown: 'America',
+        height: '6\'1"',
+        weight: '220 lbs',
+        style: 'Patriotic Brawler',
+        status: 'Active · Complicated',
+        record: { w: 5, l: 5, d: 1 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'AT',
+        championships: ['1/5 Apocalypse Championship (WrestleMecca Ep. 0)'],
+        bio: 'Not Zack Fantana\'s brother. Was briefly recruited by Lana and Dario. Was warned by Brenda Devlin from an interdimensional portal not to get involved with Zack\'s situation. Did not take the advice. Watched what he believed was Brennan and Zack having a great time with the turret gun. Was not pleased.',
+        stats: { striking: 82, grappling: 70, aerial: 60, power: 85, speed: 70, endurance: 80, charisma: 75, psychology: 68 }
+      },
+      {
+        id: 'ace-sky',
+        name: 'ACE SKY',
+        alias: '"The Cosmic"',
+        property: 'wm',
+        propertyLabel: 'WrestleMecca',
+        hometown: 'The Cosmos (Allegedly)',
+        height: '5\'11"',
+        weight: '198 lbs',
+        style: 'Cosmic · Martial Artist',
+        status: 'Active',
+        record: { w: 5, l: 4, d: 1 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'AS',
+        championships: ['1/5 Apocalypse Championship (WrestleMecca Ep. 0)'],
+        bio: 'Meditates. Hummed at Zack Fantana in the locker room. Responded calmly to provocation. Claimed to know he was better than everyone. Was willing to prove it anytime, anywhere.',
+        stats: { striking: 80, grappling: 82, aerial: 90, power: 65, speed: 88, endurance: 78, charisma: 76, psychology: 85 }
+      },
+      {
+        id: 'bembe-brightwell',
+        name: 'BEMBE BRIGHTWELL',
+        alias: null,
+        property: 'f2w',
+        propertyLabel: 'Fight 2 Win',
+        hometown: 'Unknown',
+        height: '6\'3"',
+        weight: '265 lbs',
+        style: 'Powerhouse · Unpredictable',
+        status: 'Active',
+        record: { w: 7, l: 4, d: 0 },
+        finisher: 'Mjolnir (Thrown Object)',
+        image: null,
+        initials: 'BB',
+        championships: [],
+        bio: 'Struck by lightning 3 times before he turned 18. Believes his bones were replaced with rubber by an alien from the Planet Phitness. Accidentally shut down an army of Fantana WrestleMechs by hitting the right button. Ended a match by throwing Mjolnir. Delivered the real F2W Melee Championship to Brad Stokes. Was carrying a price gun the entire mission.',
+        stats: { striking: 75, grappling: 70, aerial: 55, power: 95, speed: 60, endurance: 88, charisma: 80, psychology: 58 }
+      },
+      {
+        id: 'dom-dibona',
+        name: 'DOM DIBONA',
+        alias: '"Double D"',
+        property: 'awe',
+        propertyLabel: 'AWE Legacy · Dead Graps Society',
+        hometown: 'Boston, Massachusetts',
+        height: '6\'2"',
+        weight: '240 lbs',
+        style: 'Powerhouse · Technical',
+        status: 'Grandmaster — Dead Graps Society',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'DOMIN8D (Superkick)',
+        image: null,
+        initials: 'DD',
+        championships: ['AWE Paramount Championship'],
+        bio: 'Former AWE Paramount Champion. Grandmaster of the Dead Graps Society following Brad Stokes\' death. Runs a gym in Boston where he also lives with his mother. The limp was for show. Knows the lore of WrestleMecca better than almost anyone alive.',
+        stats: { striking: 85, grappling: 88, aerial: 50, power: 90, speed: 65, endurance: 82, charisma: 78, psychology: 94 }
+      },
+      {
+        id: 'ronnie-harris',
+        name: 'RONNIE HARRIS',
+        alias: null,
+        property: 'awe',
+        propertyLabel: 'AWE Legacy',
+        hometown: 'Unknown',
+        height: '6\'1"',
+        weight: '220 lbs',
+        style: 'Technical · Veteran',
+        status: 'AWE Archive',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'RH',
+        championships: ['AWE Alpha Cup'],
+        bio: 'Alpha Cup champion. One of the most storied competitors in AWE history. Active in the Paramount Division through Massacre #11.',
+        stats: { striking: 80, grappling: 85, aerial: 60, power: 78, speed: 72, endurance: 86, charisma: 75, psychology: 88 }
+      },
+      {
+        id: 'katya-djurdjevic',
+        name: 'KATYA DJURDJEVIC',
+        alias: null,
+        property: 'vpw',
+        propertyLabel: 'Valor Pro Legacy',
+        hometown: 'Unknown',
+        height: '5\'8"',
+        weight: '142 lbs',
+        style: 'Technical · Submission',
+        status: 'VPW Archive',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'KD',
+        championships: [],
+        bio: 'Requested the #1 spot in the 7 Pillars Gauntlet Match. Competitor at the 7 Pillars PPV. One of Valor Pro\'s most technically accomplished wrestlers.',
+        stats: { striking: 75, grappling: 92, aerial: 68, power: 65, speed: 80, endurance: 84, charisma: 72, psychology: 88 }
+      },
+      {
+        id: 'cordelia-paw',
+        name: 'CROSS RECOBA',
+        alias: null,
+        property: 'paw',
+        propertyLabel: 'PAW Legacy · Valor Pro Legacy',
+        hometown: 'Unknown',
+        height: '6\'0"',
+        weight: '215 lbs',
+        style: 'Technical · Hybrid',
+        status: 'Archive',
+        record: { w: 0, l: 0, d: 0 },
+        finisher: 'Unknown',
+        image: null,
+        initials: 'CR',
+        championships: [],
+        bio: 'Competed in both PAW and Valor Pro Wrestling. WICKED #4 main card against Black Jack Colter. Also appeared in Valor Pro\'s 7 Pillars Gauntlet Match.',
+        stats: { striking: 78, grappling: 80, aerial: 72, power: 75, speed: 78, endurance: 80, charisma: 70, psychology: 75 }
+      }
+    ];
+
+    // ===========================
+    // RENDER ENGINE
+    // ===========================
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    function getPropertyClass(prop) {
+      const map = { f2w:'prop-f2w', wm:'prop-wm', awe:'prop-awe', vpw:'prop-vpw', paw:'prop-paw', aftershock:'prop-aftershock', multi:'prop-multi' };
+      return map[prop] || 'prop-multi';
+    }
+
+    function statColor(val) {
+      if (val >= 90) return '#4aff9e';
+      if (val >= 75) return '#c9a84c';
+      if (val >= 60) return '#4a9eff';
+      return '#9090a8';
+    }
+
+    function renderCard(fighter) {
+      const card = document.createElement('div');
+      card.className = 'fighter-card';
+      card.dataset.property = fighter.property;
+      card.dataset.name = fighter.name.toLowerCase();
+      card.onclick = () => openProfile(fighter.id);
+
+      const topStats = [
+        { label: 'Strike', key: 'striking' },
+        { label: 'Grapple', key: 'grappling' },
+        { label: 'Speed', key: 'speed' },
+      ];
+
+      card.innerHTML = `
+        <div class="fighter-img-wrap">
+          ${fighter.image
+            ? `<img src="${fighter.image}" alt="${fighter.name}" class="fighter-img" />`
+            : `<div class="fighter-img-placeholder">${fighter.initials}</div>`
+          }
+          <div class="fighter-property ${getPropertyClass(fighter.property)}">${fighter.propertyLabel}</div>
+          <div class="fighter-overlay"><button class="overlay-btn">View Profile</button></div>
+        </div>
+        <div class="fighter-info">
+          <div class="fighter-name">${fighter.name}</div>
+          ${fighter.alias ? `<div class="fighter-alias">${fighter.alias}</div>` : '<div class="fighter-alias" style="opacity:0;margin-bottom:0.75rem;">·</div>'}
+          <div class="fighter-mini-stats">
+            ${topStats.map(s => `
+              <div class="mini-stat">
+                <span class="mini-stat-label">${s.label}</span>
+                <div class="mini-stat-bar"><div class="mini-stat-fill" style="width:${fighter.stats[s.key]}%;background:${statColor(fighter.stats[s.key])};"></div></div>
+                <span class="mini-stat-val">${fighter.stats[s.key]}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderRoster() {
+      const grid = document.getElementById('roster-grid');
+      grid.innerHTML = '';
+      const filtered = ROSTER.filter(f => {
+        const propMatch = currentFilter === 'all' || f.property === currentFilter || (currentFilter !== 'all' && f.property === 'multi');
+        const searchMatch = !currentSearch || f.name.toLowerCase().includes(currentSearch) || (f.alias||'').toLowerCase().includes(currentSearch);
+        return propMatch && searchMatch;
+      });
+      filtered.forEach(f => grid.appendChild(renderCard(f)));
+      document.getElementById('total-count').textContent = filtered.length;
+    }
+
+    function setFilter(prop, btn) {
+      currentFilter = prop;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderRoster();
+    }
+
+    function filterRoster(val) {
+      currentSearch = val.toLowerCase();
+      renderRoster();
+    }
+
+    // ===========================
+    // RADAR CHART
+    // ===========================
+
+    function buildRadar(stats) {
+      const keys = ['striking','grappling','aerial','power','speed','endurance'];
+      const labels = ['Striking','Grappling','Aerial','Power','Speed','Endurance'];
+      const cx = 130, cy = 130, r = 100;
+      const n = keys.length;
+
+      function point(i, val) {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        const dist = (val / 100) * r;
+        return [cx + dist * Math.cos(angle), cy + dist * Math.sin(angle)];
+      }
+
+      function labelPoint(i) {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        return [cx + (r + 20) * Math.cos(angle), cy + (r + 20) * Math.sin(angle)];
+      }
+
+      // Grid rings
+      let rings = '';
+      [20, 40, 60, 80, 100].forEach(pct => {
+        const pts = keys.map((_, i) => {
+          const ang = (Math.PI * 2 * i / n) - Math.PI / 2;
+          const d = (pct / 100) * r;
+          return `${cx + d * Math.cos(ang)},${cy + d * Math.sin(ang)}`;
+        }).join(' ');
+        rings += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+      });
+
+      // Axis lines
+      let axes = '';
+      keys.forEach((_, i) => {
+        const [x, y] = point(i, 100);
+        axes += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+      });
+
+      // Stat polygon
+      const statPoints = keys.map((k, i) => point(i, stats[k]).join(',')).join(' ');
+
+      // Labels
+      let labelsSVG = '';
+      labels.forEach((lab, i) => {
+        const [lx, ly] = labelPoint(i);
+        const val = stats[keys[i]];
+        labelsSVG += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-family="'DM Mono',monospace" font-size="9" fill="rgba(144,144,168,0.8)" letter-spacing="1">${lab}</text>`;
+        labelsSVG += `<text x="${lx}" y="${ly+11}" text-anchor="middle" dominant-baseline="middle" font-family="'DM Mono',monospace" font-size="9" fill="${statColor(val)}" font-weight="500">${val}</text>`;
+      });
+
+      return `<svg class="radar-chart" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+        ${rings}${axes}
+        <polygon points="${statPoints}" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.7)" stroke-width="1.5"/>
+        ${labelsSVG}
+      </svg>`;
+    }
+
+    // ===========================
+    // PROFILE MODAL
+    // ===========================
+
+    function openProfile(id) {
+      const f = ROSTER.find(r => r.id === id);
+      if (!f) return;
+
+      const statBars = [
+        { name: 'Striking', key: 'striking', color: '#ff6b6b' },
+        { name: 'Grappling', key: 'grappling', color: '#4a9eff' },
+        { name: 'Aerial', key: 'aerial', color: '#a855f7' },
+        { name: 'Power', key: 'power', color: '#ff9f43' },
+        { name: 'Speed', key: 'speed', color: '#4aff9e' },
+        { name: 'Endurance', key: 'endurance', color: '#c9a84c' },
+        { name: 'Charisma', key: 'charisma', color: '#ff2d78' },
+        { name: 'Psychology', key: 'psychology', color: '#00e5cc' },
+      ];
+
+      document.getElementById('profile-content').innerHTML = `
+        <div class="profile-hero">
+          <div class="profile-img-col">
+            ${f.image
+              ? `<img src="${f.image}" alt="${f.name}" />`
+              : `<div class="profile-img-placeholder-lg">${f.initials}</div>`
+            }
+          </div>
+          <div class="profile-info-col">
+            <div>
+              <div class="profile-property-badge">${f.propertyLabel}</div>
+              <h2 class="profile-name">${f.name}</h2>
+              ${f.alias ? `<div class="profile-alias">${f.alias}</div>` : ''}
+              <div class="profile-meta-grid">
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label">Hometown</div>
+                  <div class="profile-meta-value">${f.hometown}</div>
+                </div>
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label">Style</div>
+                  <div class="profile-meta-value">${f.style}</div>
+                </div>
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label">Height</div>
+                  <div class="profile-meta-value">${f.height}</div>
+                </div>
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label">Weight</div>
+                  <div class="profile-meta-value">${f.weight}</div>
+                </div>
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label">Status</div>
+                  <div class="profile-meta-value" style="color:var(--gold);">${f.status}</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="profile-meta-label" style="margin-bottom:0.5rem;">Record</div>
+              <div class="profile-record">
+                <div class="record-stat">
+                  <div class="record-num wins">${f.record.w}</div>
+                  <div class="record-label">Wins</div>
+                </div>
+                <div class="record-stat">
+                  <div class="record-num losses">${f.record.l}</div>
+                  <div class="record-label">Losses</div>
+                </div>
+                <div class="record-stat">
+                  <div class="record-num draws">${f.record.d}</div>
+                  <div class="record-label">Draws</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-body">
+
+          <div class="profile-stats-section">
+            <div class="stats-radar-wrap">
+              <div class="stats-radar-title">Attribute Radar</div>
+              ${buildRadar(f.stats)}
+            </div>
+            <div class="stats-bars">
+              <div class="stats-bars-title">Attribute Breakdown</div>
+              ${statBars.map(s => `
+                <div class="stat-bar-row">
+                  <div class="stat-bar-header">
+                    <span class="stat-bar-name">${s.name}</span>
+                    <span class="stat-bar-num" style="color:${statColor(f.stats[s.key])}">${f.stats[s.key]}</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div class="stat-bar-fill" style="width:${f.stats[s.key]}%;background:${s.color};"></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="profile-bio">
+            <div class="profile-section-title">Biography</div>
+            <p>${f.bio}</p>
+          </div>
+
+          ${f.championships.length > 0 ? `
+            <div style="margin-bottom:2rem;">
+              <div class="profile-section-title">Championship History</div>
+              <div class="profile-titles">
+                ${f.championships.map(c => `<div class="title-chip">${c}</div>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="finisher-box">
+            <div>
+              <div class="finisher-label">Finishing Move</div>
+              <div class="finisher-name">${f.finisher}</div>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      document.getElementById('profile-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProfile(e) {
+      if (e && e.target !== document.getElementById('profile-overlay')) return;
+      document.getElementById('profile-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeProfile();
+    });
+
+    // ===========================
+    // INIT
+    // ===========================
+    renderRoster();
+  </script>
+</body>
+</html>

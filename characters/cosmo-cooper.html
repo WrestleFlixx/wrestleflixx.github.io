@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cosmo Cooper — WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--teal:#00c8b4;--teal-dim:rgba(0,200,180,.12);--teal-border:rgba(0,200,180,.25);--bg:#020c0a;--bg-card:#040e0c;--text:#d0f0ec;--text-muted:#508878;--text-dim:#183028;--border:rgba(0,200,180,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(2,12,10,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--teal)}
+    .nav-div{width:1px;height:20px;background:var(--border)}
+    .nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#020e0c 0%,#020c0a 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,138px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-size:18px;font-style:italic;color:rgba(208,240,236,.45);margin-bottom:2rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:2rem}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--teal-border);background:var(--teal-dim);color:var(--teal)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--teal-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .moves-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--teal-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .champ-list{display:flex;flex-direction:column;gap:.5rem}
+    .champ-item{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;font-size:14px;color:var(--text-muted)}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}
+    .footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal)}
+    @media(max-width:800px){.moves-3,.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Cosmo Cooper</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Santa Rosa, California · 6'2 · 225 lbs · Technical / MMA</div>
+      <h1 class="hero-name">COSMO<br/>COOPER</h1>
+      <div class="hero-alias">Valor APEX Champion · GCW Champion · MMA Crossover · "Lifted" by CL</div>
+      <div class="pills"><span class="pill">Technical</span><span class="pill">Strong Style</span><span class="pill">MMA Background</span><span class="pill">Santa Rosa</span><span class="pill">Multi-Title Holder</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Name</div><div class="vital-val">Cosmo Cooper</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">6'2 / 225 lbs</div></div>
+        <div class="vital"><div class="vital-label">From</div><div class="vital-val">Santa Rosa, California</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Lifted" — CL</div></div>
+        <div class="vital"><div class="vital-label">Style</div><div class="vital-val">MMA / Technical / Strong Style</div></div>
+        <div class="vital"><div class="vital-label">MMA Record</div><div class="vital-val">Caged Glory MMA Champ · Elite FC MMA Champ</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="moves-3">
+        <div class="card"><div class="card-title">Ground / Grappling</div>
+          <div class="list-item">Jumping Senton</div><div class="list-item">Front Face Lock w/ Knees</div><div class="list-item">PK Kick to Chin</div><div class="list-item">Running Knee</div><div class="list-item">Ankle Lock</div><div class="list-item">Arm Bar</div><div class="list-item">Mounted Palm Strikes</div><div class="list-item">Shoot Kicks to Chest/Back</div>
+        </div>
+        <div class="card"><div class="card-title">Standing / Running</div>
+          <div class="list-item">Belly to Belly Release Suplex</div><div class="list-item">Snap German (rebound variant)</div><div class="list-item">Discus Elbow Smash</div><div class="list-item">Roundhouse Kick</div><div class="list-item">Powerbomb</div><div class="list-item">Spear</div><div class="list-item">Superman Punch</div><div class="list-item">Spinning Wheel Kick</div><div class="list-item">Pounce</div>
+        </div>
+        <div class="card"><div class="card-title">Signatures &amp; Finishers</div>
+          <div class="list-item"><strong>Torpedo Headbutt</strong>Signature</div>
+          <div class="list-item"><strong>Peachy &amp; Beachy</strong>Running Hip Attack to Seated Corner Opponent</div>
+          <div class="list-item" style="color:var(--teal);font-weight:700;margin-top:.75rem"><strong>Crater Maker</strong>Jumping Spinning Tombstone Piledriver · PRIMARY</div>
+          <div class="list-item" style="color:var(--teal);font-weight:700"><strong>LeeMo Bomb</strong>Reverse Spike-Rana → Running Knee Lariat · SECONDARY</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Championship History</div>
+      <div class="champ-list">
+        <div class="champ-item">🏆 Valor APEX Championship</div>
+        <div class="champ-item">🏆 GCW Championship (2x)</div>
+        <div class="champ-item">🏆 GCW Legacy Championship</div>
+        <div class="champ-item">🏆 REBELLION Pro Championship</div>
+        <div class="champ-item">🏆 REBELLION Pro Tag Team Championship</div>
+        <div class="champ-item">🏆 4CW Tag Team Championship</div>
+        <div class="champ-item">🏆 Revolution Pro TV Championship</div>
+        <div class="champ-item">🏆 XHW Medal of Honor</div>
+        <div class="champ-item">🏆 Monkey Business Ace's High Championship</div>
+        <div class="champ-item">🏆 Caged Glory MMA Championship</div>
+        <div class="champ-item">🏆 Elite FC MMA Championship</div>
+        <div class="champ-item">🥇 CWC Male Wrestler of the Year</div>
+        <div class="champ-item">🥇 Fighter of the Night (1x, Caged Glory FC)</div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Cosmo Cooper · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

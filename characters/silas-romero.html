@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Silas Romero — Knockout Supreme · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--scarlet:#c42020;--scarlet-dim:rgba(196,32,32,.12);--scarlet-border:rgba(196,32,32,.28);--bg:#080402;--bg-card:#100804;--text:#f4e8e0;--text-muted:#906050;--text-dim:#3a1408;--border:rgba(196,32,32,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(8,4,2,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--scarlet)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#100402 0%,#080402 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--scarlet);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,138px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-size:18px;font-style:italic;color:rgba(244,232,224,.45);margin-bottom:2rem}
+    .hero-quote{font-size:15px;color:rgba(244,232,224,.45);max-width:520px;line-height:1.8;border-left:3px solid var(--scarlet-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--scarlet-border);background:var(--scarlet-dim);color:var(--scarlet)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--scarlet);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--scarlet-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--scarlet);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--scarlet-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .stat-row{margin-bottom:.875rem}
+    .stat-hd{display:flex;justify-content:space-between;margin-bottom:5px}
+    .stat-name{font-size:13px;font-weight:600;color:var(--text)}
+    .stat-num{font-family:'DM Mono',monospace;font-size:11px}
+    .stat-track{height:4px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+    .stat-fill{height:100%;border-radius:3px}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--scarlet)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Silas Romero</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Arkham, MA · 6'2 · 255 lbs · @KnockoutSupreme · Chaotic Neutral</div>
+      <h1 class="hero-name">SILAS<br/>ROMERO</h1>
+      <div class="hero-alias">"Knockout Supreme" · "Technical Masterpiece" · "Hipster Hercules" · "Scarlet Striker"</div>
+      <p class="hero-quote">"People like to take me for granted and they like to pretend that I'm not as good as I say I am. But, as you can see by all this gold draped all over me — I am everything I say I am and so, so much more."</p>
+      <div class="pills"><span class="pill">Chaotic Neutral</span><span class="pill">Striker</span><span class="pill">Strong Style</span><span class="pill">Arkham MA</span><span class="pill">Devlin-Guns Faction</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Birth Name</div><div class="vital-val">Silas Arthur Rowe</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">Silas Romero</div></div>
+        <div class="vital"><div class="vital-label">Born</div><div class="vital-val">March 20, 1988 (36) · Arkham, MA</div></div>
+        <div class="vital"><div class="vital-label">Hometown</div><div class="vital-val">Boston, MA</div></div>
+        <div class="vital"><div class="vital-label">Resides</div><div class="vital-val">Tampa, FL</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">6'2" / 255 lbs</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Death Grip" — The Ghost Inside</div></div>
+        <div class="vital"><div class="vital-label">Disposition</div><div class="vital-val">Chaotic Neutral</div></div>
+        <div class="vital"><div class="vital-label">Trained</div><div class="vital-val">Xtreme Maximum Wrestling Academy (XMWA)</div></div>
+        <div class="vital"><div class="vital-label">Faction</div><div class="vital-val">Devlin-Guns / The Red Flag</div></div>
+        <div class="vital"><div class="vital-label">Tag Partner</div><div class="vital-val">Brennan Devlin (All-Night Demon Club)</div></div>
+        <div class="vital"><div class="vital-label">Wife</div><div class="vital-val">Jewel Romero (also a wrestler)</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Gimmick — Generic American Strong Style Guy</div>
+      <div class="bio-text"><p>Silas doesn't have a difficult gimmick to explain. He really doesn't have one. In the early years of his career, he tried to put on a fake front — tried to be someone he wasn't. He had moderate success on the indies but never found his footing when he jumped to bigger promotions. It wasn't until he started incorporating more of his real personality that things clicked. The first glimpse: calling himself the "Hipster Hercules," because he finally embraced that he genuinely was a hipster. Now? His in-ring persona and his real-life persona have merged into one. Generic Strong Style Guy. He no longer hides his nerdy side. He is, per his own assessment, everything he says he is.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-title">Strengths &amp; Weaknesses</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Strengths</div>
+          <div class="list-item"><strong>Striking</strong>Years perfecting this ability. The centerpiece of his arsenal. Wins more often with striking than anything else.</div>
+          <div class="list-item"><strong>Mic Work</strong>Moving away from heavy trash talk but still elite on the microphone. Has used words to take opponents off their game consistently.</div>
+          <div class="list-item"><strong>Student of the Game</strong>Does not just strike left and right. Studies tape. Takes pride in being able to beat people in multiple styles.</div>
+        </div>
+        <div class="card"><div class="card-title">Weaknesses</div>
+          <div class="list-item"><strong>Overconfidence</strong>Gets full of himself. Underestimates opponents. When he starts feeling himself too much — things slide.</div>
+          <div class="list-item"><strong>Overthinking</strong>A student of the game who sometimes gets inside his own head. When he lets a match flow naturally, things go better.</div>
+          <div class="list-item"><strong>In-Ring Flashiness</strong>When he tries to be flashy for no reason — things go south. Plays back into the overconfidence. Vicious cycle.</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="two-col">
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Striking</span><span class="stat-num" style="color:#c42020">96</span></div><div class="stat-track"><div class="stat-fill" style="width:96%;background:#c42020"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Technical</span><span class="stat-num" style="color:#4a9eff">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#4a9eff"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Promo</span><span class="stat-num" style="color:#ff9f43">90</span></div><div class="stat-track"><div class="stat-fill" style="width:90%;background:#ff9f43"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Psychology</span><span class="stat-num" style="color:#4aff9e">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#4aff9e"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Ego Management</span><span class="stat-num" style="color:#606080">40</span></div><div class="stat-track"><div class="stat-fill" style="width:40%;background:#606080"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Tag Chemistry (w/ Devlin)</span><span class="stat-num" style="color:#c42020">92</span></div><div class="stat-track"><div class="stat-fill" style="width:92%;background:#c42020"></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Key Relationships</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Brennan Devlin — Tag Partner · Faction</div><div class="list-item">All-Night Demon Club. The Red Flag / Devlin-Guns. Two guys who are, by their own assessment, the best. The tag chemistry is real. The egos are enormous. It works anyway.</div></div>
+        <div class="card"><div class="card-title">Rivals — Everyone</div><div class="list-item">Flynn Howell specifically. The entire Howell family bloodline. Kelly Taylor. The entire Salaveas family tree. Essentially anyone who has ever doubted him publicly.</div></div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Silas Romero · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

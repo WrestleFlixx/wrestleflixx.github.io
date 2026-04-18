@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Road to WrestleMecca — Tournament Bracket</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --gold-dim: #7a6030;
+      --red: #d42b2b;
+      --bg: #080810;
+      --bg-mid: #0e0e1a;
+      --bg-card: #111120;
+      --text: #f2efe8;
+      --text-muted: #9090a8;
+      --text-dim: #444460;
+      --border: rgba(255,255,255,0.07);
+      --border-gold: rgba(201,168,76,0.3);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 60px;
+      background: rgba(8,8,16,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--gold); }
+
+    .nav-divider { width: 1px; height: 24px; background: var(--border); }
+
+    .nav-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: var(--text);
+    }
+
+    .nav-title span { color: var(--gold); }
+
+    .nav-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .view-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .view-btn.active, .view-btn:hover {
+      border-color: var(--border-gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: calc(60px + 3rem) 2rem 2.5rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .page-eyebrow::before, .page-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+
+    .page-eyebrow::after {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 96px);
+      letter-spacing: 3px;
+      line-height: 0.9;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-title span { color: var(--gold); }
+
+    .page-sub {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .page-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      color: var(--gold);
+      background: rgba(201,168,76,0.06);
+    }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    .dot-winner { background: var(--gold); }
+    .dot-tbd { background: var(--text-dim); }
+    .dot-champ { background: var(--red); }
+    .dot-open { background: transparent; border: 1px solid var(--text-dim); }
+
+    /* BRACKET CONTAINER */
+    .bracket-wrap {
+      overflow-x: auto;
+      padding: 2rem;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .bracket {
+      display: flex;
+      gap: 0;
+      min-width: 1400px;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+
+    /* ROUND */
+    .round {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 180px;
+    }
+
+    .round-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      padding: 6px 12px;
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      background: rgba(201,168,76,0.06);
+    }
+
+    .round-matches {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+
+    /* MATCH WRAPPER (includes connectors) */
+    .match-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    /* MATCH BOX */
+    .match {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      width: 160px;
+      margin: 0 10px;
+      flex-shrink: 0;
+      background: var(--bg-card);
+      transition: border-color 0.2s;
+    }
+
+    .match:hover { border-color: var(--border-gold); }
+
+    .competitor {
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.2s;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 34px;
+      line-height: 1.2;
+    }
+
+    .competitor:last-child { border-bottom: none; }
+
+    .competitor.winner {
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+      font-weight: 700;
+    }
+
+    .competitor.champion {
+      color: #fff;
+      background: rgba(212,43,43,0.15);
+      font-weight: 700;
+    }
+
+    .competitor.tbd {
+      color: var(--text-dim);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .competitor.open {
+      color: var(--text-dim);
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .seed {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      width: 14px;
+    }
+
+    .winner .seed { color: var(--gold-dim); }
+
+    /* Connector lines between rounds */
+    .connector {
+      width: 20px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    /* CHAMPION DISPLAY */
+    .champion-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 200px;
+      padding: 0 1rem;
+    }
+
+    .champ-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid rgba(212,43,43,0.4);
+      border-radius: 20px;
+      padding: 4px 12px;
+      margin-bottom: 1rem;
+      background: rgba(212,43,43,0.08);
+    }
+
+    .champ-card {
+      background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, var(--bg-card) 60%);
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(201,168,76,0.15);
+    }
+
+    .champ-trophy { font-size: 36px; margin-bottom: 0.5rem; }
+
+    .champ-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .champ-title {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* MATCH SPACERS for alignment */
+    .match-spacer {
+      height: 34px;
+    }
+
+    /* ===========================
+       BRACKET LAYOUT
+       We use a vertical spacing approach where each round
+       has 2x the spacing of the previous
+    =========================== */
+
+    .round-1 .match-group { margin: 4px 0; }
+    .round-2 .match-group { margin: 20px 0; }
+    .round-3 .match-group { margin: 53px 0; }
+    .round-4 .match-group { margin: 118px 0; }
+    .round-5 .match-group { margin: 0; }
+
+    .match-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* STATUS BOARD */
+    .status-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: border-color 0.2s;
+    }
+
+    .status-card:hover { border-color: var(--border-gold); }
+
+    .status-round {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .status-match {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .status-match:last-child { border-bottom: none; }
+
+    .status-vs {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      padding: 0 0.5rem;
+    }
+
+    .status-winner-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+      border: 1px solid var(--border-gold);
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .footer-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    .footer-back:hover { color: var(--gold-light); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-title"><span>WRESTLEMECCA</span> — Tournament Bracket</div>
+    <div class="nav-actions">
+      <button class="view-btn active" onclick="showView('bracket')">Bracket View</button>
+      <button class="view-btn" onclick="showView('list')">List View</button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-eyebrow">Road to WrestleMecca · Annual Tournament</div>
+    <h1 class="page-title">THE INFINITE<br/><span>CHAMPIONSHIP</span></h1>
+    <p class="page-sub">32 Competitors. 5 Rounds. One Champion.</p>
+    <div class="page-meta">
+      <span class="meta-chip">32-Person Bracket</span>
+      <span class="meta-chip">Single Elimination</span>
+      <span class="meta-chip">Fight 2 Win Qualifying</span>
+      <span class="meta-chip">Annual · WrestleMecca Island</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-winner"></div> Winner / Advanced</div>
+    <div class="legend-item"><div class="legend-dot dot-tbd"></div> TBD / Upcoming</div>
+    <div class="legend-item"><div class="legend-dot dot-champ"></div> Champion</div>
+    <div class="legend-item"><div class="legend-dot dot-open"></div> Open Slot</div>
+  </div>
+
+  <!-- BRACKET VIEW -->
+  <div id="bracket-view">
+    <div class="bracket-wrap">
+      <div class="bracket" id="bracket-container">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div id="list-view" style="display:none;">
+    <div class="status-section">
+      <div class="status-grid" id="list-container">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo"><span style="color:var(--gold)">W</span>restle<span style="color:var(--red)">Flix</span></div>
+    <div class="footer-text">WrestleMecca Tournament Bracket · Fight 2 Win Qualifying · The Road to the Infinite Championship</div>
+    <a href="/index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <script>
+    // ===========================
+    // TOURNAMENT DATA
+    // Edit competitors and results here
+    // status: 'winner' | 'tbd' | 'open' | 'champion'
+    // ===========================
+
+    const COMPETITORS = [
+      // Slot 1-32 — edit names and statuses as results come in
+      // Round 1 is seeded 1-32
+      { seed: 1,  name: 'Brennan Devlin',         status: 'winner' },
+      { seed: 2,  name: 'Cordelia Scott',          status: 'winner' },
+      { seed: 3,  name: 'Flynn Howell',            status: 'winner' },
+      { seed: 4,  name: 'Zack Fantana',            status: 'winner' },
+      { seed: 5,  name: 'Jove Belane',             status: 'winner' },
+      { seed: 6,  name: 'JD Driftwood',            status: 'winner' },
+      { seed: 7,  name: 'Skylar Wright-Virtue',    status: 'winner' },
+      { seed: 8,  name: 'BBC',                     status: 'winner' },
+      { seed: 9,  name: 'Bembe Brightwell',        status: 'winner' },
+      { seed: 10, name: 'Maddie Stokes',           status: 'winner' },
+      { seed: 11, name: 'Harper Vale',             status: 'winner' },
+      { seed: 12, name: 'Silas Romero',            status: 'winner' },
+      { seed: 13, name: 'Hatchet Gully',           status: 'winner' },
+      { seed: 14, name: 'A$hley Quid',             status: 'winner' },
+      { seed: 15, name: 'Warrick Hill',            status: 'winner' },
+      { seed: 16, name: 'Brenda Devlin',           status: 'winner' },
+      { seed: 17, name: 'Chris Frenzy',            status: 'tbd' },
+      { seed: 18, name: 'Dom DiBona',              status: 'tbd' },
+      { seed: 19, name: 'Matt Wright-Virtue',      status: 'tbd' },
+      { seed: 20, name: 'Ace Sky',                 status: 'tbd' },
+      { seed: 21, name: 'Gregg Peake',             status: 'tbd' },
+      { seed: 22, name: 'American Tommy',          status: 'tbd' },
+      { seed: 23, name: 'El Hijo del Señor Ass',   status: 'tbd' },
+      { seed: 24, name: 'The Mop',                 status: 'tbd' },
+      { seed: 25, name: 'William Dawson',          status: 'tbd' },
+      { seed: 26, name: 'Aokigahara Zombie',       status: 'tbd' },
+      { seed: 27, name: 'Jace Koufax',             status: 'tbd' },
+      { seed: 28, name: 'Onyx Busfin',             status: 'tbd' },
+      { seed: 29, name: 'Paris Nicole Jones',      status: 'tbd' },
+      { seed: 30, name: 'Mad Max',                 status: 'tbd' },
+      { seed: 31, name: 'Margo Sweet',             status: 'tbd' },
+      { seed: 32, name: 'Open',                    status: 'open' },
+    ];
+
+    // Round 2 results (winners of R1 matchups)
+    const R2 = [
+      { name: 'Brennan Devlin', status: 'winner' },
+      { name: 'Cordelia Scott', status: 'winner' },
+      { name: 'Flynn Howell',   status: 'winner' },
+      { name: 'Zack Fantana',   status: 'winner' },
+      { name: 'Jove Belane',    status: 'winner' },
+      { name: 'JD Driftwood',   status: 'winner' },
+      { name: 'BBC',            status: 'winner' },
+      { name: 'Bembe Brightwell', status: 'winner' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+    ];
+
+    // Round 3
+    const R3 = [
+      { name: 'Brennan Devlin', status: 'winner' },
+      { name: 'Zack Fantana',   status: 'winner' },
+      { name: 'Cordelia Scott', status: 'winner' },
+      { name: 'BBC',            status: 'winner' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+    ];
+
+    // Round 4 (Semi-finals)
+    const R4 = [
+      { name: 'Brennan Devlin', status: 'winner' },
+      { name: 'Cordelia Scott', status: 'winner' },
+      { name: 'TBD', status: 'tbd' },
+      { name: 'TBD', status: 'tbd' },
+    ];
+
+    // Final
+    const R5 = [
+      { name: 'Brennan Devlin', status: 'champion' },
+      { name: 'Cordelia Scott', status: 'tbd' },
+    ];
+
+    // Champion
+    const CHAMPION = { name: 'Brennan Devlin', title: 'Infinite Champion' };
+
+    // ===========================
+    // BRACKET BUILDER
+    // ===========================
+
+    function compClass(c) {
+      if (!c) return 'open';
+      return c.status || 'tbd';
+    }
+
+    function makeMatch(c1, c2) {
+      return `<div class="match">
+        <div class="competitor ${compClass(c1)}">
+          ${c1 && c1.seed ? `<span class="seed">${c1.seed}</span>` : ''}
+          ${c1 ? c1.name : 'Open'}
+        </div>
+        <div class="competitor ${compClass(c2)}">
+          ${c2 && c2.seed ? `<span class="seed">${c2.seed}</span>` : ''}
+          ${c2 ? c2.name : 'Open'}
+        </div>
+      </div>`;
+    }
+
+    function buildBracket() {
+      const container = document.getElementById('bracket-container');
+
+      // Round 1 — 16 matches
+      let r1HTML = `<div class="round round-1"><div class="round-label">Round of 32</div><div class="round-matches">`;
+      for (let i = 0; i < 32; i += 2) {
+        r1HTML += `<div class="match-group"><div class="match-wrap">${makeMatch(COMPETITORS[i], COMPETITORS[i+1])}</div></div>`;
+      }
+      r1HTML += `</div></div>`;
+
+      // Round 2 — 8 matches
+      let r2HTML = `<div class="round round-2"><div class="round-label">Round of 16</div><div class="round-matches">`;
+      for (let i = 0; i < 16; i += 2) {
+        r2HTML += `<div class="match-group"><div class="match-wrap">${makeMatch(R2[i], R2[i+1])}</div></div>`;
+      }
+      r2HTML += `</div></div>`;
+
+      // Round 3 — 4 matches
+      let r3HTML = `<div class="round round-3"><div class="round-label">Quarter Finals</div><div class="round-matches">`;
+      for (let i = 0; i < 8; i += 2) {
+        r3HTML += `<div class="match-group"><div class="match-wrap">${makeMatch(R3[i], R3[i+1])}</div></div>`;
+      }
+      r3HTML += `</div></div>`;
+
+      // Round 4 — Semi-finals
+      let r4HTML = `<div class="round round-4"><div class="round-label">Semi Finals</div><div class="round-matches">`;
+      for (let i = 0; i < 4; i += 2) {
+        r4HTML += `<div class="match-group"><div class="match-wrap">${makeMatch(R4[i], R4[i+1])}</div></div>`;
+      }
+      r4HTML += `</div></div>`;
+
+      // Final
+      let r5HTML = `<div class="round round-5"><div class="round-label">The Final</div><div class="round-matches">
+        <div class="match-group"><div class="match-wrap">${makeMatch(R5[0], R5[1])}</div></div>
+      </div></div>`;
+
+      // Champion
+      let champHTML = `<div class="champion-display">
+        <div class="champ-badge">Infinite Champion</div>
+        <div class="champ-card">
+          <div class="champ-trophy">🏆</div>
+          <div class="champ-name">${CHAMPION.name}</div>
+          <div class="champ-title">${CHAMPION.title}</div>
+        </div>
+      </div>`;
+
+      container.innerHTML = r1HTML + r2HTML + r3HTML + r4HTML + r5HTML + champHTML;
+    }
+
+    function buildList() {
+      const container = document.getElementById('list-container');
+      const rounds = [
+        { label: 'Round of 32', matches: [] },
+        { label: 'Round of 16', matches: [] },
+        { label: 'Quarter Finals', matches: [] },
+        { label: 'Semi Finals', matches: [] },
+        { label: 'The Final', matches: [] },
+      ];
+
+      // Build R1 matches
+      for (let i = 0; i < 32; i += 2) {
+        const c1 = COMPETITORS[i];
+        const c2 = COMPETITORS[i+1];
+        const w = c1.status === 'winner' ? c1.name : c2.status === 'winner' ? c2.name : null;
+        rounds[0].matches.push({ c1: c1.name, c2: c2.name, winner: w });
+      }
+
+      // R2
+      for (let i = 0; i < 16; i += 2) {
+        const c1 = R2[i], c2 = R2[i+1];
+        const w = c1.status === 'winner' ? c1.name : c2.status === 'winner' ? c2.name : null;
+        rounds[1].matches.push({ c1: c1.name, c2: c2.name, winner: w });
+      }
+
+      // R3
+      for (let i = 0; i < 8; i += 2) {
+        const c1 = R3[i], c2 = R3[i+1];
+        const w = c1.status === 'winner' ? c1.name : c2.status === 'winner' ? c2.name : null;
+        rounds[2].matches.push({ c1: c1.name, c2: c2.name, winner: w });
+      }
+
+      // R4
+      for (let i = 0; i < 4; i += 2) {
+        const c1 = R4[i], c2 = R4[i+1];
+        const w = c1.status === 'winner' ? c1.name : c2.status === 'winner' ? c2.name : null;
+        rounds[3].matches.push({ c1: c1.name, c2: c2.name, winner: w });
+      }
+
+      // Final
+      rounds[4].matches.push({
+        c1: R5[0].name, c2: R5[1].name,
+        winner: R5[0].status === 'champion' ? R5[0].name : R5[1].status === 'champion' ? R5[1].name : null
+      });
+
+      container.innerHTML = rounds.map(r => `
+        <div class="status-card">
+          <div class="status-round">${r.label}</div>
+          ${r.matches.map(m => `
+            <div class="status-match">
+              <span style="color:${m.winner === m.c1 ? 'var(--gold)' : 'var(--text-muted)'};">${m.c1}</span>
+              <span class="status-vs">vs</span>
+              <span style="color:${m.winner === m.c2 ? 'var(--gold)' : 'var(--text-muted)'};">${m.c2}</span>
+              ${m.winner ? `<span class="status-winner-tag">✓</span>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `).join('');
+    }
+
+    function showView(view) {
+      document.getElementById('bracket-view').style.display = view === 'bracket' ? 'block' : 'none';
+      document.getElementById('list-view').style.display = view === 'list' ? 'block' : 'none';
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    buildBracket();
+    buildList();
+  </script>
+</body>
+</html>

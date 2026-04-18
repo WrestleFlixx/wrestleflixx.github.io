@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WrestleFlix — Stream the Wrestling Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/wf.css"/>
+  <style>
+    /* Page-specific additions that don't belong in the shared sheet */
+
+    /* Search overlay */
+    .search-bar {
+      position: absolute; top: 68px; left: 0; right: 0; z-index: 400;
+      background: rgba(20,20,20,.98); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--wf-border); padding: 1rem var(--gutter);
+      display: none; gap: 1rem; align-items: center;
+    }
+    .search-bar.open { display: flex; }
+    .search-input {
+      flex: 1; background: var(--wf-surface); border: 1px solid var(--wf-border);
+      border-radius: 4px; padding: 10px 16px; color: var(--wf-off);
+      font-size: 15px; font-family: var(--ff-body); outline: none;
+    }
+    .search-input:focus { border-color: rgba(255,255,255,.2); }
+    .search-input::placeholder { color: var(--wf-dim); }
+    .search-close { background: none; border: none; color: var(--wf-muted); cursor: pointer; font-size: 20px; line-height: 1; }
+    .search-results {
+      position: fixed; top: 128px; left: 0; right: 0; bottom: 0; z-index: 390;
+      background: rgba(20,20,20,.96); backdrop-filter: blur(16px);
+      padding: 2rem var(--gutter); overflow-y: auto; display: none;
+    }
+    .search-results.open { display: block; }
+    .search-results-label { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--wf-dim); margin-bottom: 1.5rem; }
+    .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+    .search-card { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: 4px; padding: 1rem; cursor: pointer; transition: border-color .2s; }
+    .search-card:hover { border-color: rgba(255,255,255,.2); }
+    .search-card-em { font-size: 24px; margin-bottom: .5rem; }
+    .search-card-title { font-size: 13px; font-weight: 600; color: var(--wf-off); margin-bottom: 3px; }
+    .search-card-type { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--wf-dim); }
+
+    /* Hero slide backgrounds — CSS until real images land */
+    .slide-mecca   { background: radial-gradient(ellipse 80% 80% at 65% 35%, #2a1800, #0a0602); }
+    .slide-invader { background: radial-gradient(ellipse 80% 80% at 65% 35%, #001428, #020408); }
+    .slide-fma     { background: radial-gradient(ellipse 80% 80% at 65% 35%, #141414, #060606); }
+    .slide-graps   { background: radial-gradient(ellipse 80% 80% at 65% 35%, #1c0404, #050202); }
+    .slide-howell  { background: radial-gradient(ellipse 80% 80% at 65% 35%, #150412, #070306); }
+
+    /* "Top 10" number style */
+    .top10-num {
+      position: absolute; left: -10px; bottom: -4px;
+      font-family: var(--ff-display); font-size: 88px; line-height: 1;
+      color: transparent; -webkit-text-stroke: 3px rgba(255,255,255,.18);
+      z-index: 2; pointer-events: none; user-select: none;
+    }
+
+    /* Fed card (landscape) */
+    .wf-fed-card {
+      flex: 0 0 380px; height: 214px; border-radius: var(--card-r);
+      overflow: hidden; position: relative; cursor: pointer; flex-shrink: 0;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .wf-fed-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.7); z-index: 30; }
+    .wf-fed-card .wf-img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0; border: none; }
+    .wf-fed-card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.2) 60%, transparent 100%); z-index: 1; }
+    .wf-fed-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem 1.25rem; z-index: 2; }
+    .wf-fed-card-tag  { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+    .wf-fed-card-name { font-family: var(--ff-display); font-size: 28px; letter-spacing: 2px; line-height: 1; margin-bottom: 3px; color: var(--wf-off); }
+    .wf-fed-card-sub  { font-size: 12px; color: rgba(229,229,229,.55); }
+
+    /* Placeholder gradient fills for fed cards */
+    .bg-mecca    { background: radial-gradient(ellipse 80% 80% at 60% 40%, #2a1800, #0a0600); }
+    .bg-aftershock { background: radial-gradient(ellipse 80% 80% at 60% 40%, #1a0040, #060012); }
+    .bg-f2w      { background: radial-gradient(ellipse 80% 80% at 60% 40%, #1a0010, #080008); }
+    .bg-ccwssw   { background: radial-gradient(ellipse 80% 80% at 60% 40%, #0a0820, #040210); }
+    .bg-dg       { background: radial-gradient(ellipse 80% 80% at 60% 40%, #1c0404, #060202); }
+    .bg-awe      { background: radial-gradient(ellipse 80% 80% at 60% 40%, #021828, #020608); }
+    .bg-valor    { background: radial-gradient(ellipse 80% 80% at 60% 40%, #14062a, #060210); }
+    .bg-paw      { background: radial-gradient(ellipse 80% 80% at 60% 40%, #081808, #020802); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="wf-nav" id="navbar">
+  <a href="/index.html" class="wf-nav-logo"><span class="r">W</span><span class="g">restle</span><span class="r">Flix</span></a>
+  <div class="wf-nav-links">
+    <a href="#active">Active Brands</a>
+    <a href="#originals">Originals</a>
+    <a href="#legacy">Archive</a>
+    <a href="/brands/aftershock.html" style="color:#a060ff;font-weight:600">⚡ Aftershock</a>
+  </div>
+  <div class="wf-nav-right">
+    <button class="wf-nav-btn" onclick="toggleSearch()" aria-label="Search">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+  <div class="search-bar" id="searchBar">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search shows, wrestlers, brands..." oninput="doSearch(this.value)" autocomplete="off"/>
+    <button class="search-close" onclick="toggleSearch()">✕</button>
+  </div>
+</nav>
+
+<!-- ═══ ROTATING HERO ═══ -->
+<section class="wf-hero" id="hero">
+
+  <!-- Slide 1: WrestleMecca -->
+  <div class="wf-hero-slide active" id="slide-0">
+    <div class="wf-hero-slide-art ph slide-mecca">
+      <!-- REPLACE: <img class="wf-img-el" src="img/hero-wrestlemecca.jpg" alt="WrestleMecca"/> -->
+    </div>
+    <div class="wf-hero-slide-bg"></div>
+    <div class="wf-hero-content">
+      <div class="wf-hero-badge"><span class="wf-hero-badge-dot"></span>WrestleFlix Original Series</div>
+      <h1 class="wf-hero-title" style="color:#c9a84c;text-shadow:0 0 60px rgba(201,168,76,.4)">WRESTLE<br/>MECCA</h1>
+      <p class="wf-hero-sub">Where Wishes Are Granted. Where Reality Is Rewritten.</p>
+      <p class="wf-hero-desc">Brennan Devlin made his wish here. The timeline has never recovered. Three events. One championship. Everything changes.</p>
+      <div class="wf-hero-actions">
+        <a href="/shows/wrestlemecca.html" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch Now</a>
+        <a href="/shows/wrestlemecca.html" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+      </div>
+      <div class="wf-hero-meta">
+        <span class="wf-hero-meta-badge">WF Original</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">3 Events</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">PPV · Timeline Altering</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-maturity">TV-MA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: inVader -->
+  <div class="wf-hero-slide" id="slide-1">
+    <div class="wf-hero-slide-art ph slide-invader">
+      <!-- REPLACE: <img class="wf-img-el" src="img/hero-invader.jpg" alt="inVader"/> -->
+    </div>
+    <div class="wf-hero-slide-bg"></div>
+    <div class="wf-hero-content">
+      <div class="wf-hero-badge"><span class="wf-hero-badge-dot"></span>WrestleFlix Original Series</div>
+      <h1 class="wf-hero-title" style="color:#00e5ff;text-shadow:0 0 60px rgba(0,229,255,.4)">inVader</h1>
+      <p class="wf-hero-sub">Vessel: Jessica Smith. Warrior's Drink: Prune Juice.</p>
+      <p class="wf-hero-desc">A cosmic entity of ancient and terrible power has been banished into the body of a professional wrestler. She has a roommate. This is their show.</p>
+      <div class="wf-hero-actions">
+        <a href="/shows/invader-series.html" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play Now</a>
+        <a href="/shows/invader-series.html" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+      </div>
+      <div class="wf-hero-meta">
+        <span class="wf-hero-meta-badge">WF Original</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">S1 · 3 Episodes</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">Sci-Fi · Cosmic Horror</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-maturity">TV-MA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: French Mime Assassins -->
+  <div class="wf-hero-slide" id="slide-2">
+    <div class="wf-hero-slide-art ph slide-fma">
+      <!-- REPLACE: <img class="wf-img-el" src="img/hero-fma.jpg" alt="French Mime Assassins"/> -->
+    </div>
+    <div class="wf-hero-slide-bg"></div>
+    <div class="wf-hero-content">
+      <div class="wf-hero-badge"><span class="wf-hero-badge-dot"></span>WrestleFlix Original Series</div>
+      <h1 class="wf-hero-title">THE FRENCH<br/>MIME ASSASSINS</h1>
+      <p class="wf-hero-sub">A Francis Ford Cuppola Production. They Do Not Speak. They Do Not Lose.</p>
+      <p class="wf-hero-desc">Two world-class mimes enter a wrestling tournament. Nobody understands why they're here. Nobody can stop them. 13 episodes of absolute silence.</p>
+      <div class="wf-hero-actions">
+        <a href="/shows/french-mime-assassins.html" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play Episode 1</a>
+        <a href="/shows/french-mime-assassins.html" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+      </div>
+      <div class="wf-hero-meta">
+        <span class="wf-hero-meta-badge">WF Original</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">S1 · 13 Episodes</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">Comedy · Wrestling</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-maturity">TV-MA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Death Graps -->
+  <div class="wf-hero-slide" id="slide-3">
+    <div class="wf-hero-slide-art ph slide-graps">
+      <!-- REPLACE: <img class="wf-img-el" src="img/hero-deathgraps.jpg" alt="Death Graps"/> -->
+    </div>
+    <div class="wf-hero-slide-bg"></div>
+    <div class="wf-hero-content">
+      <div class="wf-hero-badge"><span class="wf-hero-badge-dot"></span>Death Graps Wrestling</div>
+      <h1 class="wf-hero-title" style="color:#e05020;text-shadow:4px 4px 0 rgba(139,0,0,.4)">DEATH<br/>GRAPS</h1>
+      <p class="wf-hero-sub">No Rules. No Guardrails. No Regrets.</p>
+      <p class="wf-hero-desc">The rawest, most unfiltered wrestling on WrestleFlix. Light tubes are not decorative. The post-match ambulance is considered a good night.</p>
+      <div class="wf-hero-actions">
+        <a href="/shows/death-graps-series.html" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch Now</a>
+        <a href="/shows/death-graps-series.html" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+      </div>
+      <div class="wf-hero-meta">
+        <span class="wf-hero-meta-badge">Death Graps Wrestling</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">Season 1</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">Deathmatch · Hardcore</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-maturity">TV-MA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Howell Are You Doing -->
+  <div class="wf-hero-slide" id="slide-4">
+    <div class="wf-hero-slide-art ph slide-howell">
+      <!-- REPLACE: <img class="wf-img-el" src="img/hero-howell.jpg" alt="Howell Are You Doing"/> -->
+    </div>
+    <div class="wf-hero-slide-bg"></div>
+    <div class="wf-hero-content">
+      <div class="wf-hero-badge"><span class="wf-hero-badge-dot"></span>Red Lock Legion Productions</div>
+      <h1 class="wf-hero-title" style="font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(44px,7vw,88px);color:#ff3878">Howell Are<br/>You Doing?</h1>
+      <p class="wf-hero-sub">Hosted by Scarlett Howell. Sponsored by Seven Oaks Winery.</p>
+      <p class="wf-hero-desc">The fastest-growing wrestling talk show, according to Scarlett's agent. Brennan Devlin. Silas Romero. Coco Lazlo. Seven guests. Two red chairs.</p>
+      <div class="wf-hero-actions">
+        <a href="/shows/howell-are-you-doing.html" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play Episode 1</a>
+        <a href="/shows/howell-are-you-doing.html" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+      </div>
+      <div class="wf-hero-meta">
+        <span class="wf-hero-meta-badge">WF Original</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">S1 · 7 Episodes</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-hero-meta-item">Talk Show · Interview</span>
+        <span class="wf-hero-meta-dot">·</span><span class="wf-maturity">TV-14</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination dots -->
+  <div class="wf-hero-dots">
+    <button class="wf-hero-dot active"></button>
+    <button class="wf-hero-dot"></button>
+    <button class="wf-hero-dot"></button>
+    <button class="wf-hero-dot"></button>
+    <button class="wf-hero-dot"></button>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="wf-ticker">
+  <div class="wf-ticker-inner">
+    <div class="wf-ticker-item">WrestleMecca · 3 Events · Wish Mechanism · Brad Stokes GM</div>
+    <div class="wf-ticker-item">inVader · Formerly Nexophel · Destroyer of the Ornara Cluster · Prune Juice</div>
+    <div class="wf-ticker-item">French Mime Assassins · S1 · 13 Episodes · They Do Not Speak</div>
+    <div class="wf-ticker-item">Death Graps · No Rules · Light Tubes Are Not Decorative</div>
+    <div class="wf-ticker-item">Howell Are You Doing · Sponsored By Seven Oaks Winery</div>
+    <div class="wf-ticker-item">CCW × SSW · 100 Year Anniversary · All Championships On The Line</div>
+    <div class="wf-ticker-item">Valor Pro Blitz · S1 · 7 Events · Brodie: I Am The Rabbit</div>
+    <div class="wf-ticker-item">AWE Massacre · S1 · 10 Episodes · The Belt Is Somewhere</div>
+    <div class="wf-ticker-item">WrestleMecca · 3 Events · Wish Mechanism · Brad Stokes GM</div>
+    <div class="wf-ticker-item">inVader · Formerly Nexophel · Destroyer of the Ornara Cluster · Prune Juice</div>
+    <div class="wf-ticker-item">French Mime Assassins · S1 · 13 Episodes · They Do Not Speak</div>
+    <div class="wf-ticker-item">Death Graps · No Rules · Light Tubes Are Not Decorative</div>
+    <div class="wf-ticker-item">Howell Are You Doing · Sponsored By Seven Oaks Winery</div>
+    <div class="wf-ticker-item">CCW × SSW · 100 Year Anniversary · All Championships On The Line</div>
+    <div class="wf-ticker-item">Valor Pro Blitz · S1 · 7 Events · Brodie: I Am The Rabbit</div>
+    <div class="wf-ticker-item">AWE Massacre · S1 · 10 Episodes · The Belt Is Somewhere</div>
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="wf-content">
+
+  <!-- ACTIVE BRANDS -->
+  <section class="wf-section" id="active" style="margin-top:2rem">
+    <div class="wf-section-head"><h2 class="wf-section-title">Active Brands</h2><span class="wf-section-link">Browse all ›</span></div>
+    <div class="wf-section-body">
+      <div class="wf-row-wrap">
+        <div class="wf-row">
+
+          <a href="/shows/wrestlemecca.html" class="wf-fed-card" style="flex:0 0 400px">
+            <div class="wf-img bg-mecca" data-type="poster" data-label="380×214 · Brand Banner">
+              <!-- REPLACE: <img class="wf-img-el" src="img/brand-wrestlemecca.jpg" alt="WrestleMecca"/> -->
+            </div>
+            <div class="wf-fed-card-overlay"></div>
+            <span class="wf-badge wf-badge-orig" style="top:10px;right:10px">PPV SERIES</span>
+            <div class="wf-fed-card-content">
+              <div class="wf-fed-card-tag" style="color:#c9a84c">The Infinite Championship</div>
+              <div class="wf-fed-card-name" style="color:#c9a84c">WRESTLEMECCA</div>
+              <div class="wf-fed-card-sub">3 Events · Wish Mechanism · GM: Brad Stokes</div>
+            </div>
+          </a>
+
+          <a href="/brands/aftershock.html" class="wf-fed-card">
+            <div class="wf-img bg-aftershock" data-type="poster" data-label="380×214 · Brand Banner">
+              <!-- REPLACE: <img class="wf-img-el" src="img/brand-aftershock.jpg" alt="Aftershock"/> -->
+            </div>
+            <div class="wf-fed-card-overlay"></div>
+            <span class="wf-badge wf-badge-live">LIVE</span>
+            <div class="wf-fed-card-content">
+              <div class="wf-fed-card-tag" style="color:#a060ff">WrestleFlix Sub-Brand</div>
+              <div class="wf-fed-card-name" style="color:#a060ff">AFTERSHOCK</div>
+              <div class="wf-fed-card-sub">Bi-Weekly · F2W Universe</div>
+            </div>
+          </a>
+
+          <a href="/brands/fight-2-win.html" class="wf-fed-card">
+            <div class="wf-img bg-f2w" data-type="poster" data-label="380×214 · Brand Banner">
+              <!-- REPLACE: <img class="wf-img-el" src="img/brand-f2w.jpg" alt="Fight 2 Win"/> -->
+            </div>
+            <div class="wf-fed-card-overlay"></div>
+            <span class="wf-badge wf-badge-live">ACTIVE</span>
+            <div class="wf-fed-card-content">
+              <div class="wf-fed-card-tag" style="color:#d42b2b">Fight 2 Win City</div>
+              <div class="wf-fed-card-name">FIGHT 2 WIN</div>
+              <div class="wf-fed-card-sub">Lana Cuppola · WrestleFlix Original</div>
+            </div>
+          </a>
+
+          <a href="/brands/ccw.html" class="wf-fed-card">
+            <div class="wf-img bg-ccwssw" data-type="poster" data-label="380×214 · Brand Banner">
+              <!-- REPLACE: <img class="wf-img-el" src="img/brand-ccw.jpg" alt="CCW"/> -->
+            </div>
+            <div class="wf-fed-card-overlay"></div>
+            <span class="wf-badge wf-badge-new">100 YEAR ANNIV</span>
+            <div class="wf-fed-card-content">
+              <div class="wf-fed-card-tag" style="color:#c9a84c">Brennan Devlin's CCW × SSW</div>
+              <div class="wf-fed-card-name">CCW / SSW</div>
+              <div class="wf-fed-card-sub">Christ-Centered &amp; Satan-Slanted Wrestling</div>
+            </div>
+          </a>
+
+          <a href="/shows/death-graps-series.html" class="wf-fed-card">
+            <div class="wf-img bg-dg" data-type="poster" data-label="380×214 · Brand Banner">
+              <!-- REPLACE: <img class="wf-img-el" src="img/brand-deathgraps.jpg" alt="Death Graps"/> -->
+            </div>
+            <div class="wf-fed-card-overlay"></div>
+            <span class="wf-badge wf-badge-live">NO RULES</span>
+            <div class="wf-fed-card-content">
+              <div class="wf-fed-card-tag" style="color:#e05020">Death Graps Wrestling</div>
+              <div class="wf-fed-card-name">DEATH GRAPS</div>
+              <div class="wf-fed-card-sub">Hardcore · No Guardrails · Deathmatch</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRESTLEFLIX ORIGINALS -->
+  <section class="wf-section" id="originals">
+    <div class="wf-section-head"><h2 class="wf-section-title">WrestleFlix Originals</h2><span class="wf-section-link">See all ›</span></div>
+    <div class="wf-section-body">
+      <div class="wf-row-wrap">
+        <div class="wf-row">
+
+          <!-- FMA -->
+          <a href="/shows/french-mime-assassins.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-fma.jpg" alt="French Mime Assassins"/> -->
+            </div>
+            <span class="wf-badge wf-badge-orig">ORIGINAL</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">French Mime Assassins</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">S1 · 13 Ep</span><span class="wf-expand-pill">Comedy</span><span class="wf-expand-pill">TV-MA</span></div>
+              <div class="wf-expand-desc">Two world-class mimes enter a wrestling tournament. They do not speak. They do not lose. Francis Ford Cuppola thinks he's managing them.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">French Mime Assassins</div>
+              <div class="wf-card-meta">S1 · 13 EPISODES</div>
+            </div>
+          </a>
+
+          <!-- inVader -->
+          <a href="/shows/invader-series.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-invader.jpg" alt="inVader"/> -->
+            </div>
+            <span class="wf-badge wf-badge-orig">ORIGINAL</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">inVader</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">S1 · 3 Ep</span><span class="wf-expand-pill">Sci-Fi</span><span class="wf-expand-pill">TV-MA</span></div>
+              <div class="wf-expand-desc">Cosmic entity Nexophel is banished into wrestler Jessie Smith's body. Her roommate Riley brings the prune juice. This is the show.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">inVader</div>
+              <div class="wf-card-meta">S1 · 3 EPISODES · ONGOING</div>
+            </div>
+          </a>
+
+          <!-- Death Graps -->
+          <a href="/shows/death-graps-series.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-deathgraps.jpg" alt="Death Graps"/> -->
+            </div>
+            <span class="wf-badge wf-badge-live">NO RULES</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">DEATH GRAPS</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">Season 1</span><span class="wf-expand-pill">Hardcore</span><span class="wf-expand-pill">TV-MA</span></div>
+              <div class="wf-expand-desc">No guardrails. No commentary table is safe. No light tube is decorative. Silas Romero. JD Driftwood. inVader. Death Graps Classic.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">DEATH GRAPS</div>
+              <div class="wf-card-meta">SEASON 1</div>
+            </div>
+          </a>
+
+          <!-- Howell -->
+          <a href="/shows/howell-are-you-doing.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-howell.jpg" alt="Howell Are You Doing"/> -->
+            </div>
+            <span class="wf-badge wf-badge-orig">ORIGINAL</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">Howell Are You Doing?</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">S1 · 7 Ep</span><span class="wf-expand-pill">Talk Show</span><span class="wf-expand-pill">TV-14</span></div>
+              <div class="wf-expand-desc">Scarlett Howell. Two red chairs. Seven wrestlers. Sponsored by Seven Oaks Winery. Fastest-growing podcast in wrestling per her agent.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">Howell Are You Doing?</div>
+              <div class="wf-card-meta">S1 · 7 EPISODES</div>
+            </div>
+          </a>
+
+          <!-- WrestleMecca -->
+          <a href="/shows/wrestlemecca.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-wrestlemecca.jpg" alt="WrestleMecca"/> -->
+            </div>
+            <span class="wf-badge wf-badge-orig" style="background:rgba(201,168,76,.2);color:#c9a84c;border-color:rgba(201,168,76,.4)">PPV</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">WrestleMecca</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">3 Events</span><span class="wf-expand-pill">PPV</span><span class="wf-expand-pill">TV-MA</span></div>
+              <div class="wf-expand-desc">The annual PPV where reality can be rewritten. Brennan Devlin made his wish. The timeline changed. F2W City was built from the wreckage.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">WrestleMecca</div>
+              <div class="wf-card-meta">3 EVENTS · PPV SERIES</div>
+            </div>
+          </a>
+
+          <!-- William Dawson Christmas Special -->
+          <a href="/shows/william-dawson-christmas-special.html" class="wf-card wf-card-poster">
+            <div class="wf-img" data-ratio="2-3" data-type="poster" data-label="185×278 · Show Poster">
+              <!-- REPLACE: <img class="wf-img-el" src="img/poster-christmas.jpg" alt="William Dawson Christmas Special"/> -->
+            </div>
+            <span class="wf-badge wf-badge-new">HOLIDAY</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-expand">
+              <div class="wf-expand-title">William Dawson's Christmas Special</div>
+              <div class="wf-expand-meta"><span class="wf-expand-pill">One Night</span><span class="wf-expand-pill">PAW</span><span class="wf-expand-pill">TV-PG</span></div>
+              <div class="wf-expand-desc">Post-heart-surgery William Dawson dresses as Santa and hosts three holiday wrestling competitions. This is genuine. He wants to give back.</div>
+              <div class="wf-expand-actions">
+                <button class="wf-expand-btn wf-expand-btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</button>
+                <button class="wf-expand-btn wf-expand-btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</button>
+              </div>
+            </div>
+            <div class="wf-card-foot">
+              <div class="wf-card-title">William Dawson's Christmas Special</div>
+              <div class="wf-card-meta">HOLIDAY SPECIAL · PAW</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED CHARACTERS — Top 10 style -->
+  <section class="wf-section" id="characters">
+    <div class="wf-section-head"><h2 class="wf-section-title">Featured Characters</h2></div>
+    <div class="wf-section-body">
+      <div class="wf-row-wrap">
+        <div class="wf-row">
+
+          <!-- Each character card has the Top 10 number behind it -->
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">1</span>
+            <a href="/characters/brennan-devlin.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-brennan-devlin.jpg" alt="Brennan Devlin"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Brennan Devlin</div><div class="wf-card-meta">CCW · SSW · F2W · 51-0</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">2</span>
+            <a href="/characters/anastasia-hayden.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-anastasia-hayden.jpg" alt="Anastasia Hayden"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Anastasia Hayden</div><div class="wf-card-meta">F2W · 12x CHAMPION</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">3</span>
+            <a href="/characters/invader.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-invader.jpg" alt="inVader"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">inVader</div><div class="wf-card-meta">COSMIC ENTITY · PRUNE JUICE</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">4</span>
+            <a href="/characters/zack-fantana.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-zack-fantana.jpg" alt="Zack Fantana"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Zack Fantana</div><div class="wf-card-meta">LIVES IN THE MOP</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">5</span>
+            <a href="/characters/kassandrah.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-kassandrah.jpg" alt="Kassandrah"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Kassandrah</div><div class="wf-card-meta">AWE COO · FEB 30 1930</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">6</span>
+            <a href="/characters/rickie-flare.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-rickie-flare.jpg" alt="Rickie Flare"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Rickie Flare</div><div class="wf-card-meta">16x WORLD CHAMPION · WOO!</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">7</span>
+            <a href="/characters/gwenevere.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-gwenevere.jpg" alt="Gwenevere"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Gwenevere</div><div class="wf-card-meta">S-TIER · CLASS-3 RISK</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">8</span>
+            <a href="/characters/silas-romero.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-silas-romero.jpg" alt="Silas Romero"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Silas Romero</div><div class="wf-card-meta">KNOCKOUT SUPREME</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num">9</span>
+            <a href="/characters/stabitha.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-stabitha.jpg" alt="Stabitha"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">Stabitha</div><div class="wf-card-meta">VOID CREATURE · CENTURIES OLD</div></div>
+            </a>
+          </div>
+
+          <div style="position:relative;flex-shrink:0;padding-left:40px">
+            <span class="top10-num" style="font-size:72px">10</span>
+            <a href="/characters/jd-driftwood.html" class="wf-card wf-card-char" style="flex:none">
+              <div class="wf-img" data-ratio="2-3" data-type="character" data-label="150×225 · Character">
+                <!-- REPLACE: <img class="wf-img-el" src="img/char-jd-driftwood.jpg" alt="JD Driftwood"/> -->
+              </div>
+              <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <div class="wf-card-foot"><div class="wf-card-title">JD Driftwood</div><div class="wf-card-meta">KEY WEST · 300 LBS</div></div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE / LEGACY -->
+  <section class="wf-section" id="legacy">
+    <div class="wf-section-head"><h2 class="wf-section-title">Archive — Legacy Promotions</h2></div>
+    <div class="wf-section-body">
+      <div class="wf-row-wrap">
+        <div class="wf-row">
+
+          <a href="/shows/awe-massacre.html" class="wf-card wf-card-land">
+            <div class="wf-img" data-ratio="16-9" data-type="thumb" data-label="300×168 · Episode Thumb">
+              <!-- REPLACE: <img class="wf-img-el" src="img/thumb-awe.jpg" alt="AWE Massacre"/> -->
+            </div>
+            <span class="wf-badge wf-badge-arch">LEGACY</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-card-foot">
+              <div class="wf-card-eyebrow">Alpha Wrestling Empire · 2016–2017</div>
+              <div class="wf-card-title">AWE Massacre</div>
+              <div class="wf-card-desc">The weekly broadcast of the AWE. Francis Ford Cuppola. Kassandrah. Thirteen. The Resilience Championship is missing. T.S. was abducted by aliens via a telescope.</div>
+            </div>
+          </a>
+
+          <a href="/shows/valor-pro-blitz.html" class="wf-card wf-card-land">
+            <div class="wf-img" data-ratio="16-9" data-type="thumb" data-label="300×168 · Episode Thumb">
+              <!-- REPLACE: <img class="wf-img-el" src="img/thumb-valorpro.jpg" alt="Valor Pro Blitz"/> -->
+            </div>
+            <span class="wf-badge wf-badge-arch">LEGACY</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-card-foot">
+              <div class="wf-card-eyebrow">Valor Pro Wrestling · 2018</div>
+              <div class="wf-card-title">Valor Pro Blitz</div>
+              <div class="wf-card-desc">VPW goes international. Cosmo Cooper arrives. Brodie paints a rabbit on a parking lot wall. Elina Cartel becomes the first APEX Champion.</div>
+            </div>
+          </a>
+
+          <a href="/archive/paw.html" class="wf-card wf-card-land">
+            <div class="wf-img" data-ratio="16-9" data-type="thumb" data-label="300×168 · Episode Thumb">
+              <!-- REPLACE: <img class="wf-img-el" src="img/thumb-paw.jpg" alt="Pure Amusement Wrestling"/> -->
+            </div>
+            <span class="wf-badge wf-badge-arch">LEGACY</span>
+            <div class="wf-play-overlay"><div class="wf-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <div class="wf-card-foot">
+              <div class="wf-card-eyebrow">Pure Amusement Wrestling · Purity, Louisiana</div>
+              <div class="wf-card-title">Pure Amusement Wrestling</div>
+              <div class="wf-card-desc">Where the French Mime Assassins got their start. Where the ghost stories live. Where William Dawson's Christmas Special took place.</div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="wf-footer">
+  <div class="wf-footer-logo">WRESTLEFLIX</div>
+  <div class="wf-footer-grid">
+    <div class="wf-footer-col">
+      <h4>Active Brands</h4>
+      <a href="/shows/wrestlemecca.html">WrestleMecca</a>
+      <a href="/brands/aftershock.html">Aftershock</a>
+      <a href="/brands/fight-2-win.html">Fight 2 Win</a>
+      <a href="/brands/ccw.html">CCW</a>
+      <a href="/brands/ssw.html">SSW</a>
+      <a href="/shows/death-graps-series.html">Death Graps</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>WF Originals</h4>
+      <a href="/shows/french-mime-assassins.html">French Mime Assassins</a>
+      <a href="/shows/invader-series.html">inVader</a>
+      <a href="/shows/howell-are-you-doing.html">Howell Are You Doing?</a>
+      <a href="/shows/william-dawson-christmas-special.html">Christmas Special</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>Archive</h4>
+      <a href="/shows/awe-massacre.html">AWE Massacre</a>
+      <a href="/shows/valor-pro-blitz.html">Valor Pro Blitz</a>
+      <a href="/archive/awe.html">AWE History</a>
+      <a href="/archive/valorpro.html">Valor Pro History</a>
+      <a href="/archive/paw.html">Pure Amusement Wrestling</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>Info</h4>
+      <a href="/rosters/wrestlemecca-bracket.html">WrestleMecca Bracket</a>
+      <a href="/brands/aftershock.html">Aftershock Rules</a>
+    </div>
+  </div>
+  <div class="wf-footer-bottom">
+    <span class="wf-footer-copy">© WrestleFlix · wrestleflixx.github.io</span>
+    <span class="wf-footer-copy">Francis Ford Cuppola does not know what 7 is in Spanish.</span>
+  </div>
+</footer>
+
+<!-- SEARCH RESULTS -->
+<div class="search-results" id="searchResults">
+  <div class="search-results-label" id="searchLabel">Results</div>
+  <div class="search-grid" id="searchGrid"></div>
+</div>
+
+<script src="/js/wf.js"></script>
+<script>
+const CATALOG = [
+  {t:'French Mime Assassins',s:'S1 · 13 Ep · Comedy Wrestling',e:'🎭',url:'french-mime-assassins.html',type:'ORIGINAL'},
+  {t:'inVader',s:'S1 · 3 Ep · Sci-Fi Wrestling',e:'👽',url:'invader-series.html',type:'ORIGINAL'},
+  {t:'Howell Are You Doing?',s:'S1 · 7 Ep · Talk Show',e:'🎙️',url:'howell-are-you-doing.html',type:'ORIGINAL'},
+  {t:'Death Graps',s:'Season 1 · Hardcore',e:'💀',url:'death-graps-series.html',type:'ORIGINAL'},
+  {t:'WrestleMecca',s:'3 Events · PPV',e:'🏆',url:'wrestlemecca.html',type:'PPV'},
+  {t:"William Dawson's Christmas Special",s:'Holiday · PAW',e:'🎅',url:'william-dawson-christmas-special.html',type:'SPECIAL'},
+  {t:'AWE Massacre',s:'S1 · 10 Ep · 2016–17',e:'📺',url:'awe-massacre.html',type:'LEGACY'},
+  {t:'Valor Pro Blitz',s:'S1 · 7 Events · 2018',e:'🌍',url:'valor-pro-blitz.html',type:'LEGACY'},
+  {t:'Aftershock',s:'Active Sub-Brand',e:'⚡',url:'aftershock.html',type:'BRAND'},
+  {t:'CCW',s:'Christ-Centered Wrestling',e:'✝',url:'ccw.html',type:'BRAND'},
+  {t:'SSW',s:'Satan-Slanted Wrestling',e:'🔥',url:'ssw.html',type:'BRAND'},
+  {t:'Fight 2 Win',s:'F2W Roster',e:'👊',url:'roster-f2w.html',type:'BRAND'},
+  {t:'AWE',s:'Alpha Wrestling Empire Archive',e:'👑',url:'awe.html',type:'ARCHIVE'},
+  {t:'Valor Pro',s:'Valor Pro History',e:'⚔️',url:'valorpro.html',type:'ARCHIVE'},
+  {t:'PAW',s:'Pure Amusement Wrestling',e:'🎡',url:'paw.html',type:'ARCHIVE'},
+  {t:'Brennan Devlin',s:'CCW · SSW · 51-0',e:'😎',url:'character-brennan-devlin.html',type:'CHARACTER'},
+  {t:'Kassandrah',s:'AWE COO · Feb 30 1930',e:'🔮',url:'character-kassandrah.html',type:'CHARACTER'},
+  {t:'inVader',s:'Cosmic Entity · Prune Juice',e:'👽',url:'character-invader.html',type:'CHARACTER'},
+  {t:'Anastasia Hayden',s:'12x Champion',e:'🩸',url:'character-anastasia-hayden.html',type:'CHARACTER'},
+  {t:'Zack Fantana',s:'Lives in The Mop',e:'🧹',url:'character-zack-fantana.html',type:'CHARACTER'},
+  {t:'Rickie Flare',s:'16x World Champion · WOO!',e:'🦚',url:'character-rickie-flare.html',type:'CHARACTER'},
+  {t:'Gwenevere',s:'S-Tier · Class-3 Risk',e:'🌿',url:'character-gwenevere.html',type:'CHARACTER'},
+  {t:'Red Lock Legion',s:'Cardiff Wales · Howell Family',e:'🔴',url:'character-red-lock-legion.html',type:'CHARACTER'},
+  {t:'Maddie Stokes',s:"Brad's Daughter · Complete Champion",e:'🍁',url:'character-maddie-stokes.html',type:'CHARACTER'},
+  {t:'Stabitha',s:'Void Creature · Centuries Old',e:'🔪',url:'character-stabitha.html',type:'CHARACTER'},
+  {t:'Silas Romero',s:'Knockout Supreme · Devlin-Guns',e:'🥊',url:'character-silas-romero.html',type:'CHARACTER'},
+  {t:'JD Driftwood',s:'Key West FL · 300 lbs',e:'💀',url:'character-jd-driftwood.html',type:'CHARACTER'},
+  {t:'Ivana Fondleberg',s:'Stockholm Dynasty',e:'👑',url:'character-ivana-fondleberg.html',type:'CHARACTER'},
+  {t:'Bembe Brightwell',s:'Rubber Muscles · Lightning',e:'⚡',url:'character-bembe-brightwell.html',type:'CHARACTER'},
+  {t:'Motley Censori',s:'Las Vegas · 630 Senton',e:'🌸',url:'character-motley-censori.html',type:'CHARACTER'},
+  {t:'Waverly Winters',s:'Pigeon Forge TN',e:'❄️',url:'character-waverly-winters.html',type:'CHARACTER'},
+  {t:'Hatchet Gully',s:'Pennsyltucky · Juggalo',e:'🪓',url:'character-hatchet-gully.html',type:'CHARACTER'},
+  {t:'Warrick Hill',s:'lol i just beat people up',e:'🚬',url:'character-warrick-hill.html',type:'CHARACTER'},
+  {t:'Cosmo Cooper',s:'MMA · 13 Championships',e:'🥋',url:'character-cosmo-cooper.html',type:'CHARACTER'},
+  {t:'V.A.G.',s:'Victoria Ann Gable',e:'💎',url:'character-vag.html',type:'CHARACTER'},
+  {t:'Thot Experiment',s:'Dr. Sharpe & Dr. Masters',e:'🔬',url:'character-thot-experiment.html',type:'CHARACTER'},
+  {t:'Harper Lee',s:'Providence RI · Emo Ironically',e:'🎭',url:'character-harper-lee.html',type:'CHARACTER'},
+  {t:'Mad Max',s:'Billed From: The Future',e:'⚡',url:'character-mad-max.html',type:'CHARACTER'},
+  {t:'Erica Bragg',s:'2024 Return · Charlotte NC',e:'💪',url:'character-erica-bragg.html',type:'CHARACTER'},
+  {t:'Dashing Dash Dawkins',s:'Mirror-Obsessed · Amarillo TX',e:'🪞',url:'character-dashing-dash-dawkins.html',type:'CHARACTER'},
+  {t:'Gorgonzola',s:'Bio Pending',e:'🧀',url:'character-gorgonzola.html',type:'CHARACTER'},
+  {t:'WrestleMecca Bracket',s:'32-Person Tournament',e:'📊',url:'bracket.html',type:'BRACKET'},
+];
+
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  const res = document.getElementById('searchResults');
+  const open = bar.classList.toggle('open');
+  if (open) document.getElementById('searchInput').focus();
+  else { res.classList.remove('open'); document.getElementById('searchInput').value=''; }
+}
+
+function doSearch(q) {
+  const res = document.getElementById('searchResults');
+  const grid = document.getElementById('searchGrid');
+  const label = document.getElementById('searchLabel');
+  const query = q.toLowerCase().trim();
+  if (!query) { res.classList.remove('open'); return; }
+  const hits = CATALOG.filter(c => c.t.toLowerCase().includes(query) || c.s.toLowerCase().includes(query) || c.type.toLowerCase().includes(query));
+  label.textContent = `${hits.length} result${hits.length!==1?'s':''} for "${q}"`;
+  grid.innerHTML = hits.length
+    ? hits.map(c=>`<a href="${c.url}" class="search-card"><div class="search-card-em">${c.e}</div><div class="search-card-title">${c.t}</div><div class="search-card-type">${c.type} · ${c.s}</div></a>`).join('')
+    : `<p style="color:var(--wf-dim);font-size:14px;grid-column:1/-1">No results for "${q}"</p>`;
+  res.classList.add('open');
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') toggleSearch(); });
+</script>
+</body>
+</html>

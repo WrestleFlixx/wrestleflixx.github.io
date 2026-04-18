@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thot Experiment — Dr. Sharpe &amp; Dr. Masters · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--blue:#3a7fd4;--blue-dim:rgba(58,127,212,.12);--blue-border:rgba(58,127,212,.28);--bg:#040610;--bg-card:#080c18;--text:#d8e4f8;--text-muted:#6080b0;--text-dim:#1e2840;--border:rgba(58,127,212,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,6,16,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--blue)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#04060e 0%,#040610 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:900px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,9vw,130px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-sub{font-size:17px;color:rgba(216,228,248,.45);font-style:italic;margin-bottom:2rem}
+    .hero-quote{font-size:15px;color:rgba(216,228,248,.5);max-width:600px;line-height:1.8;border-left:3px solid var(--blue-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--blue-border);background:var(--blue-dim);color:var(--blue)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--blue-border)}
+    .member-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .member-card{background:var(--bg-card);border:1px solid var(--blue-border);border-radius:8px;padding:1.75rem}
+    .member-name{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--text);margin-bottom:4px}
+    .member-creds{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--blue);margin-bottom:1rem}
+    .member-stat{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+    .ms{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted)}
+    .ms span{color:var(--text);font-weight:600}
+    .finisher-box{background:rgba(58,127,212,.08);border:1px solid var(--blue-border);border-radius:4px;padding:.75rem 1rem;margin-top:.75rem}
+    .finisher-name{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:2px}
+    .finisher-desc{font-size:13px;color:var(--text-muted)}
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .stat-row{margin-bottom:.875rem}
+    .stat-hd{display:flex;justify-content:space-between;margin-bottom:5px}
+    .stat-name{font-size:13px;font-weight:600;color:var(--text)}
+    .stat-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted)}
+    .stat-track{height:4px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+    .stat-fill{height:100%;border-radius:3px}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue)}
+    @media(max-width:700px){.member-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Thot Experiment</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Tag Team · Manhattan NYC &amp; Brisbane AU · Technical Mastery &amp; Psychological Warfare</div>
+      <h1 class="hero-name">THOT<br/>EXPERIMENT</h1>
+      <div class="hero-sub">Dr. Bella Sharpe, M.A., M.S.C., Psy.D. &amp; Dr. Aurora Masters, M.S.C., B.B.A., Ph.D.</div>
+      <p class="hero-quote">They do not just compete — they analyze, dismantle, and ultimately reeducate their opponents on the true art of wrestling. Their matches are a masterclass. Their victories, a thesis on the embodiment of intellect in combat sports.</p>
+      <div class="pills"><span class="pill">Face (?)</span><span class="pill">Tag Team</span><span class="pill">Catch Wrestling</span><span class="pill">Psychological Warfare</span><span class="pill">Multiple PhDs</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">Team Stats</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:2rem">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--blue)">256</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase">Combined lbs</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--blue)">7+</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase">Combined Degrees</div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--blue)">2</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase">Signature Submissions</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">The Members</div>
+      <div class="member-grid">
+        <div class="member-card">
+          <div class="member-name">DR. BELLA SHARPE</div>
+          <div class="member-creds">M.A. · M.S.C. · Psy.D.</div>
+          <div class="member-stat">
+            <div class="ms">Height: <span>5'5"</span></div>
+            <div class="ms">Weight: <span>131 lbs</span></div>
+            <div class="ms">From: <span>Manhattan, NYC</span></div>
+          </div>
+          <div class="ms" style="margin-bottom:.75rem">Style: <span>Technical · Catch Wrestling</span></div>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:1rem">Deep understanding of the human psyche. Sharpe's Psy.D. informs her psychological approach to combat — she reads opponents before they know they're being read, exploiting mental architecture as efficiently as she exploits physical openings.</p>
+          <div class="finisher-box">
+            <div class="finisher-name">The Mind Lock</div>
+            <div class="finisher-desc">Standing Dragon Sleeper · Signature Submission</div>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="member-name">DR. AURORA MASTERS</div>
+          <div class="member-creds">M.S.C. · B.B.A. · Ph.D.</div>
+          <div class="member-stat">
+            <div class="ms">Height: <span>5'6"</span></div>
+            <div class="ms">Weight: <span>125 lbs</span></div>
+            <div class="ms">From: <span>Brisbane, Australia</span></div>
+          </div>
+          <div class="ms" style="margin-bottom:.75rem">Style: <span>Technician · Striker</span></div>
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:1rem">Business acuity meets combat strategy. Masters approaches a wrestling match the way she would a hostile acquisition — with due diligence, a clear objective, and no sentimentality about what has to happen to win.</p>
+          <div class="finisher-box">
+            <div class="finisher-name">The Ego Breaker</div>
+            <div class="finisher-desc">Unrelenting Camel Clutch · Signature Submission</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Team Profile</div>
+      <div class="bio-text">
+        <p>Thot Experiment comprises two of the most intellectually imposing figures in the wrestling world. Each hailing from different corners of the globe, they bring together a blend of catch wrestling finesse and striking precision that is unrivaled in the squared circle.</p>
+        <p>Their in-ring strategy is a testament to their scholarly backgrounds — often outsmarting and outmaneuvering opponents before locking in their signature submissions. The Mind Lock and The Ego Breaker do not merely incapacitate physically. They demoralize mentally. Their coordinated attacks epitomize a cerebral approach to wrestling, each maneuver executed with surgical precision.</p>
+        <p>The Thot Experiment is more than a convergence of talent. It is an ideation ground where psychological prowess meets physical domination. They are redefining the meaning of strength in the wrestling world and challenging what it means to be a fierce competitor in the modern era.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Technical Wrestling</span><span class="stat-num" style="color:#3a7fd4">96</span></div><div class="stat-track"><div class="stat-fill" style="width:96%;background:#3a7fd4"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Submission Work</span><span class="stat-num" style="color:#4aff9e">94</span></div><div class="stat-track"><div class="stat-fill" style="width:94%;background:#4aff9e"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Psychology</span><span class="stat-num" style="color:#a855f7">98</span></div><div class="stat-track"><div class="stat-fill" style="width:98%;background:#a855f7"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Tag Cohesion</span><span class="stat-num" style="color:#c9a84c">95</span></div><div class="stat-track"><div class="stat-fill" style="width:95%;background:#c9a84c"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Striking</span><span class="stat-num" style="color:#ff9f43">80</span></div><div class="stat-track"><div class="stat-fill" style="width:80%;background:#ff9f43"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Academic Credentials</span><span class="stat-num" style="color:#3a7fd4">100</span></div><div class="stat-track"><div class="stat-fill" style="width:100%;background:#3a7fd4"></div></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Thot Experiment · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

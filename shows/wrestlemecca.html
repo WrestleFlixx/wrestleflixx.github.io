@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WrestleMecca — WrestleFlix Original Series</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);--gold-glow:rgba(201,168,76,.4);--crimson:#8b1a1a;--crimson-bright:#c42020;--bg:#060402;--card:#100c04;--off-white:#f4e8d0;--muted:#806040;--dim:#2a1e08;--border:rgba(201,168,76,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--off-white);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;padding:0 4%;gap:2rem;background:linear-gradient(to bottom,rgba(6,4,2,.98) 0%,transparent 100%);transition:background .3s}
+    .navbar.scrolled{background:rgba(16,12,4,.98);backdrop-filter:blur(10px)}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--gold);text-shadow:0 0 20px var(--gold-glow)}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-left:auto;transition:color .2s}
+    .nav-back:hover{color:var(--off-white)}
+
+    .hero{position:relative;height:95vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,4,2,.1) 0%,rgba(6,4,2,.45) 45%,rgba(6,4,2,.97) 82%,var(--bg) 100%),linear-gradient(to right,rgba(6,4,2,.95) 0%,transparent 55%);z-index:1}
+    .hero-base{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 65% 40%,rgba(50,30,0,1) 0%,rgba(6,4,2,1) 100%)}
+    .gold-particle{position:absolute;border-radius:50%;background:var(--gold);animation:float-gold linear infinite;pointer-events:none}
+    @keyframes float-gold{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.7}90%{opacity:.3}100%{transform:translateY(-10vh) rotate(720deg);opacity:0}}
+    .hero-mecca-text{position:absolute;right:4%;top:15%;font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,20vw,300px);color:rgba(201,168,76,.04);letter-spacing:8px;pointer-events:none;line-height:1}
+    .hero-content{position:relative;z-index:2;padding:0 4% 5%;max-width:720px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;padding:5px 12px 5px 8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:3px}
+    .hero-badge::before{content:'';display:inline-block;width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 8px var(--gold)}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,11vw,150px);line-height:.85;color:var(--gold);text-shadow:0 0 60px var(--gold-glow),4px 4px 0 var(--crimson);margin-bottom:.4rem;letter-spacing:6px}
+    .hero-subtitle{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:rgba(244,232,208,.55);margin-bottom:1.5rem}
+    .hero-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .hero-meta-item{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:1px}
+    .hero-meta-div{width:4px;height:4px;background:var(--muted);border-radius:50%}
+    .meta-rating{border:1px solid var(--muted);padding:1px 6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+    .hero-desc{font-size:15px;font-weight:300;color:rgba(244,232,208,.8);line-height:1.75;max-width:580px;margin-bottom:2rem}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn-play{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-weight:700;font-size:17px;padding:12px 28px;border-radius:4px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s,transform .15s}
+    .btn-play:hover{opacity:.9;transform:scale(1.02)}
+    .btn-play svg{width:22px;height:22px;fill:black;flex-shrink:0}
+    .btn-info{display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,.1);color:var(--gold);font-weight:600;font-size:17px;padding:12px 24px;border-radius:4px;border:1px solid rgba(201,168,76,.3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+    .btn-info:hover{background:rgba(201,168,76,.2)}
+    .btn-info svg{width:22px;height:22px;fill:currentColor}
+
+    .ticker-wrap{overflow:hidden;border-top:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);padding:10px 0;background:rgba(0,0,0,.4)}
+    .ticker-inner{display:flex;gap:4rem;width:max-content;animation:scroll 32s linear infinite}
+    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:.75rem}
+    .ticker-item::before{content:'◆';color:rgba(201,168,76,.25);font-size:8px}
+
+    .content-area{padding:0 4% 4rem}
+    .row-section{margin-bottom:3rem}
+    .row-title{font-size:18px;font-weight:600;color:var(--off-white);margin-bottom:1rem}
+    .row-title .link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--gold);font-weight:500;margin-left:.75rem;vertical-align:middle;opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s}
+    .row-section:hover .link{opacity:1;transform:translateX(0)}
+
+    .ep-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none}
+    .ep-scroll::-webkit-scrollbar{display:none}
+    .ep-card{flex:0 0 300px;background:var(--card);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+    .ep-card:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.7),0 0 20px rgba(201,168,76,.1);z-index:10}
+    .ep-thumb{position:relative;width:100%;height:168px;overflow:hidden}
+    .ep-thumb-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#080402 0%,#1a1004 50%,#100804 100%);position:relative;overflow:hidden}
+    .ep-thumb-art::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 50% 50%,rgba(201,168,76,.05) 1px,transparent 1px);background-size:18px 18px}
+    .ep-thumb-emoji{position:relative;z-index:1;font-size:56px;opacity:.28}
+    .ep-thumb-num{position:absolute;bottom:8px;left:10px;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(201,168,76,.4);z-index:2}
+    .ep-thumb-duration{position:absolute;bottom:8px;right:10px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(244,232,208,.35);z-index:2;background:rgba(0,0,0,.5);padding:2px 5px;border-radius:2px}
+    .ep-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--gold)}
+    .ep-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background .2s;z-index:5}
+    .ep-card:hover .ep-play-overlay{background:rgba(0,0,0,.45)}
+    .ep-play-btn{width:48px;height:48px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
+    .ep-card:hover .ep-play-btn{opacity:1;transform:scale(1)}
+    .ep-play-btn svg{width:20px;height:20px;fill:black;margin-left:3px}
+    .ep-info{padding:10px 12px 14px}
+    .ep-ep-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .ep-title-text{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;font-style:italic;color:var(--off-white);margin-bottom:4px;line-height:1.3}
+    .ep-desc-text{font-size:12px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    .ratings-row{display:flex;gap:2rem;align-items:center;margin-bottom:3rem;padding:1.5rem;background:var(--card);border-radius:6px;flex-wrap:wrap;border:1px solid var(--border)}
+    .rating-block{text-align:center}
+    .rating-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);line-height:1;margin-bottom:2px}
+    .rating-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+    .rating-divider{width:1px;height:50px;background:#2a1e08}
+    .rating-blurb{font-size:13px;color:rgba(244,232,208,.65);line-height:1.6;max-width:380px;font-style:italic}
+
+    .lore-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:2rem}
+    .lore-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.25rem}
+    .lore-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.1)}
+    .lore-text{font-size:13px;color:var(--muted);line-height:1.65}
+
+    .about-section{display:grid;grid-template-columns:1fr 300px;gap:3rem;margin-top:3rem;padding-top:3rem;border-top:1px solid var(--border)}
+    .about-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+    .about-desc{font-size:15px;color:rgba(244,232,208,.75);line-height:1.75;margin-bottom:1.5rem}
+    .about-meta-row{display:flex;margin-bottom:.75rem;gap:.5rem;align-items:flex-start}
+    .about-meta-key{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);width:80px;flex-shrink:0;padding-top:1px}
+    .about-meta-val{font-size:13px;color:var(--off-white);line-height:1.5}
+    .genre-tag{display:inline-block;font-size:11px;border:1px solid rgba(201,168,76,.2);padding:2px 8px;border-radius:2px;color:var(--off-white);margin:2px}
+
+    .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+    .similar-card{background:var(--card);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s}
+    .similar-card:hover{transform:scale(1.04)}
+    .similar-thumb{height:110px;background:linear-gradient(135deg,#080402,#100c04);display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+    .similar-info{padding:10px 12px}
+    .similar-title{font-size:13px;font-weight:600;color:var(--off-white);margin-bottom:3px}
+    .similar-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+
+    .site-footer{padding:2rem 4%;border-top:1px solid #1a1004;text-align:center}
+    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--dim);margin-bottom:.5rem}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:#1a1004}
+    @media(max-width:900px){.about-section,.lore-grid{grid-template-columns:1fr}.ratings-row{justify-content:center}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">WRESTLEMECCA</div>
+    <a href="/index.html" class="nav-back">← WrestleFlix Home</a>
+  </nav>
+  <section class="hero">
+    <div class="hero-base"></div>
+    <div id="particles"></div>
+    <div class="hero-mecca-text">MECCA</div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">WrestleFlix Original Series · PPV Event</div>
+      <h1 class="hero-title">WRESTLE<br/>MECCA</h1>
+      <div class="hero-subtitle">Where Wishes Are Granted. Where Reality Is Rewritten.</div>
+      <div class="hero-meta">
+        <span class="meta-rating">TV-MA</span>
+        <span class="hero-meta-item">WrestleMecca Events</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">3 Events · Ongoing</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">GM: Brad Stokes</span>
+      </div>
+      <p class="hero-desc">The most consequential wrestling events in the universe. WrestleMecca is the PPV where the rules of reality can be rewritten — where a single wish, granted in the right moment, changes everything. Brennan Devlin made his wish here. The timeline has never recovered.</p>
+      <div class="hero-actions">
+        <button class="btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play WrestleMecca 0</button>
+        <button class="btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap"><div class="ticker-inner">
+    <div class="ticker-item">GM: Brad Stokes · WrestleMecca General Manager</div>
+    <div class="ticker-item">Brennan Devlin Made His Wish At WrestleMecca · The Timeline Changed</div>
+    <div class="ticker-item">Maddie Stokes — Complete Champion · Via Brad Stokes</div>
+    <div class="ticker-item">32-Person Tournament · WrestleMecca Apocalypse Championship</div>
+    <div class="ticker-item">Reality Can Be Rewritten Here · Use Your Wish Carefully</div>
+    <div class="ticker-item">GM: Brad Stokes · WrestleMecca General Manager</div>
+    <div class="ticker-item">Brennan Devlin Made His Wish At WrestleMecca · The Timeline Changed</div>
+    <div class="ticker-item">Maddie Stokes — Complete Champion · Via Brad Stokes</div>
+    <div class="ticker-item">32-Person Tournament · WrestleMecca Apocalypse Championship</div>
+    <div class="ticker-item">Reality Can Be Rewritten Here · Use Your Wish Carefully</div>
+  </div></div>
+
+  <div class="content-area">
+    <div class="ratings-row">
+      <div class="rating-block"><div class="rating-num">9.6</div><div class="rating-label">IMDB Rating</div></div>
+      <div class="rating-divider"></div>
+      <div class="rating-block"><div class="rating-num">99%</div><div class="rating-label">🍅 Fresh</div></div>
+      <div class="rating-divider"></div>
+      <div class="rating-block"><div class="rating-num">3</div><div class="rating-label">Events To Date</div></div>
+      <div class="rating-divider"></div>
+      <p class="rating-blurb">"WrestleMecca is not a wrestling show. It is a reckoning. Every event redraws the map. Every wish has consequences nobody predicted. Brennan Devlin built a dystopian city from the timeline he bent here."</p>
+    </div>
+
+    <div class="row-section">
+      <div class="row-title">All Events <span class="link">3 events ›</span></div>
+      <div class="ep-scroll">
+        <div class="ep-card">
+          <div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">0️⃣</span></div><div class="ep-thumb-num">EVENT 0</div><div class="ep-thumb-duration">3h 12m</div><div class="ep-progress" style="width:100%"></div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="ep-info"><div class="ep-ep-label">WrestleMecca 0 · The Origin</div><div class="ep-title-text">Before the Wish</div><div class="ep-desc-text">The inaugural event. The rules are established. The wishing mechanism is introduced. Nobody fully understands the implications yet. They will.</div></div>
+        </div>
+        <div class="ep-card">
+          <div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">⭐</span></div><div class="ep-thumb-num">EVENT 1</div><div class="ep-thumb-duration">3h 44m</div><div class="ep-progress" style="width:70%"></div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="ep-info"><div class="ep-ep-label">WrestleMecca 1 · The Wish</div><div class="ep-title-text">Devlin's Wish</div><div class="ep-desc-text">Brennan Devlin makes his wish. Reality accommodates. The 32-person tournament concludes. The WrestleMecca Apocalypse Championship changes hands. The timeline is not what it was before.</div></div>
+        </div>
+        <div class="ep-card" style="flex:0 0 320px">
+          <div class="ep-thumb" style="position:relative"><div class="ep-thumb-art" style="background:linear-gradient(135deg,#0a0600,#201400)"><span class="ep-thumb-emoji" style="font-size:64px">👑</span></div><div class="ep-thumb-num">EVENT 2 · LATEST</div><div class="ep-thumb-duration">4h 02m</div><div style="position:absolute;inset:0;border:2px solid rgba(201,168,76,.3);pointer-events:none"></div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div>
+          <div class="ep-info"><div class="ep-ep-label" style="color:var(--gold)">WrestleMecca 2 · The Aftermath</div><div class="ep-title-text">F2W City</div><div class="ep-desc-text">The consequences of Devlin's wish play out. F2W City exists now. Devlin watches from the DevlinSaka Tower as a hologram. Brad Stokes tries to hold it together. Maddie Stokes is a Champion. She doesn't know why.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-section">
+      <div class="row-title">The Lore</div>
+      <div class="lore-grid">
+        <div class="lore-card"><div class="lore-title">The Wish Mechanism</div><div class="lore-text">At WrestleMecca, the event's central prize is not only a championship — it is a wish. Granted to the winner under specific conditions, a wish at WrestleMecca has the power to alter the shape of the WrestleFlix universe. The mechanism is not fully understood. The consequences always are, eventually.</div></div>
+        <div class="lore-card"><div class="lore-title">Brad Stokes — GM</div><div class="lore-text">WrestleMecca's General Manager and biggest Zack Fantana fan. Commentator. Father of Maddie Stokes, with whom he has a complicated relationship. He awarded Maddie the Complete Championship through his GM authority. She is aware. They haven't spoken clearly about it.</div></div>
+        <div class="lore-card"><div class="lore-title">Devlin's Legacy</div><div class="lore-text">Brennan Devlin's wish at WrestleMecca rewrote reality. He built F2W City — a dystopian future version of the Fight 2 Win promotion's environment. He watches his creation from the DevlinSaka Tower as a hologram, having made his wish and now living with the architecture of what it built.</div></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <div>
+        <div class="about-label">About WrestleMecca</div>
+        <p class="about-desc">WrestleMecca is the premier PPV event in the WrestleFlix universe — the annual convergence where stakes are highest, the roster is largest, and the outcome can literally rewrite the rules of existence. The 32-person tournament for the WrestleMecca Apocalypse Championship is the centerpiece, with the wish mechanism reserved for moments that change everything.</p>
+        <p class="about-desc">General Manager Brad Stokes oversees the event with a combination of genuine passion for wrestling, unshakeable loyalty to Zack Fantana, and a complicated parental dynamic with his daughter Maddie, who is now a champion because of a decision he made that she didn't ask for.</p>
+      </div>
+      <div>
+        <div class="about-meta-row"><span class="about-meta-key">GM</span><span class="about-meta-val">Brad Stokes</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Events</span><span class="about-meta-val">WrestleMecca 0, 1, 2</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Tournament</span><span class="about-meta-val">32-Person · Apocalypse Championship</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Wish</span><span class="about-meta-val">Granted once · Devlin used his</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Rating</span><span class="about-meta-val">TV-MA · Reality Alteration · Wish Consequences</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Genres</span><span class="about-meta-val"><span class="genre-tag">PPV Wrestling</span><span class="genre-tag">Fantasy</span><span class="genre-tag">Timeline Altering</span></span></div>
+      </div>
+    </div>
+
+    <div class="row-section" style="margin-top:3rem">
+      <div class="row-title">More WrestleFlix Originals</div>
+      <div class="similar-grid">
+        <div class="similar-card"><div class="similar-thumb">🎭</div><div class="similar-info"><div class="similar-title">French Mime Assassins</div><div class="similar-meta">S1 · 13 EPISODES</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">👽</div><div class="similar-info"><div class="similar-title">inVader</div><div class="similar-meta">S1 · 3 EPISODES</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">💀</div><div class="similar-info"><div class="similar-title">DEATH GRAPS</div><div class="similar-meta">SEASON 1</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">🎙️</div><div class="similar-info"><div class="similar-title">Howell Are You Doing?</div><div class="similar-meta">S1 · 7 EPISODES</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">👁️</div><div class="similar-info"><div class="similar-title">AWE Massacre</div><div class="similar-meta">S1 · 10 EPISODES</div></div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="footer-logo">WRESTLEMECCA</div><div class="footer-text">© WrestleFlix Originals · WrestleMecca · Make Your Wish Carefully</div></footer>
+  <script>
+    const nav=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+    const pc=document.getElementById('particles');
+    for(let i=0;i<20;i++){const p=document.createElement('div');p.className='gold-particle';const s=Math.random()*4+1;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*-12}s`;pc.appendChild(p)}
+  </script>
+</body>
+</html>

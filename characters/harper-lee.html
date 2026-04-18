@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harper Lee — Under the Vale · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--slate:#5a7090;--slate-dim:rgba(90,112,144,.12);--slate-border:rgba(90,112,144,.28);--bg:#040608;--bg-card:#08090e;--text:#d4d8e8;--text-muted:#607080;--text-dim:#202830;--border:rgba(90,112,144,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,6,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--slate)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#060810 0%,#040608 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--slate);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,138px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-size:18px;font-style:italic;color:rgba(212,216,232,.45);margin-bottom:2rem}
+    .hero-quote{font-size:15px;color:rgba(212,216,232,.48);max-width:520px;line-height:1.8;border-left:3px solid var(--slate-border);padding-left:1.25rem;margin-bottom:2.5rem;font-style:italic}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--slate-border);background:var(--slate-dim);color:var(--slate)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--slate);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--slate-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .moves-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--slate-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--slate)}
+    @media(max-width:800px){.two-col,.moves-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Harper Lee</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Providence, RI · 5'5 · 133 lbs · INTP · Bisexual · Born Oct 9, 2004</div>
+      <h1 class="hero-name">HARPER<br/>LEE</h1>
+      <div class="hero-alias">Birth Name: Harper Lee Vale · "Under the Vale" · @HARPERLEEVALE</div>
+      <p class="hero-quote">Deadpan. Very dry-witted with a mean streak. Almost seems bitter at times. Thinks she is the coolest and/or smartest person in the room at any given moment. Gifted, but chooses to be lazy and will try to piggyback off of others. A cunning individual who adopted the emo subculture specifically to make fun of others.</p>
+      <div class="pills"><span class="pill">Providence RI</span><span class="pill">Emo Ironically</span><span class="pill">Fearless</span><span class="pill">Doesn't Try Hard Enough</span><span class="pill">INTP</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Birth Name</div><div class="vital-val">Harper Lee Vale</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">Harper Lee</div></div>
+        <div class="vital"><div class="vital-label">Born</div><div class="vital-val">October 9, 2004 · Providence, RI</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'5" / 133 lbs</div></div>
+        <div class="vital"><div class="vital-label">Sexuality</div><div class="vital-val">Bisexual</div></div>
+        <div class="vital"><div class="vital-label">MBTI</div><div class="vital-val">INTP · Libra</div></div>
+        <div class="vital"><div class="vital-label">Trained By</div><div class="vital-val">Inspire Pro Academy</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"They Said a Storm Was Coming" — Jamie's Elsewhere</div></div>
+        <div class="vital"><div class="vital-label">Tag Partner</div><div class="vital-val">Brianna West (Best Friend)</div></div>
+        <div class="vital"><div class="vital-label">Wrestles Like</div><div class="vital-val">Becky Lynch · CM Punk · Candice LaRae · Johnny Gargano · PAC</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Strengths &amp; Weaknesses</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Strengths</div>
+          <div class="list-item"><strong>Strategic</strong>A keen tactician despite her age and inexperience. Has to be — her size demands it. Will outsmart opponents or get in their heads.</div>
+          <div class="list-item"><strong>Adaptability</strong>Quick to make mid-match adjustments. Thrives in a variety of stipulations even when at a clear disadvantage.</div>
+          <div class="list-item"><strong>Fearless</strong>Won't back down from anything or anyone. Takes calculated risks. And sometimes, not-so-calculated ones.</div>
+        </div>
+        <div class="card"><div class="card-title">Weaknesses</div>
+          <div class="list-item"><strong>Effort</strong>She'll try when she needs to. It takes a lot of convincing that she needs to. Won't always take things seriously even when she should.</div>
+          <div class="list-item"><strong>Size</strong>Puts in her time at the gym. Don't expect much power. She knows this.</div>
+          <div class="list-item"><strong>Lack of Trust</strong>There's one person Harper has ever trusted in a wrestling ring. That is unlikely to change. Won't tag, won't help, will try to do it alone.</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="moves-3">
+        <div class="card"><div class="card-title">Common Moves</div>
+          <div class="list-item">Arm Drag</div><div class="list-item">Bicycle Kick</div><div class="list-item">Cradle DDT</div>
+          <div class="list-item">Diving Crossbody</div><div class="list-item">Diving Elbow Drop</div><div class="list-item">Enziguri</div>
+          <div class="list-item">Hurricanrana</div><div class="list-item">Joint Manipulation</div><div class="list-item">Missile Dropkick</div>
+          <div class="list-item">Snap Suplex</div><div class="list-item">Tornado DDT</div><div class="list-item">Wheelbarrow Bulldog</div>
+        </div>
+        <div class="card"><div class="card-title">Signature Moves</div>
+          <div class="list-item"><strong>Heaven Sent</strong>Slingshot DDT</div>
+          <div class="list-item"><strong>Reinventing Harper Vale Pt. 1</strong>Double Knee Backbreaker</div>
+          <div class="list-item"><strong>The Taste of Ink</strong>Shining Wizard</div>
+        </div>
+        <div class="card"><div class="card-title">Finishing Moves</div>
+          <div class="list-item" style="color:var(--slate);font-weight:700"><strong>No Control</strong>Crucifix Driver · Primary</div>
+          <div class="list-item" style="color:var(--slate);font-weight:700"><strong>Reinventing Harper Vale Pt. 2</strong>Double Knee Facebreaker</div>
+          <div class="list-item" style="color:var(--slate);font-weight:700"><strong>Sudden Death in Providence</strong>Vertebreaker · Rare</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Harper Lee · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fight 2 Win — Official Roster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #d42b2b; --red-dark: #9a1e1e; --red-bright: #ff3a3a;
+      --gold: #c9a84c; --gold-light: #e8c96a;
+      --bg: #080810; --bg-mid: #0e0e1a; --bg-card: #111120;
+      --text: #f2efe8; --text-muted: #9090a8; --text-dim: #444460;
+      --border: rgba(255,255,255,0.07); --border-red: rgba(212,43,43,0.3);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-cond: 'Barlow Condensed', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px; background: rgba(8,8,16,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-red); display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+    .nav-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s; }
+    .nav-back:hover { color: var(--red-bright); }
+    .nav-divider { width: 1px; height: 24px; background: var(--border); }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; color: var(--text); }
+    .nav-logo span { color: var(--red); }
+    .nav-right { margin-left: auto; display: flex; gap: 0.75rem; align-items: center; }
+    .nav-search input { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 6px 14px; outline: none; width: 200px; transition: border-color 0.2s; }
+    .nav-search input:focus { border-color: var(--red); }
+
+    .page-hero { padding: calc(60px + 3rem) 2rem 2.5rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; border-bottom: 1px solid var(--border); }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
+    .hero-title { font-family: var(--font-display); font-size: clamp(52px, 8vw, 100px); letter-spacing: 3px; line-height: 0.9; color: var(--text); }
+    .hero-title span { color: var(--red); }
+    .hero-sub { font-size: 15px; font-weight: 300; color: var(--text-muted); margin-top: 0.75rem; max-width: 480px; }
+    .hero-stats { display: flex; gap: 2rem; }
+    .hstat { text-align: right; }
+    .hstat-num { font-family: var(--font-display); font-size: 40px; letter-spacing: 2px; color: var(--red); line-height: 1; }
+    .hstat-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-top: 4px; }
+
+    .filters { max-width: 1400px; margin: 0 auto; padding: 1.25rem 2rem; display: flex; gap: 0.75rem; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+    .filter-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+    .roster-grid { max-width: 1400px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+
+    .fighter-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s; }
+    .fighter-card:hover { transform: translateY(-5px); border-color: rgba(212,43,43,0.4); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+    .fighter-card:hover .fighter-overlay { opacity: 1; }
+    .fighter-card:hover .fighter-img { transform: scale(1.05); filter: brightness(0.7); }
+
+    .fighter-img-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--bg-mid); }
+    .fighter-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 64px; letter-spacing: 2px; color: rgba(212,43,43,0.15); }
+    .fighter-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease, filter 0.4s ease; }
+    .fighter-status { position: absolute; top: 10px; left: 10px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 3px; z-index: 2; }
+    .status-active { background: rgba(212,43,43,0.9); color: #fff; }
+    .status-champion { background: rgba(201,168,76,0.9); color: #0a0a0a; font-weight: 700; }
+    .status-inactive { background: rgba(40,40,60,0.9); color: var(--text-muted); }
+    .fighter-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,16,0.95) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1rem; }
+    .overlay-btn { font-family: var(--font-body); font-size: 12px; font-weight: 700; background: var(--red); color: #fff; border: none; padding: 7px 16px; border-radius: 3px; cursor: pointer; }
+
+    .fighter-info { padding: 0.875rem 1rem 1rem; }
+    .fighter-name { font-family: var(--font-display); font-size: 20px; letter-spacing: 1.5px; color: var(--text); margin-bottom: 2px; line-height: 1; }
+    .fighter-alias { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); margin-bottom: 0.6rem; }
+    .fighter-mini-stats { display: flex; flex-direction: column; gap: 4px; }
+    .mini-stat { display: flex; align-items: center; gap: 7px; }
+    .mini-stat-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); width: 56px; flex-shrink: 0; }
+    .mini-stat-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+    .mini-stat-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+    .mini-stat-val { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); width: 24px; text-align: right; flex-shrink: 0; }
+
+    /* PROFILE MODAL */
+    .profile-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(4,4,10,0.95); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .profile-overlay.open { opacity: 1; pointer-events: all; }
+    .profile-container { background: var(--bg-mid); border: 1px solid var(--border-red); border-radius: 12px; width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; transform: scale(0.96); transition: transform 0.3s; scrollbar-width: thin; }
+    .profile-overlay.open .profile-container { transform: scale(1); }
+    .profile-close { position: sticky; top: 1rem; float: right; margin: 1rem 1rem 0 0; background: rgba(255,255,255,0.07); border: 1px solid var(--border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10; }
+    .profile-close:hover { background: rgba(212,43,43,0.2); color: var(--text); }
+
+    .profile-hero { display: grid; grid-template-columns: 240px 1fr; min-height: 320px; }
+    .profile-img-col { background: var(--bg); border-radius: 12px 0 0 0; overflow: hidden; position: relative; }
+    .profile-img-col img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .profile-img-lg { width: 100%; height: 100%; min-height: 320px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 90px; color: rgba(212,43,43,0.12); }
+    .profile-info { padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .profile-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; }
+    .profile-name { font-family: var(--font-display); font-size: clamp(36px, 5vw, 60px); letter-spacing: 2px; line-height: 0.9; color: var(--text); margin-bottom: 0.4rem; }
+    .profile-alias { font-size: 14px; font-style: italic; color: var(--red); margin-bottom: 1.25rem; }
+    .profile-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem; }
+    .pmeta-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 2px; }
+    .pmeta-val { font-size: 13px; font-weight: 600; color: var(--text); }
+    .profile-record { display: flex; gap: 1.5rem; }
+    .rec-stat { }
+    .rec-num { font-family: var(--font-display); font-size: 30px; letter-spacing: 1px; line-height: 1; }
+    .rec-w { color: #4aff9e; } .rec-l { color: var(--red); } .rec-d { color: var(--gold); }
+    .rec-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); }
+
+    .profile-body { padding: 2rem; border-top: 1px solid var(--border); }
+    .profile-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .stats-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.75rem; }
+    .stat-bar-row { margin-bottom: 0.75rem; }
+    .stat-bar-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .stat-bar-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .stat-bar-num { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .stat-track { height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+
+    .psection-title { font-family: var(--font-display); font-size: 18px; letter-spacing: 2px; color: var(--red); margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(212,43,43,0.2); }
+    .profile-bio { margin-bottom: 1.75rem; }
+    .profile-bio p { font-size: 14px; font-weight: 300; color: var(--text-muted); line-height: 1.75; }
+    .title-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .title-chip { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); border-radius: 3px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--gold); }
+    .finisher-box { background: rgba(212,43,43,0.07); border: 1px solid rgba(212,43,43,0.2); border-radius: 5px; padding: 1rem 1.25rem; }
+    .finisher-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 3px; }
+    .finisher-name { font-family: var(--font-display); font-size: 22px; letter-spacing: 1px; color: var(--text); }
+
+    .footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 20px; letter-spacing: 2px; }
+    .footer-text { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+    .footer-back { font-family: var(--font-mono); font-size: 11px; color: var(--red); }
+    .footer-back:hover { color: var(--red-bright); }
+
+    @media (max-width: 680px) { .profile-hero { grid-template-columns: 1fr; } .profile-img-col { border-radius: 12px 12px 0 0; max-height: 260px; } .profile-stats-row { grid-template-columns: 1fr; } .page-hero { grid-template-columns: 1fr; } .hero-stats { justify-content: flex-start; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/index.html" class="nav-back">← WrestleFlix</a>
+    <div class="nav-divider"></div>
+    <div class="nav-logo"><span>F2W</span> ROSTER</div>
+    <div class="nav-right">
+      <div class="nav-search"><input type="text" placeholder="Search fighters..." id="search-input" oninput="filterRoster(this.value)" /></div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div>
+      <div class="hero-eyebrow">Fight 2 Win · Official Roster</div>
+      <h1 class="hero-title">FIGHT 2 WIN<br/><span>FIGHTERS</span></h1>
+      <p class="hero-sub">The qualifying brand for the WrestleMecca Infinite Championship. Every competitor on this roster is fighting for one of 16 spots at WrestleMecca.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num" id="total-count">—</div><div class="hstat-label">Active Fighters</div></div>
+      <div class="hstat"><div class="hstat-num">16</div><div class="hstat-label">WM Spots</div></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('champion',this)">Champion</button>
+    <button class="filter-btn" onclick="setFilter('active',this)">Active</button>
+    <button class="filter-btn" onclick="setFilter('qualified',this)">WM Qualified</button>
+  </div>
+
+  <div class="roster-grid" id="roster-grid"></div>
+
+  <footer class="footer">
+    <div class="footer-logo"><span style="color:var(--red)">F</span>ight 2 <span style="color:var(--red)">W</span>in</div>
+    <div class="footer-text">Official Roster · Fight 2 Win · A WrestleFlix Property</div>
+    <a href="/index.html" class="footer-back">← Back to WrestleFlix</a>
+  </footer>
+
+  <div class="profile-overlay" id="profile-overlay" onclick="closeProfile(event)">
+    <div class="profile-container" id="profile-container">
+      <button class="profile-close" onclick="closeProfile()">✕</button>
+      <div id="profile-content"></div>
+    </div>
+  </div>
+
+  <script>
+    function sc(v) { if(v>=90)return'#4aff9e'; if(v>=75)return'#c9a84c'; if(v>=60)return'#4a9eff'; return'#606080'; }
+
+    const ROSTER = [
+      { id:'bd', name:'BRENNAN DEVLIN', alias:'"The Wish"', status:'champion', statusLabel:'Infinite Champion', hometown:'Ireland', height:'6\'3"', weight:'232 lbs', style:'Technical · Brawler', record:{w:51,l:0,d:0}, finisher:'The Face Off', championships:['WrestleMecca Infinite Championship','Unity Championship'], bio:'Made a wish at WrestleMecca. The wish rewrote reality. Undefeated. Unreachable.', stats:{striking:88,grappling:92,aerial:70,power:86,speed:75,endurance:95,charisma:82,psychology:94}, filterTags:['champion','qualified'], initials:'BD' },
+      { id:'cs', name:'CORDELIA SCOTT', alias:'"The Last Stand"', status:'active', statusLabel:'Active', hometown:'Unknown', height:'5\'8"', weight:'145 lbs', style:'Technical · Submission', record:{w:12,l:3,d:0}, finisher:'Virtue Signal', championships:['F2W Melee Championship'], bio:'Survived compound siege, dam drop, mercenaries, and betrayal. Former Melee Champion.', stats:{striking:82,grappling:90,aerial:68,power:70,speed:88,endurance:96,charisma:75,psychology:92}, filterTags:['active','qualified'], initials:'CS' },
+      { id:'fh', name:'FLYNN HOWELL', alias:'"The Correction"', status:'active', statusLabel:'133-0', hometown:'The Future', height:'6\'2"', weight:'235 lbs', style:'Cybernetic · Striker', record:{w:133,l:0,d:0}, finisher:'Wrist Blades', championships:['F2W Melee Championship (F2W2)'], bio:'Sent back from the future. 133-0. Has wrist blades. Carries his dead family as engrams.', stats:{striking:96,grappling:88,aerial:75,power:90,speed:97,endurance:92,charisma:55,psychology:78}, filterTags:['active','qualified'], initials:'FH' },
+      { id:'jb', name:'JOVE BELANE', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'6\'2"', weight:'228 lbs', style:'Powerhouse · Brawler', record:{w:9,l:4,d:0}, finisher:'Unknown', championships:[], bio:'Once fought The Mop to a standstill. Uses Temp V. A gypsy woman told him this day was coming.', stats:{striking:86,grappling:78,aerial:55,power:94,speed:72,endurance:85,charisma:65,psychology:70}, filterTags:['active'], initials:'JB' },
+      { id:'jd', name:'JD DRIFTWOOD', alias:'"The Apocalypse"', status:'champion', statusLabel:'Apocalypse Champion', hometown:'Florida', height:'6\'5"', weight:'280 lbs', style:'Powerhouse · Destroyer', record:{w:8,l:5,d:0}, finisher:'Unknown', championships:['Apocalypse Championship'], bio:'Declared dead twice. Got up both times. Owns a fight venue in the Florida backwoods.', stats:{striking:85,grappling:78,aerial:30,power:98,speed:55,endurance:99,charisma:68,psychology:60}, filterTags:['champion','active'], initials:'JD' },
+      { id:'bb', name:'BEMBE BRIGHTWELL', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'6\'3"', weight:'265 lbs', style:'Powerhouse · Unpredictable', record:{w:7,l:4,d:0}, finisher:'Mjolnir', championships:[], bio:'Struck by lightning 3 times. Believes his bones were replaced by aliens. Threw Mjolnir.', stats:{striking:75,grappling:70,aerial:55,power:95,speed:60,endurance:88,charisma:80,psychology:58}, filterTags:['active'], initials:'BB' },
+      { id:'hv', name:'HARPER VALE', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'5\'10"', weight:'188 lbs', style:'Technical · Hybrid', record:{w:7,l:5,d:0}, finisher:'Unknown', championships:[], bio:'Harper Vale competes at a high level across the Fight 2 Win circuit.', stats:{striking:78,grappling:82,aerial:75,power:72,speed:82,endurance:80,charisma:72,psychology:78}, filterTags:['active'], initials:'HV' },
+      { id:'sr', name:'SILAS ROMERO', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'6\'1"', weight:'218 lbs', style:'Technical · Submission', record:{w:6,l:5,d:0}, finisher:'Unknown', championships:[], bio:'Former mercenary. Hired to eliminate Cordelia Scott at the compound. Switched sides.', stats:{striking:80,grappling:85,aerial:60,power:78,speed:75,endurance:82,charisma:65,psychology:80}, filterTags:['active'], initials:'SR' },
+      { id:'hg', name:'HATCHET GULLY', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'6\'4"', weight:'270 lbs', style:'Brawler · Destroyer', record:{w:5,l:6,d:0}, finisher:'Unknown', championships:[], bio:'JD Driftwood is rightfully irritated about Hatchet Gully. That\'s all anyone needs to know.', stats:{striking:84,grappling:70,aerial:30,power:96,speed:52,endurance:90,charisma:60,psychology:55}, filterTags:['active'], initials:'HG' },
+      { id:'aq', name:'A$HLEY QUID', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'5\'7"', weight:'155 lbs', style:'Technical · Heel', record:{w:5,l:7,d:0}, finisher:'Unknown', championships:[], bio:'JD Driftwood is also rightfully irritated about A$hley Quid. The feeling is mutual.', stats:{striking:75,grappling:78,aerial:70,power:60,speed:80,endurance:72,charisma:82,psychology:80}, filterTags:['active'], initials:'AQ' },
+      { id:'tm', name:'THE MOP', alias:'"The Liquid Sovereign"', status:'active', statusLabel:'Signal Alpha', hometown:'Signal Alpha', height:'Variable', weight:'Unknown', style:'Cosmic · Terminator', record:{w:0,l:0,d:0}, finisher:'Tsk Tsk Tsk', championships:[], bio:'Carries Zack Fantana\'s ghost. In Signal Alpha retrieving the first displaced Anchor.', stats:{striking:92,grappling:88,aerial:60,power:99,speed:95,endurance:99,charisma:72,psychology:80}, filterTags:['active'], initials:'🧹' },
+      { id:'wh', name:'WARRICK HILL', alias:null, status:'active', statusLabel:'Active', hometown:'Unknown', height:'6\'0"', weight:'210 lbs', style:'Hybrid · Athletic', record:{w:6,l:4,d:1}, finisher:'Unknown', championships:[], bio:'A consistent performer on the Fight 2 Win circuit.', stats:{striking:78,grappling:75,aerial:72,power:78,speed:78,endurance:78,charisma:72,psychology:72}, filterTags:['active'], initials:'WH' },
+      { id:'bd2', name:'BRENDA DEVLIN', alias:null, status:'active', statusLabel:'Active', hometown:'Ireland', height:'5\'9"', weight:'152 lbs', style:'Technical · Scrapper', record:{w:7,l:6,d:0}, finisher:'Unknown', championships:[], bio:'Appeared via interdimensional portal to warn American Tommy. The warning was not taken seriously.', stats:{striking:80,grappling:82,aerial:70,power:68,speed:82,endurance:80,charisma:78,psychology:84}, filterTags:['active'], initials:'BRD' },
+    ];
+
+    let currentFilter = 'all', currentSearch = '';
+
+    function filterTags(f) {
+      if(currentFilter==='all') return true;
+      return f.filterTags && f.filterTags.includes(currentFilter);
+    }
+
+    function renderCard(f) {
+      const card = document.createElement('div');
+      card.className = 'fighter-card';
+      card.dataset.name = f.name.toLowerCase();
+      card.onclick = () => openProfile(f.id);
+      const top = [{label:'Strike',key:'striking'},{label:'Grapple',key:'grappling'},{label:'Speed',key:'speed'}];
+      card.innerHTML = `
+        <div class="fighter-img-wrap">
+          ${f.image ? `<img src="${f.image}" alt="${f.name}" class="fighter-img"/>` : `<div class="fighter-img-placeholder">${f.initials}</div>`}
+          <div class="fighter-status ${f.status==='champion'?'status-champion':'status-active'}">${f.statusLabel}</div>
+          <div class="fighter-overlay"><button class="overlay-btn">View Profile</button></div>
+        </div>
+        <div class="fighter-info">
+          <div class="fighter-name">${f.name}</div>
+          ${f.alias ? `<div class="fighter-alias">${f.alias}</div>` : '<div style="height:1.2rem;"></div>'}
+          <div class="fighter-mini-stats">${top.map(s=>`
+            <div class="mini-stat">
+              <span class="mini-stat-label">${s.label}</span>
+              <div class="mini-stat-bar"><div class="mini-stat-fill" style="width:${f.stats[s.key]}%;background:${sc(f.stats[s.key])};"></div></div>
+              <span class="mini-stat-val">${f.stats[s.key]}</span>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      return card;
+    }
+
+    function renderRoster() {
+      const grid = document.getElementById('roster-grid');
+      grid.innerHTML = '';
+      const filtered = ROSTER.filter(f => filterTags(f) && (!currentSearch || f.name.toLowerCase().includes(currentSearch) || (f.alias||'').toLowerCase().includes(currentSearch)));
+      filtered.forEach(f => grid.appendChild(renderCard(f)));
+      document.getElementById('total-count').textContent = filtered.length;
+    }
+
+    function setFilter(f, btn) {
+      currentFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderRoster();
+    }
+
+    function filterRoster(v) { currentSearch = v.toLowerCase(); renderRoster(); }
+
+    const BARS = [{name:'Striking',key:'striking',color:'#ff6b6b'},{name:'Grappling',key:'grappling',color:'#4a9eff'},{name:'Aerial',key:'aerial',color:'#a855f7'},{name:'Power',key:'power',color:'#ff9f43'},{name:'Speed',key:'speed',color:'#4aff9e'},{name:'Endurance',key:'endurance',color:'#c9a84c'},{name:'Charisma',key:'charisma',color:'#ff2d78'},{name:'Psychology',key:'psychology',color:'#00e5cc'}];
+
+    function buildRadar(stats) {
+      const keys=['striking','grappling','aerial','power','speed','endurance'];
+      const labels=['Striking','Grappling','Aerial','Power','Speed','Endurance'];
+      const cx=130,cy=130,r=100,n=6;
+      function pt(i,val){const a=(Math.PI*2*i/n)-Math.PI/2;const d=(val/100)*r;return[cx+d*Math.cos(a),cy+d*Math.sin(a)];}
+      function lpt(i){const a=(Math.PI*2*i/n)-Math.PI/2;return[cx+(r+20)*Math.cos(a),cy+(r+20)*Math.sin(a)];}
+      let rings='';[20,40,60,80,100].forEach(p=>{const pts=keys.map((_,i)=>{const a=(Math.PI*2*i/n)-Math.PI/2;const d=(p/100)*r;return`${cx+d*Math.cos(a)},${cy+d*Math.sin(a)}`;}).join(' ');rings+=`<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;});
+      let axes='';keys.forEach((_,i)=>{const[x,y]=pt(i,100);axes+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;});
+      const spts=keys.map((k,i)=>pt(i,stats[k]).join(',')).join(' ');
+      let lbls='';labels.forEach((l,i)=>{const[lx,ly]=lpt(i);const v=stats[keys[i]];lbls+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-family="'DM Mono',monospace" font-size="9" fill="rgba(144,144,168,0.8)" letter-spacing="1">${l}</text><text x="${lx}" y="${ly+11}" text-anchor="middle" dominant-baseline="middle" font-family="'DM Mono',monospace" font-size="9" fill="${sc(v)}">${v}</text>`;});
+      return`<svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px;">${rings}${axes}<polygon points="${spts}" fill="rgba(212,43,43,0.15)" stroke="rgba(212,43,43,0.7)" stroke-width="1.5"/>${lbls}</svg>`;
+    }
+
+    function openProfile(id) {
+      const f = ROSTER.find(r=>r.id===id);
+      if(!f) return;
+      document.getElementById('profile-content').innerHTML = `
+        <div class="profile-hero">
+          <div class="profile-img-col">${f.image?`<img src="${f.image}" alt="${f.name}"/>`:`<div class="profile-img-lg">${f.initials}</div>`}</div>
+          <div class="profile-info">
+            <div>
+              <div class="profile-eyebrow">Fight 2 Win · ${f.statusLabel}</div>
+              <h2 class="profile-name">${f.name}</h2>
+              ${f.alias?`<div class="profile-alias">${f.alias}</div>`:''}
+              <div class="profile-meta">
+                <div><div class="pmeta-label">Hometown</div><div class="pmeta-val">${f.hometown}</div></div>
+                <div><div class="pmeta-label">Style</div><div class="pmeta-val">${f.style}</div></div>
+                <div><div class="pmeta-label">Height</div><div class="pmeta-val">${f.height}</div></div>
+                <div><div class="pmeta-label">Weight</div><div class="pmeta-val">${f.weight}</div></div>
+              </div>
+            </div>
+            <div>
+              <div class="pmeta-label" style="margin-bottom:0.4rem;">Record</div>
+              <div class="profile-record">
+                <div class="rec-stat"><div class="rec-num rec-w">${f.record.w}</div><div class="rec-label">Wins</div></div>
+                <div class="rec-stat"><div class="rec-num rec-l">${f.record.l}</div><div class="rec-label">Losses</div></div>
+                <div class="rec-stat"><div class="rec-num rec-d">${f.record.d}</div><div class="rec-label">Draws</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-body">
+          <div class="profile-stats-row">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="stats-title">Attribute Radar</div>${buildRadar(f.stats)}
+            </div>
+            <div>
+              <div class="stats-title">Attribute Breakdown</div>
+              ${BARS.map(b=>`<div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">${b.name}</span><span class="stat-bar-num" style="color:${sc(f.stats[b.key])}">${f.stats[b.key]}</span></div><div class="stat-track"><div class="stat-fill" style="width:${f.stats[b.key]}%;background:${b.color};"></div></div></div>`).join('')}
+            </div>
+          </div>
+          <div class="profile-bio"><div class="psection-title">Biography</div><p>${f.bio}</p></div>
+          ${f.championships.length?`<div style="margin-bottom:1.5rem;"><div class="psection-title">Championships</div><div class="title-chips">${f.championships.map(c=>`<div class="title-chip">${c}</div>`).join('')}</div></div>`:''}
+          <div class="finisher-box"><div class="finisher-label">Finishing Move</div><div class="finisher-name">${f.finisher}</div></div>
+        </div>`;
+      document.getElementById('profile-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProfile(e) {
+      if(e && e.target!==document.getElementById('profile-overlay')) return;
+      document.getElementById('profile-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeProfile(); });
+    renderRoster();
+  </script>
+</body>
+</html>

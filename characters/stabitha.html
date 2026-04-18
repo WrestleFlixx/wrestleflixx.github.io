@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stabitha — Big Spooky · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--void:#6b21d4;--void-dim:rgba(107,33,212,.15);--void-border:rgba(107,33,212,.3);--bg:#040204;--bg-card:#0a060c;--text:#e8d8f8;--text-muted:#806090;--text-dim:#301840;--border:rgba(107,33,212,.12)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,2,4,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--void)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(180deg,#060108 0%,#040204 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--void);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,11vw,148px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-sub{font-size:18px;color:rgba(232,216,248,.4);font-style:italic;margin-bottom:2rem}
+    .hero-entrance{font-size:15px;color:rgba(232,216,248,.45);max-width:560px;line-height:1.8;border-left:3px solid var(--void-border);padding-left:1.25rem;margin-bottom:2.5rem;font-style:italic}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--void-border);background:var(--void-dim);color:var(--void)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--void);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--void-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .vital-val.spook{color:var(--void)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--void);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--void-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--void)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Stabitha</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">🔪 · A Place Beyond · 5'9 · 146 lbs · Creature from the Void</div>
+      <h1 class="hero-name">STABITHA.</h1>
+      <div class="hero-sub">Real Name: Tabitha Maeve Sawyer · "big spooky."</div>
+      <div class="hero-entrance">The music of "Souls on Ice" by Dedderz blares across the system. Slowly, Stabitha slinks her way onto the stage. Lights dim. Eerie fog fills the arena. Her ominous presence takes hold of the audience. She wanders down the ramp, slides under the bottom rope, and crawls to the center of the ring. She glares out at the crowd and lets out a foul sounding growl. She rises to her feet. Tilts her head. Listens to the crowd. Smirks. Hops back down into the ring. Slinks into the corner. Sits against the turnbuckle. Waits.</div>
+      <div class="pills"><span class="pill">A Place Beyond</span><span class="pill">The Void</span><span class="pill">🔪</span><span class="pill">Centuries Old</span><span class="pill">Big Spooky</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Real Name</div><div class="vital-val">Tabitha Maeve Sawyer</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">Stabitha</div></div>
+        <div class="vital"><div class="vital-label">Age</div><div class="vital-val spook">Centuries old.</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'9 / 146 lbs</div></div>
+        <div class="vital"><div class="vital-label">Ethnicity</div><div class="vital-val">White</div></div>
+        <div class="vital"><div class="vital-label">Location</div><div class="vital-val spook">A Place Beyond</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Souls on Ice" — Dedderz</div></div>
+        <div class="vital"><div class="vital-label">Origin</div><div class="vital-val spook">Void Walker's entity. Passed to Tabitha upon his death.</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Origin</div>
+      <p style="font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:760px">Tabitha Sawyer began her life adopted by a rural family known as 'the Walkers', given to a nice couple in Florida. Late in life, her brother — a man named Void Walker known to be possessed by an otherworldly entity called 'the Void' — passed. A piece of this being passed to her, causing a psychotic break. Through this break she began to call herself 'Stabitha' and speak of a desire to maim or kill her foes, referencing a history of being a 'creature from the Void.' Whatever that means.</p>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Common Moves</div>
+          <div class="list-item">Gut Wrench Suplex</div><div class="list-item">STO Backbreaker</div><div class="list-item">Downward Spiral</div><div class="list-item">Running Hip Attack</div><div class="list-item">Alabama Slam</div><div class="list-item">Running Clothesline</div><div class="list-item">Flying Forearm</div><div class="list-item">Baseball Slide Dropkick</div><div class="list-item">Shoulder Thrusts in Corner</div>
+        </div>
+        <div class="card"><div class="card-title">Signature &amp; Finishing Moves</div>
+          <div class="list-item"><strong>Edge of the Axe</strong>Slingblade</div>
+          <div class="list-item"><strong>Terror Radius</strong>Suicide Dive (Darby Allin style)</div>
+          <div class="list-item"><strong>Where'd You Get Those Peepers?</strong>Eye Rake</div>
+          <div class="list-item" style="color:var(--void);font-weight:700;margin-top:.5rem"><strong>Last Stab</strong>Hidden Blade · FINISHER</div>
+          <div class="list-item" style="color:var(--void);font-weight:700"><strong>Killer Hook</strong>Crossface · FINISHER</div>
+          <div style="margin-top:1rem;font-size:13px;color:var(--text-muted);font-style:italic">Other: knife emoji. Template by theloversgifs@tumblr.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Stabitha · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

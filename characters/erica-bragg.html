@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Erica Bragg — WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--steel:#708090;--steel-dim:rgba(112,128,144,.12);--steel-border:rgba(112,128,144,.28);--bg:#060808;--bg-card:#0c0e10;--text:#d8e0e8;--text-muted:#608080;--text-dim:#202830;--border:rgba(112,128,144,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(6,8,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--steel)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(160deg,#080c10 0%,#060808 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--steel);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,138px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-size:16px;color:rgba(216,224,232,.4);font-style:italic;margin-bottom:2rem}
+    .hero-quote{font-size:15px;color:rgba(216,224,232,.48);max-width:520px;line-height:1.8;border-left:3px solid var(--steel-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--steel-border);background:var(--steel-dim);color:var(--steel)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--steel);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--steel-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--steel);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--steel-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--steel)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Erica Bragg</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Charlotte, NC · 5'10 · 165 lbs · Debut 2016 · Returns 2024</div>
+      <h1 class="hero-name">ERICA<br/>BRAGG</h1>
+      <div class="hero-alias">The Intimidating Powerhouse · Minneapolis, MN · Five Years Away</div>
+      <p class="hero-quote">Once an agent and consort for Dare Clemmens, her natural talent and charisma soon propelled her into the wrestling ring. Her meteoric rise was marred by personal demons, leading to a five-year stint in prison. Now freshly released and in the best shape of her life, Erica is determined to rewrite her story.</p>
+      <div class="pills"><span class="pill">Charlotte NC</span><span class="pill">Powerhouse</span><span class="pill">Return 2024</span><span class="pill">5 Years Away</span><span class="pill">Wants to Shed the Bad Girl Image</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Name</div><div class="vital-val">Erica Bragg</div></div>
+        <div class="vital"><div class="vital-label">Born</div><div class="vital-val">October 27, 1995 · Charlotte, NC</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'10" / 165 lbs</div></div>
+        <div class="vital"><div class="vital-label">Resides</div><div class="vital-val">Minneapolis, MN</div></div>
+        <div class="vital"><div class="vital-label">Debut</div><div class="vital-val">2016</div></div>
+        <div class="vital"><div class="vital-label">Away From Wrestling</div><div class="vital-val" style="color:var(--steel);font-style:italic">5 years · Prison (assault + narcotics)</div></div>
+        <div class="vital"><div class="vital-label">Return</div><div class="vital-val">2024</div></div>
+        <div class="vital"><div class="vital-label">Brother</div><div class="vital-val">Michael Bragg</div></div>
+        <div class="vital"><div class="vital-label">Parents</div><div class="vital-val" style="color:var(--text-muted);font-style:italic">Edward Bragg (deceased) · Marlow Bragg (deceased)</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Biography</div>
+      <div class="bio-text"><p>Erica Bragg began as an agent and consort for Dare Clemmens, but her natural talent and charisma soon propelled her into the wrestling ring. She rose fast — the kind of rise that draws attention and enemies in equal measure. It ended badly. Assault and possession of narcotics charges. Five years in prison.</p><p>Now she's back. Freshly released. In the best shape of her life. She wants to shed the bad girl image. Whether the wrestling world will let her do that on her own terms remains to be seen. She knows what she's carrying. She's carrying it anyway.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-title">Wrestling Profile &amp; Moveset</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Wrestling Fundamentals</div>
+          <div class="list-item">Incredibly agile powerhouse · Deceptively fast</div>
+          <div class="list-item">Known for uncanny flexibility</div>
+          <div class="list-item">Great ring vision and intimidating ring aura</div>
+          <div class="list-item" style="color:var(--text-muted);font-style:italic">Very low submission defense</div>
+          <div class="list-item" style="color:var(--text-muted);font-style:italic">Quick to anger · Easy to knock off her game</div>
+        </div>
+        <div class="card"><div class="card-title">Moveset</div>
+          <div class="list-item">Spinebuster</div>
+          <div class="list-item">Gorilla Press Slam</div>
+          <div class="list-item">Stalling Vertical Suplex</div>
+          <div class="list-item">Electric Chair Drop</div>
+          <div class="list-item">Butterfly Suplex · Atomic Drop</div>
+          <div class="list-item">Gutwrench Suplex · Running Lariat</div>
+          <div class="list-item" style="color:var(--steel);font-weight:700"><strong>Redemption</strong>Gorilla Press → Sitout Pinning Powerbomb</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Erica Bragg · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

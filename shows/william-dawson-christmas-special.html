@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>William Dawson's Christmas Special — WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--red:#c81020;--red-bright:#e01828;--green:#1a6030;--green-bright:#28a050;--gold:#c9a84c;--snow:#f0f0f8;--bg:#04060a;--card:#0a0e16;--off-white:#f0ece0;--muted:#708090;--dim:#182030;--border:rgba(200,16,32,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--off-white);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;padding:0 4%;gap:2rem;background:linear-gradient(to bottom,rgba(4,6,10,.98) 0%,transparent 100%);transition:background .3s}
+    .navbar.scrolled{background:rgba(10,14,22,.98);backdrop-filter:blur(10px)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;font-style:italic;color:var(--red-bright)}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-left:auto;transition:color .2s}
+    .nav-back:hover{color:var(--off-white)}
+    .hero{position:relative;height:95vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,6,10,.1) 0%,rgba(4,6,10,.5) 45%,rgba(4,6,10,.97) 82%,var(--bg) 100%),linear-gradient(to right,rgba(4,6,10,.95) 0%,transparent 55%);z-index:1}
+    .hero-base{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 60% 35%,rgba(10,30,20,.9) 0%,rgba(4,6,10,1) 100%)}
+    .snowflake{position:absolute;color:rgba(240,240,248,.6);animation:snow linear infinite;pointer-events:none;font-size:16px}
+    @keyframes snow{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:.8}90%{opacity:.4}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
+    .hero-santa{position:absolute;right:6%;top:20%;font-size:clamp(100px,18vw,240px);opacity:.08;pointer-events:none;animation:santa-bob 4s ease-in-out infinite}
+    @keyframes santa-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+    .hero-content{position:relative;z-index:2;padding:0 4% 5%;max-width:720px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;padding:5px 12px 5px 8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:3px}
+    .hero-badge::before{content:'🎄';font-size:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(44px,7vw,95px);font-weight:900;font-style:italic;line-height:.9;color:var(--off-white);text-shadow:0 0 40px rgba(200,16,32,.2);margin-bottom:.4rem}
+    .hero-title .william{color:var(--red-bright)}
+    .hero-title .christmas{color:var(--gold);display:block}
+    .hero-subtitle{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(240,236,224,.45);margin-bottom:1.5rem}
+    .hero-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .hero-meta-item{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:1px}
+    .hero-meta-div{width:4px;height:4px;background:var(--muted);border-radius:50%}
+    .meta-rating{border:1px solid var(--muted);padding:1px 6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+    .hero-desc{font-size:15px;font-weight:300;color:rgba(240,236,224,.8);line-height:1.75;max-width:580px;margin-bottom:2rem}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn-play{display:inline-flex;align-items:center;gap:10px;background:var(--red-bright);color:#fff;font-weight:700;font-size:17px;padding:12px 28px;border-radius:4px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s,transform .15s}
+    .btn-play:hover{opacity:.85;transform:scale(1.02)}
+    .btn-play svg{width:22px;height:22px;fill:white;flex-shrink:0}
+    .btn-info{display:inline-flex;align-items:center;gap:10px;background:rgba(200,16,32,.1);color:var(--red-bright);font-weight:600;font-size:17px;padding:12px 24px;border-radius:4px;border:1px solid rgba(200,16,32,.3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+    .btn-info:hover{background:rgba(200,16,32,.2)}
+    .btn-info svg{width:22px;height:22px;fill:currentColor}
+    .ticker-wrap{overflow:hidden;border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);padding:10px 0;background:rgba(0,0,0,.4)}
+    .ticker-inner{display:flex;gap:4rem;width:max-content;animation:scroll 28s linear infinite}
+    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:.75rem}
+    .ticker-item::before{content:'🎅';font-size:10px}
+    .content-area{padding:0 4% 4rem}
+    .row-section{margin-bottom:3rem}
+    .row-title{font-size:18px;font-weight:600;color:var(--off-white);margin-bottom:1rem}
+    .events-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+    .event-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .event-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.5)}
+    .event-thumb{height:120px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden}
+    .event-thumb::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#080c14,#121e28)}
+    .event-thumb span{position:relative;z-index:1;opacity:.5}
+    .event-info{padding:1rem 1.25rem}
+    .event-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;font-style:italic;color:var(--off-white);margin-bottom:4px}
+    .event-prize{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--gold);margin-bottom:.5rem}
+    .event-desc{font-size:12px;color:var(--muted);line-height:1.55}
+    .participants-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .participants-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.25rem}
+    .participants-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.1)}
+    .participant{font-size:13px;color:var(--muted);padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .participant:last-child{border-bottom:none}
+    .about-section{display:grid;grid-template-columns:1fr 300px;gap:3rem;margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(201,168,76,.08)}
+    .about-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+    .about-desc{font-size:15px;color:rgba(240,236,224,.75);line-height:1.75;margin-bottom:1.5rem}
+    .about-meta-row{display:flex;margin-bottom:.75rem;gap:.5rem;align-items:flex-start}
+    .about-meta-key{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);width:80px;flex-shrink:0;padding-top:1px}
+    .about-meta-val{font-size:13px;color:var(--off-white);line-height:1.5}
+    .genre-tag{display:inline-block;font-size:11px;border:1px solid rgba(201,168,76,.2);padding:2px 8px;border-radius:2px;color:var(--off-white);margin:2px}
+    .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+    .similar-card{background:var(--card);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s}
+    .similar-card:hover{transform:scale(1.04)}
+    .similar-thumb{height:110px;background:linear-gradient(135deg,#04060a,#0a0e16);display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+    .similar-info{padding:10px 12px}
+    .similar-title{font-size:13px;font-weight:600;color:var(--off-white);margin-bottom:3px}
+    .similar-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+    .site-footer{padding:2rem 4%;border-top:1px solid #0a0e16;text-align:center}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;font-style:italic;color:var(--dim);margin-bottom:.5rem}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:#0e1420}
+    @media(max-width:900px){.about-section,.events-grid,.participants-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">William Dawson's Christmas Special</div>
+    <a href="/index.html" class="nav-back">← WrestleFlix Home</a>
+  </nav>
+  <section class="hero">
+    <div class="hero-base"></div>
+    <div id="snowContainer"></div>
+    <div class="hero-santa">🎅</div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">WrestleFlix Holiday Special · One Night Only</div>
+      <h1 class="hero-title">
+        <span class="william">William Dawson's</span>
+        <span class="christmas">Christmas<br/>Special</span>
+      </h1>
+      <div class="hero-subtitle">Post-Heart Surgery · New Outlook · Pure Amusement Wrestling · December</div>
+      <div class="hero-meta">
+        <span class="meta-rating">TV-PG</span>
+        <span class="hero-meta-item">Pure Amusement Wrestling</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">One Night · Holiday Special</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">William Dawson (as Santa Claus)</span>
+      </div>
+      <p class="hero-desc">Following his recent heart surgery and a new lease on life, William Dawson — PAW veteran and reformed influence — invests the money he won from the Skull Kids into a night of holiday wrestling competitions. He is dressed as Santa Claus for the entire evening. This is genuine. He wants to give back.</p>
+      <div class="hero-actions">
+        <button class="btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch The Special</button>
+        <button class="btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap"><div class="ticker-inner">
+    <div class="ticker-item">William Dawson Dressed As Santa · He Is Serious About This · The Family Is Present</div>
+    <div class="ticker-item">Prize: All-Expenses Trip To Courchevel France · For The Mistletoe Run</div>
+    <div class="ticker-item">Prize: A Trip To Switzerland + Spending Money · For The Cookie Jar</div>
+    <div class="ticker-item">Prize: A Golden Trophy Filled With Money · For The Christmas Pageant</div>
+    <div class="ticker-item">Thot Experiment Entered The Pageant · Cassie Blackwood &amp; Leo Dawson In The Run</div>
+    <div class="ticker-item">Sign Up With As Many Characters As You Wish · No Limit · Holiday Spirit</div>
+    <div class="ticker-item">William Dawson Dressed As Santa · He Is Serious About This · The Family Is Present</div>
+    <div class="ticker-item">Prize: All-Expenses Trip To Courchevel France · For The Mistletoe Run</div>
+    <div class="ticker-item">Prize: A Trip To Switzerland + Spending Money · For The Cookie Jar</div>
+    <div class="ticker-item">Prize: A Golden Trophy Filled With Money · For The Christmas Pageant</div>
+    <div class="ticker-item">Thot Experiment Entered The Pageant · Cassie Blackwood &amp; Leo Dawson In The Run</div>
+    <div class="ticker-item">Sign Up With As Many Characters As You Wish · No Limit · Holiday Spirit</div>
+  </div></div>
+
+  <div class="content-area">
+    <div class="row-section">
+      <div class="row-title">The Three Events</div>
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-thumb"><span>🏃</span></div>
+          <div class="event-info">
+            <div class="event-title">The Mistletoe Run</div>
+            <div class="event-prize">🏆 Prize: All-Expenses Paid Trip to Courchevel, France (New Year's)</div>
+            <div class="event-desc">Teams of two. You cannot drop the mistletoe sprig or you're disqualified. Race through the obstacle course. Reach your partner at the other end. Kiss. Win. Simple. Romantic. Competitive.</div>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-thumb"><span>🎤</span></div>
+          <div class="event-info">
+            <div class="event-title">The Christmas Pageant</div>
+            <div class="event-prize">🏆 Prize: Golden Trophy Filled With Money (Split if group)</div>
+            <div class="event-desc">Solo or group performance. Sing, dance, or both. William and his family judge. They hold up scorecards. Thot Experiment (@ThotExperimentt) entered. The BBC entered with Skylar Wright Virtue. This will be something.</div>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-thumb"><span>🍪</span></div>
+          <div class="event-info">
+            <div class="event-title">The Cookie Jar</div>
+            <div class="event-prize">🏆 Prize: Trip to Switzerland + Spending Money (Chocolate Capital)</div>
+            <div class="event-desc">William cannot drink his traditional Three Wise Men shot this year. But he can eat cookies. The winner is judged on taste AND presentation. Christmas-themed cookies score best. William alone judges.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-section">
+      <div class="row-title">Participants</div>
+      <div class="participants-grid">
+        <div class="participants-card">
+          <div class="participants-title">The Mistletoe Run — Couples / Teams</div>
+          <div class="participant">Cassie Blackwood &amp; Leo Dawson</div>
+          <div class="participant">Carli Davis &amp; Chocolate Wayne</div>
+          <div class="participant">Henrik Kanensson &amp; Winona King</div>
+          <div class="participant">Krissy &amp; Kyla Lang</div>
+          <div class="participant">Cillian Gallagher &amp; Quinn Murphy</div>
+          <div class="participant">Weston Lovejoy &amp; Lily Blaise</div>
+          <div class="participant">Sally &amp; Spec</div>
+          <div class="participant">Bert Cocaine &amp; Miles Lucky</div>
+          <div class="participant">Carlo Di Luca &amp; Francesca Bernardi</div>
+          <div class="participant">Róisín Chamberlain &amp; Aiden Staunton</div>
+        </div>
+        <div class="participants-card">
+          <div class="participants-title">The Christmas Pageant — Performers</div>
+          <div class="participant">Scout Kent (Solo)</div>
+          <div class="participant">Harry &amp; Rowen Boxman</div>
+          <div class="participant">Tommy and Zack</div>
+          <div class="participant">Melodie Marston &amp; Cairo Mulipola</div>
+          <div class="participant">Emily Fowler &amp; FMK</div>
+          <div class="participant">BBC + Skylar Wright Virtue</div>
+          <div class="participant">Sawyer Page + Carson Davis</div>
+          <div class="participant">Thot Experiment (@ThotExperimentt)</div>
+          <div class="participant">Dante &amp; Cynthia Slade</div>
+          <div class="participant">Teagan Gallagher &amp; Roisin Chamberlain</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <div>
+        <div class="about-label">About The Special</div>
+        <p class="about-desc">William Dawson's Christmas Special is a one-night holiday event hosted by PAW veteran William Dawson, who following heart surgery has committed to using his platform positively. He is using the prize money from his cage match victory over Carlo to fund the event's prizes entirely out of his own pocket.</p>
+        <p class="about-desc">He is dressed as Santa Claus for the entire evening. His family is present. He welcomes everyone — whether you love or hate him — in the spirit of the holidays. This is genuine. His heart has literally been opened. His eyes have also been opened. He would like to give back, and he has done so by giving two trips, a trophy of money, and a great deal of Christmas spirit to professional wrestlers.</p>
+      </div>
+      <div>
+        <div class="about-meta-row"><span class="about-meta-key">Host</span><span class="about-meta-val">William Dawson (as Santa)</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Promotion</span><span class="about-meta-val">Pure Amusement Wrestling (PAW)</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Prize Fund</span><span class="about-meta-val">Cage match winnings from Carlo Di Luca fight</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Events</span><span class="about-meta-val">Mistletoe Run · Christmas Pageant · Cookie Jar</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Rating</span><span class="about-meta-val">TV-PG · Holiday Spirit · One Vape (Weston)</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Genres</span><span class="about-meta-val"><span class="genre-tag">Holiday Special</span><span class="genre-tag">PAW Universe</span><span class="genre-tag">Competition</span></span></div>
+      </div>
+    </div>
+
+    <div class="row-section" style="margin-top:3rem">
+      <div class="row-title">More WrestleFlix</div>
+      <div class="similar-grid">
+        <div class="similar-card"><div class="similar-thumb">🎭</div><div class="similar-info"><div class="similar-title">French Mime Assassins</div><div class="similar-meta">PAW UNIVERSE · S1</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">🎙️</div><div class="similar-info"><div class="similar-title">Howell Are You Doing?</div><div class="similar-meta">S1 · 7 EPISODES</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">💀</div><div class="similar-info"><div class="similar-title">DEATH GRAPS</div><div class="similar-meta">SEASON 1</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">👽</div><div class="similar-info"><div class="similar-title">inVader</div><div class="similar-meta">S1 · 3 EPISODES</div></div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="footer-logo">William Dawson's Christmas Special</div><div class="footer-text">© WrestleFlix · Pure Amusement Wrestling · Happy Holidays From William Dawson, Dressed As Santa</div></footer>
+  <script>
+    const nav=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));
+    const sc=document.getElementById('snowContainer');
+    const flakes=['❄','❅','❆','*'];
+    for(let i=0;i<30;i++){
+      const f=document.createElement('div');
+      f.className='snowflake';
+      f.textContent=flakes[Math.floor(Math.random()*flakes.length)];
+      f.style.cssText=`left:${Math.random()*100}%;animation-duration:${Math.random()*8+5}s;animation-delay:${Math.random()*-12}s;font-size:${Math.random()*14+8}px`;
+      sc.appendChild(f);
+    }
+  </script>
+</body>
+</html>

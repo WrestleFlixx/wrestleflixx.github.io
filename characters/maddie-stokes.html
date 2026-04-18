@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maddie Stokes — The Real Deal · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--maple:#c8402c;--maple-dim:rgba(200,64,44,.12);--maple-border:rgba(200,64,44,.28);--bg:#0a0402;--bg-card:#120804;--text:#f4e8e0;--text-muted:#906050;--text-dim:#3a1808;--border:rgba(200,64,44,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(10,4,2,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--maple)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:grid;grid-template-columns:1fr 360px;overflow:hidden}
+    .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 3rem 4rem;position:relative;z-index:2}
+    .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 65%,transparent 100%);z-index:-1}
+    .hero-right{background:linear-gradient(135deg,#180808 0%,#0a0402 100%);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:130px;letter-spacing:4px;color:rgba(200,64,44,.04);position:relative}
+    .hero-right::after{content:'🍁';position:absolute;top:30%;font-size:120px;opacity:.08}
+    .hero-right::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(10,4,2,1) 0%,transparent 30%)}
+    .hero-accent{width:2px;height:100px;background:linear-gradient(to bottom,transparent,var(--maple),transparent);margin-bottom:2rem}
+    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--maple);margin-bottom:1rem;display:flex;align-items:center;gap:12px}
+    .hero-eyebrow::before{content:'';display:inline-block;width:30px;height:1px;background:var(--maple)}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,8vw,120px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--maple);margin-bottom:2rem}
+    .hero-quote{font-size:15px;color:rgba(244,232,224,.48);max-width:460px;line-height:1.8;border-left:3px solid var(--maple-border);padding-left:1.25rem;margin-bottom:2.5rem;font-style:italic}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--maple-border);background:var(--maple-dim);color:var(--maple)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--maple);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--maple-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .vital-val.note{color:var(--maple);font-style:italic}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .moves-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--maple);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--maple-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .bio-text{font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:rgba(244,232,224,.72);max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .champ-list{display:flex;flex-direction:column;gap:.5rem}
+    .champ-item{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;font-size:14px;color:var(--text-muted)}
+    .stat-row{margin-bottom:.875rem}
+    .stat-hd{display:flex;justify-content:space-between;margin-bottom:5px}
+    .stat-name{font-size:13px;font-weight:600;color:var(--text)}
+    .stat-num{font-family:'DM Mono',monospace;font-size:11px}
+    .stat-track{height:4px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+    .stat-fill{height:100%;border-radius:3px}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--maple)}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.hero-right{display:none}.two-col,.moves-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Maddie Stokes</span></div></nav>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-accent"></div>
+      <div class="hero-eyebrow">WrestleFlix · Character Profile · WrestleMecca</div>
+      <h1 class="hero-name">MADDIE<br/>STOKES</h1>
+      <div class="hero-alias">"The Real Deal" · Daughter of Brad Stokes · Complete Champion</div>
+      <p class="hero-quote">She is fiercely passionate about wrestling and dedicated to carving her own path in the industry. Despite her estranged relationship with her father, she is driven by a desire to establish her own identity apart from the Stokes name — while still honouring his legacy.</p>
+      <div class="pills"><span class="pill">Vancouver, Canada</span><span class="pill">5'7 · 131 lbs</span><span class="pill">Technical</span><span class="pill">High-Flying</span><span class="pill">Brad's Daughter</span></div>
+    </div>
+    <div class="hero-right">MS</div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">Personal File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Birth Name</div><div class="vital-val">Maddie Elizabeth Stokes</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">"The Real Deal" Maddie Stokes</div></div>
+        <div class="vital"><div class="vital-label">Born</div><div class="vital-val">April 15, 1990 · Brantford, Ontario</div></div>
+        <div class="vital"><div class="vital-label">Billed From</div><div class="vital-val">Vancouver, Canada</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'7" / 131 lbs</div></div>
+        <div class="vital"><div class="vital-label">Zodiac</div><div class="vital-val">Aries</div></div>
+        <div class="vital"><div class="vital-label">Sexuality</div><div class="vital-val note">Straight (but who knows)</div></div>
+        <div class="vital"><div class="vital-label">Relationship Status</div><div class="vital-val note">Single (but it's also complicated)</div></div>
+        <div class="vital"><div class="vital-label">Trained By</div><div class="vital-val">El Tigre · Yuki "The Dragon" Tanaka · "Madman" Mike Steele · Sakura "The Blossom" Aoki</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Action Radius" — Junkie XL</div></div>
+        <div class="vital"><div class="vital-label">Father</div><div class="vital-val note">Brad Stokes (WrestleMecca GM) — Estranged</div></div>
+        <div class="vital"><div class="vital-label">Twitter</div><div class="vital-val">@NOTMADDIESTOKES</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">International Aliases</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--maple)">LA SOMBRA</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase">Mexico</div></div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--maple)">KUROHIME</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase">Japan</div></div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--maple)">THE PHOENIX</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase">Brazil</div></div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--maple)">THUNDERSTRIKE</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase">South Korea</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Personality</div>
+      <div class="bio-text"><p>Maddie Elizabeth Stokes is charismatic and determined with a strong sense of independence and a remarkable ability to connect with fans of any stripe. She is fiercely passionate about wrestling, dedicated to carving her own path in the industry. Despite her estranged relationship with her father Brad Stokes, she is driven by a desire to establish her own identity apart from the Stokes name, while still honouring his legacy.</p><p>Maddie is known for her resilience and ability to bounce back from adversity. Her opportunistic mindset and strategic thinking make her a formidable competitor. However, her fiery and passionate nature can sometimes lead to overly melodramatic or emotional reactions — making her susceptible to mind games. Her overconfidence and risk-taking tendencies are double-edged swords, leading to both spectacular victories and costly mistakes.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="two-col">
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Technical Prowess</span><span class="stat-num" style="color:#c8402c">92</span></div><div class="stat-track"><div class="stat-fill" style="width:92%;background:#c8402c"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">High-Flying</span><span class="stat-num" style="color:#4a9eff">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#4a9eff"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Charisma</span><span class="stat-num" style="color:#ff9f43">90</span></div><div class="stat-track"><div class="stat-fill" style="width:90%;background:#ff9f43"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Resilience</span><span class="stat-num" style="color:#4aff9e">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#4aff9e"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Opportunism</span><span class="stat-num" style="color:#c8402c">85</span></div><div class="stat-track"><div class="stat-fill" style="width:85%;background:#c8402c"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Emotional Control</span><span class="stat-num" style="color:#606080">52</span></div><div class="stat-track"><div class="stat-fill" style="width:52%;background:#606080"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Risk Management</span><span class="stat-num" style="color:#606080">48</span></div><div class="stat-track"><div class="stat-fill" style="width:48%;background:#606080"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Dad Issues</span><span class="stat-num" style="color:#ff6b6b">95</span></div><div class="stat-track"><div class="stat-fill" style="width:95%;background:#ff6b6b"></div></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="moves-3">
+        <div class="card"><div class="card-title">Common Moves</div>
+          <div class="list-item">Arm Drag</div><div class="list-item">Dropkick</div><div class="list-item">Hurricanrana</div>
+          <div class="list-item">Enziguri</div><div class="list-item">Diving Elbow Drop</div><div class="list-item">Dragon Screw</div>
+          <div class="list-item">Snapmare</div><div class="list-item">Missile Dropkick</div><div class="list-item">Snap Suplex</div>
+          <div class="list-item">Running Boot</div><div class="list-item">Tornado DDT</div><div class="list-item">Lunging Lariat</div>
+        </div>
+        <div class="card"><div class="card-title">Signature Moves</div>
+          <div class="list-item"><strong>Phoenix Splash</strong>Corkscrew Splash</div>
+          <div class="list-item"><strong>Thunderstrike DDT</strong>Corkscrew DDT</div>
+          <div class="list-item"><strong>Kurohime Lock</strong>Armtrap Crossface</div>
+        </div>
+        <div class="card"><div class="card-title">Finishing Moves</div>
+          <div class="list-item" style="color:var(--maple);font-weight:700"><strong>Sombra Slam</strong>Sitout Powerbomb · Primary</div>
+          <div class="list-item" style="color:var(--maple);font-weight:700"><strong>Stokes Special</strong>Superkick → Top Rope Elbow Drop</div>
+          <div class="list-item" style="color:var(--maple);font-weight:700"><strong>Real Deal Lock</strong>Bull Angelito</div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Championship History</div>
+      <div class="champ-list">
+        <div class="champ-item">🏆 WrestleMecca Complete Championship (Current — courtesy of Brad)</div>
+        <div class="champ-item">🏆 LLE Estrella Women's Championship (2x)</div>
+        <div class="champ-item">🏆 CLF World Women's Championship (1x)</div>
+        <div class="champ-item">🏆 UJPW Wonder Championship (1x)</div>
+        <div class="champ-item">🏆 UJPW Tag Team Championship (1x)</div>
+        <div class="champ-item">🏆 UJPW Trios Championship (1x) — Grand Slam Champion</div>
+        <div class="champ-item">🏆 NPJ Women's Championship (1x)</div>
+        <div class="champ-item">🏆 SSW Championship (1x)</div>
+        <div class="champ-item">🏆 WEW Spirit Championship (2x)</div>
+        <div class="champ-item">🏆 PWG Women's Championship (1x)</div>
+        <div class="champ-item">🏆 PWG Intercontinental Championship (2x)</div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Key Relationships</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Brad Stokes — Father · Estranged</div><div class="list-item">WrestleMecca's General Manager. Declared her the Complete Champion through questionable means. Their relationship is complicated. Her mother's name is not mentioned. She wrestles despite him as much as because of him.</div></div>
+        <div class="card"><div class="card-title">Ezekial Chau — Estranged Fiancé</div><div class="list-item">He's engaged to a Maddie doppelganger. The situation is as strange as it sounds. Maddie is aware. It is not helping.</div></div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Maddie Stokes · Character Profile · WrestleFlix Universe · WrestleMecca</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

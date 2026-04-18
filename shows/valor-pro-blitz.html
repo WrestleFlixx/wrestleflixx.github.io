@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valor Pro Blitz — WrestleFlix Original Series</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--purple:#6020a0;--purple-bright:#8840c0;--purple-dim:rgba(136,64,192,.12);--purple-border:rgba(136,64,192,.28);--silver:#b0b8c8;--bg:#06040c;--card:#0e0818;--off-white:#e8e0f8;--muted:#605880;--dim:#1a1030;--border:rgba(136,64,192,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--off-white);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;padding:0 4%;gap:2rem;background:linear-gradient(to bottom,rgba(6,4,12,.98) 0%,transparent 100%);transition:background .3s}
+    .navbar.scrolled{background:rgba(14,8,24,.98);backdrop-filter:blur(10px)}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;color:var(--purple-bright)}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-left:auto;transition:color .2s}
+    .nav-back:hover{color:var(--off-white)}
+    .hero{position:relative;height:95vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,4,12,.15) 0%,rgba(6,4,12,.5) 45%,rgba(6,4,12,.97) 82%,var(--bg) 100%),linear-gradient(to right,rgba(6,4,12,.95) 0%,transparent 55%);z-index:1}
+    .hero-base{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 65% 35%,rgba(40,0,80,.8) 0%,rgba(6,4,12,1) 100%)}
+    .hero-text-bg{position:absolute;right:4%;top:15%;font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,18vw,240px);color:rgba(136,64,192,.05);letter-spacing:6px;pointer-events:none;line-height:1}
+    .hero-content{position:relative;z-index:2;padding:0 4% 5%;max-width:720px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--purple-bright);margin-bottom:1.5rem;padding:5px 12px 5px 8px;background:rgba(136,64,192,.08);border:1px solid rgba(136,64,192,.2);border-radius:3px}
+    .hero-badge::before{content:'';display:inline-block;width:8px;height:8px;background:var(--purple-bright);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,10vw,130px);line-height:.88;color:var(--off-white);text-shadow:0 0 40px rgba(136,64,192,.4);margin-bottom:.4rem;letter-spacing:3px}
+    .hero-title span{color:var(--purple-bright)}
+    .hero-subtitle{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:rgba(232,224,248,.45);margin-bottom:1.5rem}
+    .hero-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .hero-meta-item{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:1px}
+    .hero-meta-div{width:4px;height:4px;background:var(--muted);border-radius:50%}
+    .meta-rating{border:1px solid var(--muted);padding:1px 6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+    .hero-desc{font-size:15px;font-weight:300;color:rgba(232,224,248,.8);line-height:1.75;max-width:580px;margin-bottom:2rem}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn-play{display:inline-flex;align-items:center;gap:10px;background:var(--purple-bright);color:#fff;font-weight:700;font-size:17px;padding:12px 28px;border-radius:4px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s,transform .15s}
+    .btn-play:hover{opacity:.85;transform:scale(1.02)}
+    .btn-play svg{width:22px;height:22px;fill:white;flex-shrink:0}
+    .btn-info{display:inline-flex;align-items:center;gap:10px;background:rgba(136,64,192,.12);color:var(--purple-bright);font-weight:600;font-size:17px;padding:12px 24px;border-radius:4px;border:1px solid rgba(136,64,192,.3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+    .btn-info:hover{background:rgba(136,64,192,.22)}
+    .btn-info svg{width:22px;height:22px;fill:currentColor}
+    .ticker-wrap{overflow:hidden;border-top:1px solid rgba(136,64,192,.08);border-bottom:1px solid rgba(136,64,192,.08);padding:10px 0;background:rgba(0,0,0,.4)}
+    .ticker-inner{display:flex;gap:4rem;width:max-content;animation:scroll 30s linear infinite}
+    @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:.75rem}
+    .ticker-item::before{content:'◆';color:rgba(136,64,192,.25);font-size:8px}
+    .content-area{padding:0 4% 4rem}
+    .row-section{margin-bottom:3rem}
+    .row-title{font-size:18px;font-weight:600;color:var(--off-white);margin-bottom:1rem}
+    .row-title .link{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--purple-bright);font-weight:500;margin-left:.75rem;vertical-align:middle;opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s}
+    .row-section:hover .link{opacity:1;transform:translateX(0)}
+    .ep-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none}
+    .ep-scroll::-webkit-scrollbar{display:none}
+    .ep-card{flex:0 0 300px;background:var(--card);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
+    .ep-card:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.7),0 0 20px rgba(136,64,192,.1);z-index:10}
+    .ep-thumb{position:relative;width:100%;height:168px;overflow:hidden}
+    .ep-thumb-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#06040c 0%,#160830 50%,#0a0618 100%);position:relative;overflow:hidden}
+    .ep-thumb-art::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(136,64,192,.04) 12px,rgba(136,64,192,.04) 13px)}
+    .ep-thumb-emoji{position:relative;z-index:1;font-size:56px;opacity:.25}
+    .ep-thumb-num{position:absolute;bottom:8px;left:10px;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(136,64,192,.4);z-index:2}
+    .ep-thumb-duration{position:absolute;bottom:8px;right:10px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(232,224,248,.35);z-index:2;background:rgba(0,0,0,.5);padding:2px 5px;border-radius:2px}
+    .ep-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--purple-bright)}
+    .ep-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background .2s;z-index:5}
+    .ep-card:hover .ep-play-overlay{background:rgba(0,0,0,.45)}
+    .ep-play-btn{width:48px;height:48px;border-radius:50%;background:var(--purple-bright);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
+    .ep-card:hover .ep-play-btn{opacity:1;transform:scale(1)}
+    .ep-play-btn svg{width:20px;height:20px;fill:white;margin-left:3px}
+    .ep-info{padding:10px 12px 14px}
+    .ep-ep-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .ep-title-text{font-size:14px;font-weight:700;color:var(--off-white);margin-bottom:4px;line-height:1.3}
+    .ep-location{font-family:'DM Mono',monospace;font-size:10px;color:var(--purple-bright);margin-bottom:4px}
+    .ep-desc-text{font-size:12px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .about-section{display:grid;grid-template-columns:1fr 300px;gap:3rem;margin-top:3rem;padding-top:3rem;border-top:1px solid var(--border)}
+    .about-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+    .about-desc{font-size:15px;color:rgba(232,224,248,.75);line-height:1.75;margin-bottom:1.5rem}
+    .about-meta-row{display:flex;margin-bottom:.75rem;gap:.5rem;align-items:flex-start}
+    .about-meta-key{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);width:80px;flex-shrink:0;padding-top:1px}
+    .about-meta-val{font-size:13px;color:var(--off-white);line-height:1.5}
+    .genre-tag{display:inline-block;font-size:11px;border:1px solid rgba(136,64,192,.2);padding:2px 8px;border-radius:2px;color:var(--off-white);margin:2px}
+    .similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+    .similar-card{background:var(--card);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s}
+    .similar-card:hover{transform:scale(1.04)}
+    .similar-thumb{height:110px;background:linear-gradient(135deg,#06040c,#0e0820);display:flex;align-items:center;justify-content:center;font-size:40px;opacity:.3}
+    .similar-info{padding:10px 12px}
+    .similar-title{font-size:13px;font-weight:600;color:var(--off-white);margin-bottom:3px}
+    .similar-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px}
+    .site-footer{padding:2rem 4%;border-top:1px solid #0e0820;text-align:center}
+    .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--dim);margin-bottom:.5rem}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:#0e0820}
+    @media(max-width:900px){.about-section{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">VALOR PRO BLITZ</div>
+    <a href="/archive/valorpro.html" class="nav-back">← Valor Pro Home</a>
+  </nav>
+  <section class="hero">
+    <div class="hero-base"></div>
+    <div class="hero-text-bg">VPW</div>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Valor Pro Wrestling · WrestleFlix Original</div>
+      <h1 class="hero-title"><span>VALOR PRO</span><br/>BLITZ</h1>
+      <div class="hero-subtitle">The VPW International Event Series · 2018</div>
+      <div class="hero-meta">
+        <span class="meta-rating">TV-MA</span>
+        <span class="hero-meta-item">2018</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">Season 1 · 7 Events</span>
+        <span class="hero-meta-div"></span>
+        <span class="hero-meta-item">GM: Vanessa Byrne</span>
+      </div>
+      <p class="hero-desc">Valor Pro Wrestling takes its Blitz series international — Las Palmas, Rome, Munich, and beyond. Cosmo Cooper arrives. Brennan Devlin and Elina Cartel are not happy about it. Brodie paints a giant rabbit on a parking lot wall and stares at people. This is the show.</p>
+      <div class="hero-actions">
+        <button class="btn-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play Blitz Exhibition</button>
+        <button class="btn-info"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap"><div class="ticker-inner">
+    <div class="ticker-item">Cosmo Cooper &amp; Vannah White · Champions of Choice (Per Vanessa Byrne)</div>
+    <div class="ticker-item">Brennan Devlin · 51-0 · Unimpressed By Cosmo Cooper</div>
+    <div class="ticker-item">Brodie: I am the rabbit · Catch me if you can</div>
+    <div class="ticker-item">Elina Cartel — First Ever Valor APEX Champion · Monarch + Gladiator Unified</div>
+    <div class="ticker-item">Zachariah Krahe · The UnYielding Championship · Paid for Things He Shouldn't Have</div>
+    <div class="ticker-item">Events in: Spain · Italy · Germany · Wales · More</div>
+    <div class="ticker-item">Cosmo Cooper &amp; Vannah White · Champions of Choice (Per Vanessa Byrne)</div>
+    <div class="ticker-item">Brennan Devlin · 51-0 · Unimpressed By Cosmo Cooper</div>
+    <div class="ticker-item">Brodie: I am the rabbit · Catch me if you can</div>
+    <div class="ticker-item">Elina Cartel — First Ever Valor APEX Champion · Monarch + Gladiator Unified</div>
+    <div class="ticker-item">Zachariah Krahe · The UnYielding Championship · Paid for Things He Shouldn't Have</div>
+    <div class="ticker-item">Events in: Spain · Italy · Germany · Wales · More</div>
+  </div></div>
+
+  <div class="content-area">
+    <div class="row-section">
+      <div class="row-title">Season 1 — All Events <span class="link">7 events ›</span></div>
+      <div class="ep-scroll">
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">🏟️</span></div><div class="ep-thumb-num">EXHIBITION</div><div class="ep-thumb-duration">2h 40m</div><div class="ep-progress" style="width:100%"></div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz Exhibition · Season Premiere</div><div class="ep-location">📍 Gran Canaria Arena, Las Palmas, Spain</div><div class="ep-title-text">The Arrival</div><div class="ep-desc-text">Cosmo Cooper and Vannah White debut in VPW. Vanessa Byrne calls them her Champions of Choice. Brennan Devlin gets a screw job. Nobody is surprised except the ref.</div></div></div>
+
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">🐰</span></div><div class="ep-thumb-num">BLITZ #1</div><div class="ep-thumb-duration">2h 55m</div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz 1 · Oct 7, 2018</div><div class="ep-location">📍 Gran Canaria Arena, Las Palmas, Spain</div><div class="ep-title-text">The Rabbit</div><div class="ep-desc-text">Brodie delivers a parking lot promo. She paints a giant white rabbit on the wall mid-speech. She winks at the camera. "I am the rabbit. Catch me if you can." This holds up.</div></div></div>
+
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">🍎</span></div><div class="ep-thumb-num">BLITZ #2</div><div class="ep-thumb-duration">2h 48m</div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz 2 — 7 Pillars PPV</div><div class="ep-location">📍 Olympiahalle, Rome, Italy</div><div class="ep-title-text">The Apple</div><div class="ep-desc-text">Brodie offers Willie Pete an apple. He checks for moisture — was it from an apple-bobbing contest? It was not. He eats it. They talk. Their upcoming match is explained to them by the fruit.</div></div></div>
+
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">🏆</span></div><div class="ep-thumb-num">BLITZ #3</div><div class="ep-thumb-duration">3h 02m</div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz 3 · Oct 2018</div><div class="ep-location">📍 Olympiahalle, Munich, Germany</div><div class="ep-title-text">The Unification</div><div class="ep-desc-text">Elina Cartel becomes the first ever Valor APEX Champion by unifying the Monarch and Gladiator Championships. Vanessa Byrne is not impressed. She already has other plans.</div></div></div>
+
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">💸</span></div><div class="ep-thumb-num">BLITZ #4</div><div class="ep-thumb-duration">2h 52m</div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz 4 · Nov 2018</div><div class="ep-location">📍 Olympiahalle, Munich, Germany</div><div class="ep-title-text">Krahe's Deal</div><div class="ep-desc-text">The note from 7 Pillars is revealed: Zachariah Krahe paid Cross Recoba to eliminate Zack Fantana. The UnYielding Championship is on the line. Krahe is now booking his own defenses.</div></div></div>
+
+        <div class="ep-card"><div class="ep-thumb"><div class="ep-thumb-art"><span class="ep-thumb-emoji">🌊</span></div><div class="ep-thumb-num">BLITZ #5</div><div class="ep-thumb-duration">2h 58m</div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label">Blitz 5 · Sep 23, 2018</div><div class="ep-location">📍 Olympiahalle, Munich</div><div class="ep-title-text">Brodie Snaps</div><div class="ep-desc-text">Brodie catches Siberia Zombie in a crossface hallway before the show even starts. It takes three grown men to break her grip. She continues walking. Her mantra: "You Owe Me."</div></div></div>
+
+        <div class="ep-card" style="flex:0 0 320px"><div class="ep-thumb" style="position:relative"><div class="ep-thumb-art" style="background:linear-gradient(135deg,#06040c,#1a0840)"><span class="ep-thumb-emoji" style="font-size:64px">👑</span></div><div class="ep-thumb-num">BLITZ #6 · SEASON FINALE</div><div class="ep-thumb-duration">3h 20m</div><div style="position:absolute;inset:0;border:2px solid rgba(136,64,192,.35);pointer-events:none"></div><div class="ep-play-overlay"><div class="ep-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div></div><div class="ep-info"><div class="ep-ep-label" style="color:var(--purple-bright)">Blitz 6 · Dec 16, 2018 · Season Finale</div><div class="ep-location">📍 Gran Canaria Arena, Las Palmas</div><div class="ep-title-text">Full Circle</div><div class="ep-desc-text">Back where it started. Every feud opened in Spain needs to close in Spain. Willie Pete and Brodie face off properly. Cosmo Cooper defends. Brad Stokes appears at ringside talking to himself. The season closes.</div></div></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <div>
+        <div class="about-label">About Valor Pro Blitz</div>
+        <p class="about-desc">Valor Pro Wrestling's Blitz series is the promotion's flagship broadcast — an international touring event that rotates between Gran Canaria, Rome, Munich, and other European venues. Overseen by GM Vanessa Byrne, the series is marked by her controversial decision to designate Cosmo Cooper and Vannah White as her "Champions of Choice" from their very first appearance, bypassing the veterans who had been building toward those opportunities.</p>
+        <p class="about-desc">Brodie is the show's breakout character — a methodical, cryptic striker who delivers parking lot monologues while painting murals, and who turns every backstage confrontation into a power statement. The Othello Brothers (Kenneth and Laurence) call every event with chemistry and competence.</p>
+      </div>
+      <div>
+        <div class="about-meta-row"><span class="about-meta-key">GM</span><span class="about-meta-val">Vanessa Byrne</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Announcers</span><span class="about-meta-val">Kenneth &amp; Laurence Othello</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Events</span><span class="about-meta-val">Exhibition + Blitz #1–6</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Aired</span><span class="about-meta-val">2018 · International tour</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Rating</span><span class="about-meta-val">TV-MA · Violence · Language</span></div>
+        <div class="about-meta-row"><span class="about-meta-key">Genres</span><span class="about-meta-val"><span class="genre-tag">International Wrestling</span><span class="genre-tag">Drama</span><span class="genre-tag">Strong Style</span></span></div>
+      </div>
+    </div>
+
+    <div class="row-section" style="margin-top:3rem">
+      <div class="row-title">More WrestleFlix</div>
+      <div class="similar-grid">
+        <div class="similar-card"><div class="similar-thumb">📺</div><div class="similar-info"><div class="similar-title">AWE Massacre</div><div class="similar-meta">S1 · 10 EPISODES</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">💀</div><div class="similar-info"><div class="similar-title">DEATH GRAPS</div><div class="similar-meta">SEASON 1</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">🏆</div><div class="similar-info"><div class="similar-title">WrestleMecca</div><div class="similar-meta">3 EVENTS</div></div></div>
+        <div class="similar-card"><div class="similar-thumb">👽</div><div class="similar-info"><div class="similar-title">inVader</div><div class="similar-meta">S1 · 3 EPISODES</div></div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="footer-logo">VALOR PRO BLITZ</div><div class="footer-text">© WrestleFlix Originals · Valor Pro Wrestling · I Am The Rabbit</div></footer>
+  <script>const nav=document.getElementById('navbar');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50));</script>
+</body>
+</html>

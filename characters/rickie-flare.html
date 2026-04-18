@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rickie Flare — The Glamour Banshee · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--peacock:#20b8c8;--peacock-dim:rgba(32,184,200,.12);--peacock-border:rgba(32,184,200,.28);--purple:#7020c8;--gold:#d4b040;--bg:#040610;--bg-card:#080c18;--text:#e0e8f8;--text-muted:#5880a8;--text-dim:#181e34;--border:rgba(32,184,200,.1)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 10%,rgba(32,184,200,.06) 0%,transparent 70%);pointer-events:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,6,16,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--peacock)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;background:linear-gradient(160deg,#06040e 0%,#040610 100%)}
+    .hero-content{position:relative;z-index:2;padding:3rem 2rem;max-width:900px}
+    .hero-woo{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,15vw,200px);color:rgba(32,184,200,.06);position:absolute;top:10%;left:-2%;pointer-events:none;letter-spacing:4px}
+    .hero-woo2{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,12vw,160px);color:rgba(112,32,200,.04);position:absolute;bottom:10%;right:-2%;pointer-events:none;letter-spacing:4px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--peacock);margin-bottom:1.5rem}
+    .hero-name{font-family:'Playfair Display',serif;font-size:clamp(56px,9vw,120px);font-weight:900;line-height:.9;letter-spacing:3px;color:var(--text);text-shadow:0 0 40px rgba(32,184,200,.3);margin-bottom:.5rem}
+    .hero-alias{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+    .hero-quote{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:rgba(224,232,248,.6);max-width:680px;margin:0 auto 2.5rem;line-height:1.75}
+    .pills{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--peacock-border);background:var(--peacock-dim);color:var(--peacock)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem;position:relative;z-index:1}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--peacock);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--peacock-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .vital-val.woo{color:var(--peacock)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--peacock);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--peacock-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .bio-text{font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:rgba(224,232,248,.72);max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+    .title-count{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+    .tc{text-align:center;padding:1rem 1.5rem;background:var(--bg-card);border:1px solid var(--peacock-border);border-radius:8px}
+    .tc-num{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--peacock);line-height:1}
+    .tc-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--peacock)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Rickie Flare</span></div></nav>
+  <div class="hero-woo">WOO!</div>
+  <div class="hero-woo2">WOO!</div>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Atlanta, Georgia · 5'9 · 138 lbs · Debut March 14, 2010 · @AllFlare</div>
+      <h1 class="hero-name">RICKIE<br/>FLARE</h1>
+      <div class="hero-alias">The Most Fabulous · The Glamour Banshee · The Human Jewel · The Living Legacy · The Queen</div>
+      <p class="hero-quote">"Rickie Flare is not a character. She is a fact. The strut, the 'Woo!', the robes, the arrogance — these are not affectations. They are the natural traits of a once-in-a-lifetime icon who simply chose to share her magnificence with the wrestling world."</p>
+      <div class="pills">
+        <span class="pill">Heel (Protagonist)</span><span class="pill">16x World Champion</span><span class="pill">Atlanta GA</span><span class="pill">WOO!</span><span class="pill">Samantha Blaire is Legally Dead</span>
+      </div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Birth Name</div><div class="vital-val">Samantha Blaire (legally dead)</div></div>
+        <div class="vital"><div class="vital-label">Ring Name</div><div class="vital-val">Rickie Flare</div></div>
+        <div class="vital"><div class="vital-label">Birthday</div><div class="vital-val">March 14</div></div>
+        <div class="vital"><div class="vital-label">Birthplace / From</div><div class="vital-val">Atlanta, Georgia</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">5'9 / 138 lbs</div></div>
+        <div class="vital"><div class="vital-label">Alignment</div><div class="vital-val woo">The Protagonist of the Industry (Heel)</div></div>
+        <div class="vital"><div class="vital-label">Debut</div><div class="vital-val">March 14, 2010 · ACW · Marietta, GA vs "The Georgia Peach" Lacey Hollister</div></div>
+        <div class="vital"><div class="vital-label">Spouse</div><div class="vital-val">Vic Troy (@VicTroyLapsYou)</div></div>
+        <div class="vital"><div class="vital-label">World Titles</div><div class="vital-val woo">16</div></div>
+        <div class="vital"><div class="vital-label">Manager</div><div class="vital-val">Bobby Goldman (whichever one exists this week)</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">The 16 Reigns</div>
+      <div class="title-count">
+        <div class="tc"><div class="tc-num">16</div><div class="tc-label">World Championships</div></div>
+        <div class="tc"><div class="tc-num">∞</div><div class="tc-label">Robes (Named &amp; Catalogued)</div></div>
+        <div class="tc"><div class="tc-num">0</div><div class="tc-label">Times She Broke Character</div></div>
+        <div class="tc"><div class="tc-num">1</div><div class="tc-label">Identity (Samantha Blaire is legally dead)</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">The Gimmick</div>
+      <div class="bio-text">
+        <p>Rickie Flare is not a character. She is a fact. Born Samantha Blaire, she shed that name like a cocoon the moment she realized her destiny was to be the flashiest, most recognizable, and most decorated champion the professional wrestling industry ever witnessed. There was no "inspiration" for her persona — she spontaneously generated it.</p>
+        <p>She operates from a place of absolute, unshakeable narcissism. Every arena is her personal gallery. Every opponent is a contrast color to make her shine brighter. Every fan — whether cheering or booing — is simply reacting to her gravitational pull. She does not have "heat" or "crowd reactions." She has weather patterns created by her presence.</p>
+        <p>Her philosophy is simple: wrestling is a canvas, and she is the masterpiece. She doesn't compete in matches; she curates victories. She doesn't feud with opponents; she edits them out of the story. The 16 world title reigns are not boasts — they are receipts. Beneath the glamour lies a cold, calculating ring general with an encyclopedic knowledge of wrestling psychology and a savage technical arsenal. The peacock can peck. Hard.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Key Traits</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Character Notes</div>
+          <div class="list-item">Incapable of humility; would rather lose spectacularly than win modestly</div>
+          <div class="list-item">Treats her manager (whichever Bobby Goldman exists this week) as a combination of valet, blame sponge, and cautionary tale</div>
+          <div class="list-item">Genuinely believes she is doing the audience a favor by existing</div>
+          <div class="list-item">The only time she feels truly alive is the 30 seconds before the bell rings</div>
+          <div class="list-item">Has never once broken character, publicly or privately. Samantha Blaire is legally dead.</div>
+        </div>
+        <div class="card"><div class="card-title">Ring Attire</div>
+          <div class="list-item">Custom-designed jewel-encrusted one-piece ensembles: platinum white, peacock teal, royal purple, blood red</div>
+          <div class="list-item">Always features intricate crystal work and matching thigh-high boots with diamond plating</div>
+          <div class="list-item">Each outfit is a one-of-a-kind creation, never repeated</div>
+          <div class="list-item">Entrance robes: genuine peacock feathers, hand-sewn crystals, faux fur, silk velvet. Each robe is named and catalogued.</div>
+          <div class="list-item">"Peacock Throne" robe (Boiling Point Premiere): 18 feet of iridescent feathers and Italian crystals</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Rickie Flare · Character Profile · WrestleFlix Universe · WOO!</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

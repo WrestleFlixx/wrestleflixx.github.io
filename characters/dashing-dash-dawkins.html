@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashing Dash Dawkins — WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--silver:#c8d0e0;--silver-dim:rgba(200,208,224,.1);--silver-border:rgba(200,208,224,.22);--bg:#060608;--bg-card:#0c0c10;--text:#e8ecf8;--text-muted:#80889a;--text-dim:#303040;--border:rgba(200,208,224,.08)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(6,6,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--silver)}
+    .nav-div{width:1px;height:20px;background:var(--border)}.nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+    .hero{min-height:100vh;padding-top:56px;display:flex;align-items:flex-end;position:relative;overflow:hidden;background:linear-gradient(180deg,#080810 0%,#060608 100%)}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:800px}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--silver);margin-bottom:1rem}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,120px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-sub{font-size:16px;color:rgba(232,236,248,.4);font-style:italic;margin-bottom:2rem}
+    .hero-gimmick{font-size:15px;color:rgba(232,236,248,.45);max-width:540px;line-height:1.8;border-left:3px solid var(--silver-border);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--silver-border);background:var(--silver-dim);color:var(--silver)}
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--silver);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--silver-border)}
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--silver);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--silver-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--silver)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><a href="/rosters/universal-roster.html" class="nav-back">← Roster</a><div class="nav-div"></div><div class="nav-crumb">Character Profile <span>/ Dashing Dash Dawkins</span></div></nav>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Amarillo, Texas · 6'2 · 227 lbs · Managed by Lana Cuppola</div>
+      <h1 class="hero-name">DASHING<br/>DASH DAWKINS</h1>
+      <div class="hero-sub">Also: Deathmatch Dash Dawkins · Dreamboat Dash Dawkins · Dangerous Dash Dawkins (it keeps going like that)</div>
+      <p class="hero-gimmick">He brags about everything because he's 'Dashing' of course. There's never been a mirror he won't look at himself in, there's never been a time he won't check himself out. He believes himself to be the perfect male specimen and he owns that.</p>
+      <div class="pills"><span class="pill">Heel</span><span class="pill">Amarillo</span><span class="pill">Dashing</span><span class="pill">Checks Himself Out</span><span class="pill">Managed by Lana Cuppola</span></div>
+    </div>
+  </section>
+  <div class="page-content">
+    <section class="section">
+      <div class="section-title">The File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Name</div><div class="vital-val">Dash Dawkins</div></div>
+        <div class="vital"><div class="vital-label">Billed From</div><div class="vital-val">Amarillo, Texas</div></div>
+        <div class="vital"><div class="vital-label">Height / Weight</div><div class="vital-val">6'2 / 227 lbs</div></div>
+        <div class="vital"><div class="vital-label">Theme</div><div class="vital-val">"Bright Lights" — Lebrock</div></div>
+        <div class="vital"><div class="vital-label">Manager</div><div class="vital-val">Lana Cuppola</div></div>
+        <div class="vital"><div class="vital-label">Relationship</div><div class="vital-val">Maya Dayton</div></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-title">Moveset</div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Signature Moves</div>
+          <div class="list-item"><strong>Dreamboat Driver</strong>Michinoku Driver</div>
+          <div class="list-item"><strong>Dashing DDT</strong>Rope Assisted DDT</div>
+          <div class="list-item"><strong>Dash Compactor</strong>Sharpshooter</div>
+          <div class="list-item"><strong>Double Dash</strong>Double Knee Gutbuster</div>
+          <div class="list-item"><strong>Dashboard Stretch</strong>Surfboard Stretch</div>
+        </div>
+        <div class="card"><div class="card-title">Finishing Moves</div>
+          <div class="list-item" style="color:var(--silver);font-weight:700"><strong>Mad Dash</strong>Spinning Sitout Pedigree · PRIMARY</div>
+          <div class="list-item" style="color:var(--silver);font-weight:700"><strong>Dreamstreet</strong>Crippler Crossface · SECONDARY</div>
+          <div style="margin-top:1.5rem" class="card-title">Championships</div>
+          <div class="list-item">XHW X-Core Championship (1x)</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="footer"><div class="footer-text">Dashing Dash Dawkins · Character Profile · WrestleFlix Universe</div><a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a></footer>
+</body>
+</html>

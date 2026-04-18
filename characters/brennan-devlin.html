@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brennan Devlin — The Infinite Champion · WrestleFlix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--irish:#00a86b;--irish-dim:rgba(0,168,107,.15);--irish-border:rgba(0,168,107,.25);--silver:#c8c8d4;--bg:#04080c;--bg-card:#080d12;--text:#e8eef4;--text-muted:#6080a0;--text-dim:#203040;--border:rgba(0,168,107,.12)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(4,8,12,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:2rem}
+    .nav-back{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}.nav-back:hover{color:var(--irish)}
+    .nav-div{width:1px;height:20px;background:var(--border)}
+    .nav-crumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}.nav-crumb span{color:var(--text-muted)}
+
+    /* HERO - Full width dramatic */
+    .hero{min-height:100vh;padding-top:56px;position:relative;display:flex;align-items:flex-end;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#000c06 0%,#010805 50%,#04080c 100%)}
+    .hero-number{position:absolute;top:50%;right:5%;transform:translateY(-60%);font-family:'Bebas Neue',sans-serif;font-size:clamp(200px,30vw,400px);color:rgba(0,168,107,.04);line-height:1;letter-spacing:-10px;pointer-events:none;z-index:1}
+    .hero-content{position:relative;z-index:2;padding:5rem 3rem 4rem;max-width:900px}
+    .hero-record{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--irish);margin-bottom:1.5rem;display:flex;align-items:center;gap:12px}
+    .hero-record::before{content:'';display:inline-block;width:30px;height:1px;background:var(--irish)}
+    .hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,140px);line-height:.88;letter-spacing:2px;color:var(--text);margin-bottom:.4rem}
+    .hero-alias{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:600;color:var(--irish);letter-spacing:2px;margin-bottom:2rem}
+    .hero-quote{font-size:16px;font-style:italic;color:rgba(232,238,244,.5);max-width:600px;line-height:1.8;border-left:3px solid var(--irish);padding-left:1.25rem;margin-bottom:2.5rem}
+    .pills{display:flex;gap:.75rem;flex-wrap:wrap}
+    .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;border:1px solid var(--irish-border);background:var(--irish-dim);color:var(--irish)}
+
+    .page-content{max-width:1100px;margin:0 auto;padding:0 2rem 5rem}
+    .section{padding:3rem 0;border-top:1px solid var(--border)}
+    .section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--irish);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--irish-border)}
+
+    .vitals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .vital{background:var(--bg-card);padding:1rem 1.25rem}
+    .vital-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+    .vital-val{font-size:14px;font-weight:600;color:var(--text)}
+    .vital-val.green{color:var(--irish)}
+
+    .bio-text{font-size:15px;font-weight:300;color:var(--text-muted);line-height:1.85;max-width:800px}
+    .bio-text p{margin-bottom:1.25rem}
+
+    .record-display{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+    .rec-stat{text-align:center;padding:1.5rem 2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;flex:1;min-width:120px}
+    .rec-num{font-family:'Bebas Neue',sans-serif;font-size:64px;color:var(--irish);line-height:1;display:block}
+    .rec-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem}
+    .card-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--irish);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--irish-border)}
+    .list-item{font-size:13px;color:var(--text-muted);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03)}
+    .list-item:last-child{border-bottom:none}
+    .list-item strong{color:var(--text);display:block}
+
+    .stat-row{margin-bottom:.875rem}
+    .stat-hd{display:flex;justify-content:space-between;margin-bottom:5px}
+    .stat-name{font-size:13px;font-weight:600;color:var(--text)}
+    .stat-num{font-family:'DM Mono',monospace;font-size:11px}
+    .stat-track{height:4px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+    .stat-fill{height:100%;border-radius:3px}
+
+    .footer{border-top:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:1100px;margin:0 auto}
+    .footer-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim)}
+    .footer-back{font-family:'DM Mono',monospace;font-size:11px;color:var(--irish)}
+    @media(max-width:700px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/rosters/universal-roster.html" class="nav-back">← Roster</a>
+    <div class="nav-div"></div>
+    <div class="nav-crumb">Character Profile <span>/ Brennan Devlin</span></div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-number">51-0</div>
+    <div class="hero-content">
+      <div class="hero-record">Irish · 51-0 · Undefeated · Infinite Champion</div>
+      <h1 class="hero-name">BRENNAN<br/>DEVLIN</h1>
+      <div class="hero-alias">The Face of Wrestling · King Kong of Dong · The Hammer · Box Office</div>
+      <p class="hero-quote">"No matter what company it is — I broke away from every trend in this business. I took a path all my own and I've been more successful than half the so-called breakthroughs of wrestling's big leagues by doing it."</p>
+      <div class="pills">
+        <span class="pill">Irish</span><span class="pill">51-0</span><span class="pill">Undefeated</span><span class="pill">Infinite Champion</span><span class="pill">Shot Zack Fantana</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-content">
+
+    <section class="section">
+      <div class="section-title">The Record</div>
+      <div class="record-display">
+        <div class="rec-stat"><span class="rec-num">51</span><div class="rec-label">Wins</div></div>
+        <div class="rec-stat"><span class="rec-num">0</span><div class="rec-label">Losses</div></div>
+        <div class="rec-stat"><span class="rec-num">∞</span><div class="rec-label">Championships</div></div>
+        <div class="rec-stat"><span class="rec-num">1</span><div class="rec-label">Wish Made at WrestleMecca</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Personal File</div>
+      <div class="vitals-grid">
+        <div class="vital"><div class="vital-label">Nationality</div><div class="vital-val">Irish</div></div>
+        <div class="vital"><div class="vital-label">Record</div><div class="vital-val green">51-0 · Undefeated</div></div>
+        <div class="vital"><div class="vital-label">Notable Federations</div><div class="vital-val">Valor Pro · WrestleMecca · Fight2Win</div></div>
+        <div class="vital"><div class="vital-label">Status</div><div class="vital-val green">Hologram · DevlinSaka Tower</div></div>
+        <div class="vital"><div class="vital-label">The Wish</div><div class="vital-val green">Made at WrestleMecca · Rewrote Reality</div></div>
+        <div class="vital"><div class="vital-label">F2W City</div><div class="vital-val">Built — Dystopian Future</div></div>
+        <div class="vital"><div class="vital-label">Alignment</div><div class="vital-val">Villain. Obviously.</div></div>
+        <div class="vital"><div class="vital-label">Nicknames</div><div class="vital-val">Face of Wrestling · The Hammer · Box Office · King Kong of Dong</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">The Lore — Devlin's Rise to Everything</div>
+      <div class="bio-text">
+        <p>Brennan Devlin is Irish. He is 51-0. These two facts are load-bearing walls in the WrestleFlix universe. Everything else about him is built on top of them.</p>
+        <p>He arrived in Valor Pro Wrestling with the casual confidence of a man who already knew how the story ended. His promo work combined the razor precision of someone who had studied their craft with the effortless menace of someone who genuinely didn't fear any outcome. He told Arlo Rosabel — a man he was about to fight — that he saw through the cracks, and that Arlo would grow to regret having Devlin's attention. Arlo probably did.</p>
+        <p>At WrestleMecca, Devlin made a wish. The specifics of how one makes a wish at a professional wrestling event, and what governing cosmic framework honored it, remain undocumented. What is documented: reality changed. In the dystopian future that resulted, Devlin built Fight2Win City and now watches over his empire as a hologram from atop DevlinSaka Tower. He shot Zack Fantana on a yacht prior to all of this. The timeline of these events is debated by those who know the lore deeply.</p>
+        <p>Devlin is the Infinite Champion. The belt exists because he exists. He is described, in his own words, as bigger than all the companies. No one who knows him well enough to disagree has successfully disagreed in a way that changed the scoreboard.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="two-col">
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">In-Ring Ability</span><span class="stat-num" style="color:#00a86b">97</span></div><div class="stat-track"><div class="stat-fill" style="width:97%;background:#00a86b"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Promo</span><span class="stat-num" style="color:#4a9eff">98</span></div><div class="stat-track"><div class="stat-fill" style="width:98%;background:#4a9eff"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Charisma</span><span class="stat-num" style="color:#ff9f43">95</span></div><div class="stat-track"><div class="stat-fill" style="width:95%;background:#ff9f43"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Work Rate</span><span class="stat-num" style="color:#00a86b">99</span></div><div class="stat-track"><div class="stat-fill" style="width:99%;background:#00a86b"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Reality Manipulation</span><span class="stat-num" style="color:#a855f7">100</span></div><div class="stat-track"><div class="stat-fill" style="width:100%;background:#a855f7"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Menace</span><span class="stat-num" style="color:#ff6b6b">96</span></div><div class="stat-track"><div class="stat-fill" style="width:96%;background:#ff6b6b"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Losses</span><span class="stat-num" style="color:#304050">0</span></div><div class="stat-track"><div class="stat-fill" style="width:0%;background:#304050"></div></div></div>
+          <div class="stat-row"><div class="stat-hd"><span class="stat-name">Humility</span><span class="stat-num" style="color:#304050">—</span></div><div class="stat-track"><div class="stat-fill" style="width:2%;background:#304050"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Key Relationships</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Zack Fantana — The Man He Shot</div>
+          <div class="list-item">Devlin shot Fantana on a yacht. Fantana was digitized and now lives in The Mop. Whether this counts as a win for Devlin is a philosophical question the WrestleMecca roster has not formally resolved. They are listed as rivals in most records.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Fight2Win City — His Legacy</div>
+          <div class="list-item">In the dystopian future forged by his WrestleMecca wish, Devlin built an entire city around his brand. DevlinSaka Tower houses his holographic form. The city operates under his empire. He watches. He waits. He wins.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">Brennan Devlin · Character Profile · WrestleFlix Universe · 51-0</div>
+    <a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a>
+  </footer>
+</body>
+</html>

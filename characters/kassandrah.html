@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kassandrah — The Fortune Teller · WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600;700;900&family=IM+Fell+English:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --mystic: #6b3fa0;
+      --mystic-bright: #9b6fd0;
+      --mystic-dim: rgba(107,63,160,0.2);
+      --gold: #c9a84c;
+      --gold-dim: rgba(201,168,76,0.15);
+      --bg: #080610;
+      --bg-mid: #0d0c18;
+      --bg-card: #111022;
+      --text: #ede8f5;
+      --text-muted: #9090b0;
+      --text-dim: #404060;
+      --border: rgba(107,63,160,0.15);
+      --border-mystic: rgba(107,63,160,0.35);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Cinzel', serif;
+      --font-body: 'IM Fell English', serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Stars background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(107,63,160,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 56px; background: rgba(8,6,16,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 2rem; gap: 2rem; }
+    .nav-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s; }
+    .nav-back:hover { color: var(--mystic-bright); }
+    .nav-divider { width: 1px; height: 20px; background: var(--border); }
+    .nav-crumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--text-dim); }
+    .nav-crumb span { color: var(--text-muted); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 56px;
+      overflow: hidden;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .hero-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(107,63,160,0.2) 0%, transparent 70%);
+    }
+
+    /* Tarot card decorative elements */
+    .hero-orbs {
+      position: absolute; inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      animation: orb-float 8s ease-in-out infinite;
+      opacity: 0.3;
+    }
+
+    .orb-1 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(107,63,160,0.3), transparent); top: 10%; left: -5%; animation-delay: 0s; }
+    .orb-2 { width: 200px; height: 200px; background: radial-gradient(circle, rgba(201,168,76,0.2), transparent); top: 20%; right: 5%; animation-delay: 3s; }
+    .orb-3 { width: 150px; height: 150px; background: radial-gradient(circle, rgba(107,63,160,0.2), transparent); bottom: 20%; left: 20%; animation-delay: 6s; }
+
+    @keyframes orb-float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+    .hero-content { position: relative; z-index: 2; padding: 4rem 2rem; max-width: 800px; }
+
+    .hero-symbol { font-size: 64px; margin-bottom: 1.5rem; filter: drop-shadow(0 0 20px rgba(107,63,160,0.8)); animation: orb-float 4s ease-in-out infinite; }
+
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--mystic-bright); margin-bottom: 1.5rem; }
+
+    .hero-name {
+      font-family: var(--font-serif);
+      font-size: clamp(52px, 9vw, 110px);
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-shadow: 0 0 40px rgba(107,63,160,0.5);
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    .hero-alias {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      letter-spacing: 2px;
+    }
+
+    .hero-quote {
+      font-family: var(--font-body);
+      font-size: 17px;
+      font-style: italic;
+      color: rgba(237,232,245,0.6);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-pills { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+    .pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border-mystic); background: var(--mystic-dim); color: var(--mystic-bright); }
+
+    /* Content */
+    .page-content { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; position: relative; z-index: 1; }
+
+    .section { padding: 3rem 0; border-top: 1px solid var(--border); }
+
+    .section-title { font-family: var(--font-serif); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--mystic-bright); margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-mystic); }
+
+    /* Vitals */
+    .vitals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .vital-item { background: var(--bg-card); padding: 1rem 1.25rem; }
+    .vital-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+    .vital-val { font-family: var(--font-serif); font-size: 14px; color: var(--text); }
+    .vital-val.special { color: var(--mystic-bright); font-style: italic; }
+
+    /* Mystery box */
+    .mystery-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-mystic);
+      border-radius: 8px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mystery-box::before {
+      content: '☽ ✦ ☾';
+      position: absolute;
+      top: -10px; right: 20px;
+      font-size: 80px;
+      color: rgba(107,63,160,0.05);
+      letter-spacing: 10px;
+    }
+    .mystery-text { font-family: var(--font-body); font-size: 16px; font-style: italic; line-height: 1.85; color: rgba(237,232,245,0.75); position: relative; z-index: 1; }
+
+    /* Wrestling fundamentals */
+    .fundamentals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .fund-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .fund-card-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--mystic-bright); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-mystic); }
+    .fund-item { font-size: 14px; color: var(--text-muted); padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; align-items: center; gap: 8px; }
+    .fund-item:last-child { border-bottom: none; }
+    .fund-item::before { content: '✦'; font-size: 8px; color: var(--mystic-bright); flex-shrink: 0; }
+
+    /* Moves */
+    .moves-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .moves-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .moves-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .move-item { font-size: 14px; color: var(--text-muted); padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .move-item.finisher { color: var(--mystic-bright); font-weight: 600; }
+    .move-item:last-child { border-bottom: none; }
+
+    /* Career */
+    .career-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .career-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; font-size: 14px; color: var(--text-muted); }
+    .career-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* Stat bars */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-bar-row { margin-bottom: 0.875rem; }
+    .stat-bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+    .stat-bar-name { font-size: 13px; font-weight: 600; color: var(--text); font-family: var(--font-serif); }
+    .stat-bar-num { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .stat-track { height: 4px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; border-radius: 3px; }
+
+    .footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+    .footer-text { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); }
+    .footer-back { font-family: var(--font-mono); font-size: 11px; color: var(--mystic-bright); }
+    .footer-back:hover { opacity: 0.8; }
+
+    @media (max-width: 700px) { .fundamentals-grid, .moves-grid, .stats-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/rosters/universal-roster.html" class="nav-back">← Roster</a>
+    <div class="nav-divider"></div>
+    <div class="nav-crumb">Character Profile <span>/ Kassandrah</span></div>
+  </nav>
+
+  <div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-symbol">🔮</div>
+      <div class="hero-eyebrow">WrestleFlix · Character Profile · The Unknown</div>
+      <h1 class="hero-name">KASSANDRAH</h1>
+      <div class="hero-alias">"She Who Knows"</div>
+      <p class="hero-quote">Free-spirited and enigmatic. She lives in a horse-drawn wagon and runs an Etsy shop for the Esoteric. She has been alive since at least 1930. She is not always truthful about this.</p>
+      <div class="hero-pills">
+        <span class="pill">Face</span>
+        <span class="pill">Fortune Teller</span>
+        <span class="pill">CEO — AWE</span>
+        <span class="pill">CFO — F2W</span>
+        <span class="pill">Enigmatic</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-content">
+
+    <section class="section">
+      <div class="section-title">Personal File — What Is Known</div>
+      <div class="vitals-grid">
+        <div class="vital-item"><div class="vital-label">Real Name</div><div class="vital-val">Kassandrah</div></div>
+        <div class="vital-item"><div class="vital-label">Date of Birth</div><div class="vital-val special">February 30, 1930</div></div>
+        <div class="vital-item"><div class="vital-label">Place of Birth</div><div class="vital-val">Smolensk, USSR</div></div>
+        <div class="vital-item"><div class="vital-label">Current Residence</div><div class="vital-val special">Variable</div></div>
+        <div class="vital-item"><div class="vital-label">Height</div><div class="vital-val">5'5" / 167.8 cm</div></div>
+        <div class="vital-item"><div class="vital-label">Weight</div><div class="vital-val">145 lbs / 65.4 kg</div></div>
+        <div class="vital-item"><div class="vital-label">Gender</div><div class="vital-val">Female · She/Her</div></div>
+        <div class="vital-item"><div class="vital-label">Orientation</div><div class="vital-val">Heterosexual</div></div>
+        <div class="vital-item"><div class="vital-label">Relationship Status</div><div class="vital-val special">Messy.</div></div>
+        <div class="vital-item"><div class="vital-label">Known Family</div><div class="vital-val special">None</div></div>
+        <div class="vital-item"><div class="vital-label">Professional Debut</div><div class="vital-val">2014</div></div>
+        <div class="vital-item"><div class="vital-label">Alignment</div><div class="vital-val">Face</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">The Mystery</div>
+      <div class="mystery-box">
+        <p class="mystery-text">It's very difficult to ascertain the truth about Kassandrah's background. She first appeared as a fortune teller and tarot reader on the midway at the Pure Amusement park in Purity, Louisiana in 2014, where she would infrequently appear as a guest star in Pure Amusement Wrestling segments. From there she went on to be one of a trio of owners and operators of the Alpha Wrestling Empire, and later the first iteration of Fight 2 Win in 2017. Kassandrah has appeared on several underground fighting videos, but nothing in any mainstream. Her date of birth — February 30, 1930 — is a date that does not exist on any calendar. No one has asked her about this directly. Anyone who has considered doing so found the thought leaving their mind before they could act on it.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="stats-grid">
+        <div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Striking</span><span class="stat-bar-num" style="color:#ff6b6b;">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#ff6b6b;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Grappling</span><span class="stat-bar-num" style="color:#4a9eff;">72</span></div><div class="stat-track"><div class="stat-fill" style="width:72%;background:#4a9eff;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Speed</span><span class="stat-bar-num" style="color:#4aff9e;">78</span></div><div class="stat-track"><div class="stat-fill" style="width:78%;background:#4aff9e;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Power</span><span class="stat-bar-num" style="color:#ff9f43;">55</span></div><div class="stat-track"><div class="stat-fill" style="width:55%;background:#ff9f43;"></div></div></div>
+        </div>
+        <div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Endurance</span><span class="stat-bar-num" style="color:#c9a84c;">60</span></div><div class="stat-track"><div class="stat-fill" style="width:60%;background:#c9a84c;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Charisma</span><span class="stat-bar-num" style="color:#9b6fd0;">95</span></div><div class="stat-track"><div class="stat-fill" style="width:95%;background:#9b6fd0;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Psychology</span><span class="stat-bar-num" style="color:#00e5cc;">94</span></div><div class="stat-track"><div class="stat-fill" style="width:94%;background:#00e5cc;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Foresight</span><span class="stat-bar-num" style="color:#9b6fd0;">99</span></div><div class="stat-track"><div class="stat-fill" style="width:99%;background:#9b6fd0;"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Wrestling Fundamentals</div>
+      <div class="fundamentals-grid">
+        <div class="fund-card">
+          <div class="fund-card-title">In-Ring Style</div>
+          <div class="fund-item">Fierce Striker</div>
+          <div class="fund-item">Uncanny Foresight</div>
+          <div class="fund-item">Adept Reversal Technician</div>
+          <div class="fund-item">Move Scout</div>
+          <div class="fund-item">Finisher Thief</div>
+          <div class="fund-item">Glass Cannon</div>
+        </div>
+        <div class="fund-card">
+          <div class="fund-card-title">Career Highlights</div>
+          <div class="fund-item">CEO — Alpha Wrestling Empire</div>
+          <div class="fund-item">Chief Financial Officer — Fight 2 Win (V1)</div>
+          <div class="fund-item">Fortune Teller — Pure Amusement Park, Purity LA</div>
+          <div class="fund-item">Has an Etsy Shop for the Esoteric</div>
+          <div class="fund-item">Appeared in multiple underground fighting videos</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Signature &amp; Finishing Moves</div>
+      <div class="moves-grid">
+        <div class="moves-card">
+          <div class="moves-title">Signature Moves</div>
+          <div class="move-item">Running Big Boot</div>
+          <div class="move-item">Headbutt</div>
+          <div class="move-item">Running Hip Attack</div>
+          <div class="move-item">Running Double Knees</div>
+          <div class="move-item">STO Backbreaker</div>
+          <div class="move-item">Arm Drag</div>
+          <div class="move-item">Snapmare into Running Boot</div>
+          <div class="move-item">Gutwrench Suplex</div>
+          <div class="move-item">Running Knee Lift</div>
+          <div class="move-item">Double Knee Gutbuster</div>
+          <div class="move-item">Flying Forearm</div>
+        </div>
+        <div class="moves-card">
+          <div class="moves-title">Finishing Moves</div>
+          <div class="move-item finisher">Downward Spiral</div>
+          <div style="margin-top:2rem;font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem;">Properties</div>
+          <div class="move-item" style="color:var(--text-dim);font-style:italic;">February 30, 1930 is not a real date.</div>
+          <div class="move-item" style="color:var(--text-dim);font-style:italic;">She lives in a horse-drawn wagon.</div>
+          <div class="move-item" style="color:var(--text-dim);font-style:italic;">She is always busy. There is no end to her free time.</div>
+          <div class="move-item" style="color:var(--text-dim);font-style:italic;">No one questions this.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">Kassandrah · Character Profile · WrestleFlix Universe</div>
+    <a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a>
+  </footer>
+
+</body>
+</html>

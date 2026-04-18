@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anastasia Hayden — The Grand Duchess · WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0a0a0c;
+      --ink-mid: #111115;
+      --ink-card: #16161c;
+      --bone: #f0ece3;
+      --bone-dim: #a09890;
+      --bone-dark: #605850;
+      --crimson: #8b0a1a;
+      --crimson-bright: #c41428;
+      --crimson-dim: rgba(139,10,26,0.25);
+      --gold: #c4a44c;
+      --gold-dim: rgba(196,164,76,0.2);
+      --border: rgba(240,236,227,0.07);
+      --border-crimson: rgba(139,10,26,0.3);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--bone); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 56px;
+      background: rgba(10,10,12,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 2rem; gap: 2rem;
+    }
+    .nav-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--bone-dim); transition: color 0.2s; }
+    .nav-back:hover { color: var(--crimson-bright); }
+    .nav-divider { width: 1px; height: 20px; background: var(--border); }
+    .nav-crumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: var(--bone-dark); }
+    .nav-crumb span { color: var(--bone-dim); }
+    .nav-updated { margin-left: auto; font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--bone-dark); }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      padding-top: 56px;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 5rem 3rem 4rem;
+      z-index: 2;
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Full-height character image area */
+    .hero-img-fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1a0508 0%, #0a0208 60%, #0a0a0c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-img-initials {
+      font-family: var(--font-display);
+      font-size: 180px;
+      letter-spacing: 10px;
+      color: rgba(139,10,26,0.08);
+      line-height: 1;
+      text-align: center;
+    }
+
+    /* Gradient to fade image into left content */
+    .hero-img-fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(10,10,12,1) 0%, transparent 30%);
+    }
+
+    /* Background texture for left side */
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--ink) 60%, transparent 100%);
+      z-index: -1;
+    }
+
+    /* Decorative vertical line */
+    .hero-accent-line {
+      width: 2px;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--crimson), transparent);
+      margin-bottom: 2rem;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--crimson-bright);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 1px;
+      background: var(--crimson);
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(64px, 9vw, 130px);
+      line-height: 0.85;
+      letter-spacing: 2px;
+      color: var(--bone);
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-alias {
+      font-family: var(--font-serif);
+      font-size: clamp(18px, 2.5vw, 30px);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--crimson-bright);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .hero-quote {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(240,236,227,0.55);
+      max-width: 480px;
+      line-height: 1.75;
+      border-left: 2px solid var(--crimson-dim);
+      padding-left: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-quick-stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hqs { display: flex; flex-direction: column; gap: 3px; }
+    .hqs-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--bone-dark); }
+    .hqs-val { font-size: 14px; font-weight: 600; color: var(--bone); }
+
+    /* ===== CONTENT ===== */
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    /* Section styles */
+    .section {
+      padding: 3.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--crimson-bright);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-crimson);
+    }
+
+    /* ===== VITALS GRID ===== */
+    .vitals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .vital-item {
+      background: var(--ink-card);
+      padding: 1rem 1.25rem;
+    }
+
+    .vital-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--bone-dark);
+      margin-bottom: 4px;
+    }
+
+    .vital-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bone);
+      line-height: 1.3;
+    }
+
+    .vital-val a { color: var(--crimson-bright); }
+
+    /* ===== STAT BARS ===== */
+    .stats-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .stats-col-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--bone-dark);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-bar-row { margin-bottom: 1rem; }
+    .stat-bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+    .stat-bar-name { font-size: 13px; font-weight: 600; color: var(--bone); }
+    .stat-bar-num { font-family: var(--font-mono); font-size: 11px; color: var(--bone-dim); }
+    .stat-track { height: 5px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+    .stat-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+    /* ===== STRENGTHS/WEAKNESSES ===== */
+    .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .sw-card {
+      background: var(--ink-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+
+    .sw-card.strength { border-left: 3px solid var(--crimson); }
+    .sw-card.weakness { border-left: 3px solid rgba(100,100,140,0.6); }
+
+    .sw-header {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .sw-card.strength .sw-header { color: var(--crimson-bright); }
+    .sw-card.weakness .sw-header { color: var(--bone-dark); }
+
+    .sw-item {
+      margin-bottom: 1.25rem;
+    }
+
+    .sw-item:last-child { margin-bottom: 0; }
+
+    .sw-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--bone);
+      margin-bottom: 4px;
+    }
+
+    .sw-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--bone-dim);
+      line-height: 1.65;
+    }
+
+    /* ===== MOVESET ===== */
+    .moveset-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+
+    .moveset-col {
+      background: var(--ink-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+    }
+
+    .moveset-col-title {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--crimson-bright);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-crimson);
+    }
+
+    .move-item {
+      font-size: 13px;
+      color: var(--bone-dim);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      line-height: 1.4;
+    }
+
+    .move-item:last-child { border-bottom: none; }
+
+    .move-item strong {
+      color: var(--bone);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .finisher-highlight {
+      background: rgba(139,10,26,0.1);
+      border: 1px solid var(--border-crimson);
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+    }
+
+    /* ===== BIOGRAPHY ===== */
+    .bio-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.9;
+      color: rgba(240,236,227,0.8);
+      max-width: 800px;
+    }
+
+    .bio-text p { margin-bottom: 1.5rem; }
+
+    /* ===== THEME ===== */
+    .theme-box {
+      background: var(--ink-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .theme-play {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--crimson);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .theme-play:hover { background: var(--crimson-bright); }
+
+    .theme-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--bone);
+      margin-bottom: 3px;
+    }
+
+    .theme-note {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--bone-dark);
+    }
+
+    /* ===== CHAMPIONSHIPS ===== */
+    .champ-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .champ-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--ink-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--bone-dim);
+      transition: border-color 0.2s;
+    }
+
+    .champ-item:hover { border-color: var(--border-crimson); }
+
+    .champ-item.current {
+      border-color: var(--border-crimson);
+      background: rgba(139,10,26,0.06);
+      color: var(--bone);
+    }
+
+    .champ-icon { font-size: 16px; flex-shrink: 0; }
+    .champ-current-tag {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--crimson-bright);
+      border: 1px solid var(--border-crimson);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* ===== CONNECTIONS ===== */
+    .connections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .connection-card {
+      background: var(--ink-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      transition: border-color 0.2s;
+    }
+
+    .connection-card:hover { border-color: var(--border-crimson); }
+
+    .connection-name {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--bone);
+      margin-bottom: 3px;
+    }
+
+    .connection-type {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--crimson-bright);
+      margin-bottom: 0.75rem;
+    }
+
+    .connection-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--bone-dim);
+      line-height: 1.65;
+    }
+
+    /* ===== GIMMICK BOX ===== */
+    .gimmick-box {
+      background: var(--ink-card);
+      border: 1px solid var(--border-crimson);
+      border-radius: 6px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gimmick-box::before {
+      content: '"THE GRAND DUCHESS"';
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      font-family: var(--font-display);
+      font-size: 120px;
+      letter-spacing: 4px;
+      color: rgba(139,10,26,0.05);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .gimmick-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.85;
+      color: rgba(240,236,227,0.75);
+      max-width: 720px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== PROMOTIONS LIST ===== */
+    .promo-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    .promo-list { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .promo-item {
+      font-size: 13px;
+      color: var(--bone-dim);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .promo-item.current { color: var(--crimson-bright); font-weight: 600; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--bone-dark);
+    }
+
+    .footer-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--crimson-bright);
+      letter-spacing: 1px;
+    }
+
+    .footer-back:hover { opacity: 0.8; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-right { height: 300px; }
+      .hero-left { padding: 3rem 1.5rem 2rem; }
+      .stats-layout, .sw-grid, .moveset-grid, .promo-cols { grid-template-columns: 1fr; }
+      .nav-updated { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/rosters/universal-roster.html" class="nav-back">← Roster</a>
+    <div class="nav-divider"></div>
+    <div class="nav-crumb">Character Profile <span>/ Anastasia Hayden</span></div>
+    <div class="nav-updated">Updated: 2/25/25</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-accent-line"></div>
+      <div class="hero-eyebrow">WrestleFlix · Character Profile</div>
+      <h1 class="hero-name">ANASTASIA<br/>HAYDEN</h1>
+      <div class="hero-alias">"The Grand Duchess"</div>
+      <p class="hero-quote">Clawing her way up through a desolate pit in the earth, a stalking wolf too stubborn to die. Dull are the championships and accolades of professional wrestling — she stands as a testament to the raw, unyielding spirit of the sport.</p>
+      <div class="hero-quick-stats">
+        <div class="hqs"><span class="hqs-label">Style</span><span class="hqs-val">Strong Style Striker</span></div>
+        <div class="hqs"><span class="hqs-label">Disposition</span><span class="hqs-val">Heel</span></div>
+        <div class="hqs"><span class="hqs-label">Debut</span><span class="hqs-val">June 2009</span></div>
+        <div class="hqs"><span class="hqs-label">Billed From</span><span class="hqs-val">Steele, North Dakota</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-fill">
+        <div class="hero-img-initials">AH</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="page-content">
+
+    <!-- THEME MUSIC -->
+    <section class="section">
+      <div class="section-title">Current Theme</div>
+      <a href="https://open.spotify.com/track/1VQAgcWO4isKzjaAOBTdvS" target="_blank" class="theme-box" style="display:flex;text-decoration:none;">
+        <div class="theme-play">▶</div>
+        <div>
+          <div class="theme-title">"Wrongdoers" — Norma Jean</div>
+          <div class="theme-note">Monarchy Wrestling / Freelance · 2016–Present &nbsp;·&nbsp; Click to open on Spotify</div>
+        </div>
+      </a>
+    </section>
+
+    <!-- VITALS -->
+    <section class="section">
+      <div class="section-title">Personal File</div>
+      <div class="vitals-grid">
+        <div class="vital-item"><div class="vital-label">Full Name</div><div class="vital-val">Anastasia Tala Hayden</div></div>
+        <div class="vital-item"><div class="vital-label">Date of Birth</div><div class="vital-val">December 15, 1989</div></div>
+        <div class="vital-item"><div class="vital-label">Age</div><div class="vital-val">35</div></div>
+        <div class="vital-item"><div class="vital-label">Place of Birth</div><div class="vital-val">Steele, North Dakota</div></div>
+        <div class="vital-item"><div class="vital-label">Residence</div><div class="vital-val">Leawood, Kansas</div></div>
+        <div class="vital-item"><div class="vital-label">Race / Ethnicity</div><div class="vital-val">Caucasian · Lakota</div></div>
+        <div class="vital-item"><div class="vital-label">Height</div><div class="vital-val">5'6"</div></div>
+        <div class="vital-item"><div class="vital-label">Weight</div><div class="vital-val">128 lbs</div></div>
+        <div class="vital-item"><div class="vital-label">Hair</div><div class="vital-val">Dyed Various Colors</div></div>
+        <div class="vital-item"><div class="vital-label">Eyes</div><div class="vital-val">Brown</div></div>
+        <div class="vital-item"><div class="vital-label">Sexuality</div><div class="vital-val">A Mystery</div></div>
+        <div class="vital-item"><div class="vital-label">Trained By</div><div class="vital-val">Aya Minami · Grace Gage</div></div>
+        <div class="vital-item"><div class="vital-label">Professional Debut</div><div class="vital-val">June 2009</div></div>
+        <div class="vital-item"><div class="vital-label">Disposition</div><div class="vital-val">Heel</div></div>
+        <div class="vital-item"><div class="vital-label">Languages</div><div class="vital-val">English</div></div>
+        <div class="vital-item"><div class="vital-label">Twitter</div><div class="vital-val"><a href="https://twitter.com/AnaKicks" target="_blank">@anakicks</a></div></div>
+      </div>
+    </section>
+
+    <!-- GIMMICK -->
+    <section class="section">
+      <div class="section-title">The Gimmick — The Grand Duchess</div>
+      <div class="gimmick-box">
+        <p class="gimmick-text">Unapologetically confident, fiercely independent, disdainful of convention and a massive hypocrite. An embodiment of an untamed spirit that refuses to be shackled by norms or expectations. Driven by the unquenchable thirst for a fight rather than the glory it brings — the visceral, heart-pounding clashes that leave her blood pumping and her senses alive. Arrogant beyond all belief, but underpinned by a genuine passion for the sport. She doesn't mince words or hide her feelings — her arrogance is not a façade, it's a natural extension of her unwavering belief in her own abilities. Cold and unforgiving, her legacy will not be defined by titles and accolades, but carved through the unadulterated pursuit of wrestling excellence. Anastasia Hayden is not a good person.</p>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section">
+      <div class="section-title">Attribute Breakdown</div>
+      <div class="stats-layout">
+        <div>
+          <div class="stats-col-title">Combat Attributes</div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Striking</span><span class="stat-bar-num" style="color:#ff6b6b;">95</span></div><div class="stat-track"><div class="stat-fill" style="width:95%;background:#ff6b6b;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Grappling</span><span class="stat-bar-num" style="color:#4a9eff;">82</span></div><div class="stat-track"><div class="stat-fill" style="width:82%;background:#4a9eff;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Aerial</span><span class="stat-bar-num" style="color:#a855f7;">78</span></div><div class="stat-track"><div class="stat-fill" style="width:78%;background:#a855f7;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Power</span><span class="stat-bar-num" style="color:#ff9f43;">62</span></div><div class="stat-track"><div class="stat-fill" style="width:62%;background:#ff9f43;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Speed</span><span class="stat-bar-num" style="color:#4aff9e;">90</span></div><div class="stat-track"><div class="stat-fill" style="width:90%;background:#4aff9e;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Endurance</span><span class="stat-bar-num" style="color:#c9a84c;">98</span></div><div class="stat-track"><div class="stat-fill" style="width:98%;background:#c9a84c;"></div></div></div>
+        </div>
+        <div>
+          <div class="stats-col-title">Character Attributes</div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Charisma</span><span class="stat-bar-num" style="color:#ff2d78;">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#ff2d78;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Psychology</span><span class="stat-bar-num" style="color:#00e5cc;">92</span></div><div class="stat-track"><div class="stat-fill" style="width:92%;background:#00e5cc;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Ring Awareness</span><span class="stat-bar-num" style="color:#c9a84c;">96</span></div><div class="stat-track"><div class="stat-fill" style="width:96%;background:#c9a84c;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Adaptability</span><span class="stat-bar-num" style="color:#4aff9e;">88</span></div><div class="stat-track"><div class="stat-fill" style="width:88%;background:#4aff9e;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Heel Instinct</span><span class="stat-bar-num" style="color:#ff6b6b;">85</span></div><div class="stat-track"><div class="stat-fill" style="width:85%;background:#ff6b6b;"></div></div></div>
+          <div class="stat-bar-row"><div class="stat-bar-header"><span class="stat-bar-name">Teamwork</span><span class="stat-bar-num" style="color:#606080;">28</span></div><div class="stat-track"><div class="stat-fill" style="width:28%;background:#606080;"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRENGTHS & WEAKNESSES -->
+    <section class="section">
+      <div class="section-title">Strengths &amp; Weaknesses</div>
+      <div class="sw-grid">
+        <div class="sw-card strength">
+          <div class="sw-header">Strengths</div>
+          <div class="sw-item">
+            <div class="sw-name">Expert Ring Awareness</div>
+            <div class="sw-desc">With over fifteen years under her belt, Anastasia always knows exactly where she is. Ropes, corners, the outside — every inch of the ring is part of her plan.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">Cardio Demon</div>
+            <div class="sw-desc">A background in track and field has made her an iron woman. Top tier conditioning — she can push past 30 minutes and still be running on full.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">Student of the Game</div>
+            <div class="sw-desc">Constantly studying tape, taking notes, adapting. Professional wrestling is all she has ever truly cared about. She reads opponents with exceptional precision.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">All I've Got</div>
+            <div class="sw-desc">Every match like it could be her last. All gas, no brakes. When she thinks there's nothing left, she finds more.</div>
+          </div>
+        </div>
+        <div class="sw-card weakness">
+          <div class="sw-header">Weaknesses</div>
+          <div class="sw-item">
+            <div class="sw-name">In the Shadow of Giants</div>
+            <div class="sw-desc">Her strong-style approach faces obvious limits against larger opponents. She'll try to deadlift people she shouldn't. She'll fail. She'll try anyway.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">No Days Off</div>
+            <div class="sw-desc">"All gas, no brakes" means she'll enter a match injured, aggravate it, and push through until something gives. She doesn't know how to be careful with herself.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">The Stalking Wolf</div>
+            <div class="sw-desc">She draws matches out to get the fight she wants, sometimes giving opponents a window to recover. She wants the war, not just the win.</div>
+          </div>
+          <div class="sw-item">
+            <div class="sw-name">Trust Issues</div>
+            <div class="sw-desc">Willingly pick her as a tag partner at your own risk. She'll try. She won't always reach for the tag when you need it. Good luck.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOVESET -->
+    <section class="section">
+      <div class="section-title">The Moveset</div>
+      <div class="moveset-grid">
+        <div class="moveset-col">
+          <div class="moveset-col-title">Common Moves</div>
+          <div class="move-item">Back Suplex</div>
+          <div class="move-item">Bridging Dragon Suplex</div>
+          <div class="move-item">Cornered Yakuza Kick</div>
+          <div class="move-item">Diving Crossbody</div>
+          <div class="move-item">Dragon Sleeper</div>
+          <div class="move-item">Enziguri</div>
+          <div class="move-item">European Uppercut</div>
+          <div class="move-item">Facewash Combo</div>
+          <div class="move-item">Fisherman DDT</div>
+          <div class="move-item">Guillotine Choke</div>
+          <div class="move-item">High Angled Dropkick</div>
+          <div class="move-item">Hook Kick</div>
+          <div class="move-item">Missile Dropkick</div>
+          <div class="move-item">Northern Lights Suplex</div>
+          <div class="move-item">Open Palm Strikes</div>
+          <div class="move-item">Running European Uppercut</div>
+          <div class="move-item">Seated Back Kicks</div>
+          <div class="move-item">Side Slam Backbreaker</div>
+          <div class="move-item">Sleeper Hold</div>
+          <div class="move-item">Spinning Wheel Kick</div>
+          <div class="move-item">Springboard Arm Drag</div>
+          <div class="move-item">Switchblade Kick</div>
+          <div class="move-item">Tiger Suplex</div>
+          <div class="move-item">Tornado DDT</div>
+        </div>
+        <div class="moveset-col">
+          <div class="moveset-col-title">Signature Moves</div>
+          <div class="move-item"><strong>Black Star</strong>Reverse Frankensteiner</div>
+          <div class="move-item"><strong>Giving Bad People Good Ideas / Wolf Down</strong>Hurricanrana Driver</div>
+          <div class="move-item"><strong>Human Target Practice</strong>Sliding Forearm</div>
+          <div class="move-item"><strong>The Lost Rose</strong>Stomach Kick → Axe Kick to Back of Head → Switchblade Kick to Kneeling Opponent</div>
+          <div class="move-item"><strong>The Magnolia Knee</strong>Bicycle Knee</div>
+          <div class="move-item"><strong>Romanov Grave</strong>Diving Double Foot Stomp</div>
+          <div class="move-item"><strong>Snap German Suplex</strong></div>
+          <div class="move-item"><strong>Three Hundred And Sixty-Eight / Millwall Defence</strong>Crossface Chickenwing</div>
+          <div class="move-item" style="opacity:0.5;"><strong>Idol Killer (Retired)</strong>Front Flip DDT</div>
+        </div>
+        <div class="moveset-col">
+          <div class="moveset-col-title">Finishing Moves</div>
+          <div class="finisher-highlight">
+            <div class="move-item"><strong>She Was Only Seventeen</strong>Running Single Leg Dropkick · PRIMARY</div>
+          </div>
+          <div class="finisher-highlight">
+            <div class="move-item"><strong>Deadman's Curve</strong>Somersault Reverse DDT · SECONDARY</div>
+          </div>
+          <div class="move-item" style="opacity:0.6;"><strong>SHEER</strong>Chaos Theory · Rare</div>
+          <div class="moveset-col-title" style="margin-top:1.5rem;">Favorites</div>
+          <div class="move-item"><strong>Traditional singles match</strong></div>
+          <div class="move-item"><strong>Ironman match</strong></div>
+          <div class="moveset-col-title" style="margin-top:1rem;">Hates</div>
+          <div class="move-item">Most gimmick matches</div>
+          <div class="move-item">Tag / multi-man matches</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIOGRAPHY -->
+    <section class="section">
+      <div class="section-title">Biography</div>
+      <div class="bio-text">
+        <p>Born and raised in Steele, North Dakota, Anastasia Hayden always felt a yearning to break free. While her upbringing was far from tumultuous, she sought a more dynamic existence. All throughout junior high and high school, being on the school's wrestling team was all she ever cared for — and it was on those mats that she realized wrestling would be her escape.</p>
+        <p>As a nobody in rural Oklahoma, under the guidance of Aya Minami and Grace Gage, she honed her skills on the Southern independent circuit while juggling dead-end jobs to make ends meet. When the chance arose to wrestle across the Atlantic, she never hesitated to leave everyone behind. Settling in London, she ventured into the rest of the United Kingdom and Japan. Then a locker room fight led to her departure from Monarchy Wrestling, nearly taking her out of the business entirely.</p>
+        <p>During her hiatus, Anastasia took on personal training to pay the bills in a foreign land, weighing heavily on ending her wrestling journey. Reconnecting with old friends rekindled her passion, and she returned to the United States with bookings in Pure Amusement Wrestling, Alpha Wrestling Empire, #FSociety, and eventually 4 Corners Wrestling — where she truly rose to prominence. She captured the 4CW Fate Championship as a launching point, then took down Hall of Famers Chris Madison, Bronx Valescence, and Bryan Laughlin to claim her first world title.</p>
+        <p>Elsewhere, Anastasia was drawn into the Hellcat Spangled Death Squad in KAMIKAZE Pro, forming a deep bond with Lisa Seldon. A tag team partnership blossomed, and they became one of the most celebrated duos worldwide. She also held the Liberty Pro Championship simultaneously with the 4CW Championship — a rare feat of undeniable dominance.</p>
+        <p>Following a crushing title loss, she took a hiatus, returned with Lisa in Union Battleground, captured the Battalion Championships, and finally faced Artemis Kaiser in the Guerrilla Warfare match — a match she describes as one of the most rewarding of her career. A subsequent loss to Miles Lucky in a championship match left her, briefly, at peace.</p>
+        <p>In 2021, she launched DEATH GRAPS — a tribute to the independent promotions that shaped her. In 2023, she began her full-time return, appearing in Valkyrie Wrestling, Pro Wrestling NEO, and New Japan Fighting Championship. She once felt there was a time to protect herself from the world. With so many false idols, it feels like her responsibility to reclaim the space that was once hers.</p>
+      </div>
+    </section>
+
+    <!-- CHAMPIONSHIPS -->
+    <section class="section">
+      <div class="section-title">Championship History</div>
+      <div class="champ-list">
+        <div class="champ-item current"><span class="champ-icon">🏆</span>Graps Gallery Championship (1x)<span class="champ-current-tag">Current</span></div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>4CW Championship (2x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>Liberty Pro Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>Full Force Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>Union Battleground Battalion Championship (2x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>FGA United States Tag Team Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>Rose City Tag Team Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>Rose City Trios Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>4CW Fate Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>#FSociety High Roller Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>NJFC Global Championship (1x)</div>
+        <div class="champ-item"><span class="champ-icon">🏆</span>PAW Titans of the Midway Championship (1x)</div>
+      </div>
+    </section>
+
+    <!-- CONNECTIONS -->
+    <section class="section">
+      <div class="section-title">Major Connections</div>
+      <div class="connections-grid">
+        <div class="connection-card">
+          <div class="connection-name">Artemis Kaiser</div>
+          <div class="connection-type">Soulmate</div>
+          <div class="connection-desc">Platonic? Romantic? Not even Anastasia is sure. Against others she has to work to feel alive — with Artemis, it's effortless. They could spend an eternity wrestling each other and it still wouldn't be long enough. Since Kaiser's retirement, she's been longing for that connection.</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-name">Bronx Valescence</div>
+          <div class="connection-type">Best Friend</div>
+          <div class="connection-desc">Decades of knowing each other. Loved him, hated him, wanted to see him conquer the world, wanted to be the one to take him down. In her mind, Bronx is the reason she's a two-time 4CW Champion. One of the few who ever truly "got" her.</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-name">Lisa Seldon</div>
+          <div class="connection-type">Ex-Best Friend / Former Tag Partner</div>
+          <div class="connection-desc">Forced her way into Anastasia's life. Kept her going when she wanted to quit. Their tag team partnership spanned continents. A recent betrayal in JurraSkye Park fractured the bond — but who's to say this rivalry will last?</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-name">Kimberley Stark</div>
+          <div class="connection-type">Girlfriend / Her Mystery</div>
+          <div class="connection-desc">After years of isolation, Kimberley somehow forced herself in. Her "Sunbeam." The frost that kept Anastasia's heart cold has begun to shake. Kimberley has become a constant rock, warming her back up when she goes cold again.</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-name">Terry McKenna</div>
+          <div class="connection-type">Best Friend / Co-Gym Owner</div>
+          <div class="connection-desc">First met in a bar in Texas. Reconnected in Monarchy Wrestling. In 2022, they opened HaydenxMcKenna Academy together. The man she trusts to oversee everything while she's on the road.</div>
+        </div>
+        <div class="connection-card">
+          <div class="connection-name">Blaise Fader</div>
+          <div class="connection-type">The Undefeated Rival</div>
+          <div class="connection-desc">The only wrestler Anastasia has faced multiple times and never beaten. They were never truly rivals or friends — just an undeniable chemistry. Blaise has stepped away. Anastasia will in fact never get that win. It severely bothers her.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMOTIONS -->
+    <section class="section">
+      <div class="section-title">Promotion History</div>
+      <div class="promo-cols">
+        <div>
+          <div class="stats-col-title" style="margin-bottom:1rem;">Current</div>
+          <div class="promo-list">
+            <div class="promo-item current">DEATHGRAPS</div>
+            <div class="promo-item current">Graps Gallery</div>
+            <div class="promo-item current">Pro Wrestling Vortex</div>
+            <div class="promo-item current">Valkyrie Wrestling</div>
+            <div class="promo-item current">VANGUARD Pro</div>
+          </div>
+        </div>
+        <div>
+          <div class="stats-col-title" style="margin-bottom:1rem;">Legacy</div>
+          <div class="promo-list">
+            <div class="promo-item">4 Corners Wrestling</div>
+            <div class="promo-item">Alpha Empire Wrestling</div>
+            <div class="promo-item">Broadway Wrestling</div>
+            <div class="promo-item">Frontier Grappling Arts</div>
+            <div class="promo-item">#FSociety Wrestling</div>
+            <div class="promo-item">KAMIKAZE Pro</div>
+            <div class="promo-item">Liberty Pro Wrestling</div>
+            <div class="promo-item">Monarchy Wrestling</div>
+            <div class="promo-item">New Japan Fighting Championship</div>
+            <div class="promo-item">Pure Amusement Wrestling</div>
+            <div class="promo-item">Rose City Wrestling</div>
+            <div class="promo-item">Union Battleground</div>
+            <div class="promo-item">+ 13 others</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-text">Anastasia Hayden · Character Profile · WrestleFlix Universe · Updated 2/25/25</div>
+    <a href="/rosters/universal-roster.html" class="footer-back">← Back to Universal Roster</a>
+  </footer>
+
+</body>
+</html>
