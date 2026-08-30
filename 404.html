@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signal Lost — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/wf.css"/>
+  <style>
+    .e-wrap {
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; padding: 6rem var(--gutter) 4rem;
+      background: radial-gradient(ellipse 70% 70% at 50% 35%, rgba(212,43,43,.10), transparent 70%), #07070a;
+      position: relative; overflow: hidden;
+    }
+    /* Scanline drift — the signal is bad, the page should look like it */
+    .e-scan { position: absolute; inset: 0; pointer-events: none; opacity: .45;
+      background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(255,255,255,.028) 2px 3px);
+      animation: edrift 7s linear infinite; }
+    @keyframes edrift { to { transform: translateY(60px); } }
+    @media (prefers-reduced-motion: reduce) { .e-scan { animation: none; } }
+
+    .e-code { font-family: var(--ff-display); font-size: clamp(90px, 22vw, 240px); line-height: .82;
+      color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.16); letter-spacing: 6px;
+      margin: 0 0 1rem; position: relative; z-index: 2; user-select: none; }
+    .e-eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 4px;
+      text-transform: uppercase; color: #d42b2b; margin-bottom: 1.25rem; position: relative; z-index: 2; }
+    .e-head { font-family: var(--ff-display); font-size: clamp(30px, 5vw, 58px); letter-spacing: 2px;
+      color: #fff; margin: 0 0 1rem; position: relative; z-index: 2; }
+    .e-sub { font-family: var(--ff-body); font-weight: 300; font-size: 17px; line-height: 1.65;
+      color: rgba(255,255,255,.66); max-width: 52ch; margin: 0 auto 2.5rem; position: relative; z-index: 2; }
+    .e-sub em { color: rgba(255,255,255,.88); font-style: italic; }
+    .e-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      position: relative; z-index: 2; margin-bottom: 3.5rem; }
+    .e-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      position: relative; z-index: 2; max-width: 700px; }
+    .e-chip { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 8px 14px; border-radius: 3px; text-decoration: none;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.62); transition: border-color .2s, color .2s; }
+    .e-chip:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+    .e-foot { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 2px;
+      color: rgba(255,255,255,.28); margin-top: 3rem; position: relative; z-index: 2; }
+  </style>
+</head>
+<body>
+
+<nav class="wf-nav" id="navbar">
+  <a href="/index.html" class="wf-nav-logo"><span class="r">W</span><span class="g">restle</span><span class="r">Flix</span></a>
+  <div class="wf-nav-links">
+    <a href="/index.html#active">Active Brands</a>
+    <a href="/index.html#originals">Originals</a>
+    <a href="/index.html#legacy">Archive</a>
+  </div>
+</nav>
+
+<div class="e-wrap">
+  <div class="e-scan"></div>
+
+  <div class="e-eyebrow">Error 404 · No Carrier Wave</div>
+  <div class="e-code">404</div>
+  <h1 class="e-head">This One Didn't Come Back</h1>
+  <p class="e-sub">
+    The page you asked for isn't at this address. It may have been moved, it may have been
+    renamed, or it may be sitting in a pocket dimension having a perfectly nice time and
+    declining to return. <em>Seven of those took seventy-seven years to locate.</em>
+  </p>
+
+  <div class="e-actions">
+    <a href="/index.html" class="wf-btn wf-btn-primary">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Back to Home
+    </a>
+    <a href="/shows/fight-2-win-2.html" class="wf-btn wf-btn-secondary">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch Fight 2 Win 2
+    </a>
+  </div>
+
+  <div class="e-links">
+    <a href="/brands/fight-2-win.html" class="e-chip">Fight 2 Win</a>
+    <a href="/brands/aftershock.html" class="e-chip">Aftershock</a>
+    <a href="/brands/ccw.html" class="e-chip">CCW</a>
+    <a href="/brands/ssw.html" class="e-chip">SSW</a>
+    <a href="/shows/death-graps-series.html" class="e-chip">Death Graps</a>
+    <a href="/shows/wrestlemecca.html" class="e-chip">WrestleMecca</a>
+    <a href="/shows/french-mime-assassins.html" class="e-chip">French Mime Assassins</a>
+    <a href="/shows/invader-series.html" class="e-chip">inVader</a>
+    <a href="/shows/howell-are-you-doing.html" class="e-chip">Howell Are You Doing?</a>
+    <a href="/archive/awe.html" class="e-chip">AWE Archive</a>
+  </div>
+
+  <div class="e-foot">The Mop is aware of the problem.</div>
+</div>
+
+</body>
+</html>
