@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fight 2 Win 2: The Search for WrestleMecca Part 2 — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/wf.css"/>
+  <style>
+    /* ── F2W2 page identity ────────────────────────────────────────────
+       Magenta is the film's signal colour — it's the neon of Fight2Win
+       City and the colour of the carrier wave. Gold is reserved strictly
+       for the championship. Nothing else on this page is gold. */
+    :root {
+      --f2-signal: #ff2e88;
+      --f2-signal-dim: rgba(255,46,136,.14);
+      --f2-chrome: #8fa3b8;
+      --f2-belt: #c9a84c;
+      --f2-void: #05030a;
+    }
+
+    .f2-hero {
+      position: relative; min-height: 88vh; display: flex; align-items: flex-end;
+      background:
+        radial-gradient(ellipse 70% 90% at 72% 30%, rgba(255,46,136,.16), transparent 70%),
+        radial-gradient(ellipse 90% 70% at 20% 80%, rgba(0,120,180,.10), transparent 70%),
+        var(--f2-void);
+      overflow: hidden;
+    }
+    /* Rain. The city is always raining. Four columns, offset, cheap and quiet. */
+    .f2-rain { position: absolute; inset: 0; pointer-events: none; opacity: .5;
+      background-image:
+        linear-gradient(transparent 0 92%, rgba(143,163,184,.20) 92% 100%),
+        linear-gradient(transparent 0 88%, rgba(143,163,184,.12) 88% 100%);
+      background-size: 3px 90px, 3px 140px;
+      background-position: 0 0, 40px 0;
+      animation: f2fall 1.1s linear infinite;
+    }
+    @keyframes f2fall { to { background-position: 0 90px, 40px 140px; } }
+    @media (prefers-reduced-motion: reduce) { .f2-rain { animation: none; } }
+
+    .f2-hero-art { position: absolute; inset: 0; z-index: 0; }
+    .f2-hero-art .wf-img-el { width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+    .f2-hero-scrim { position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, var(--f2-void) 2%, rgba(5,3,10,.82) 34%, rgba(5,3,10,.25) 72%, transparent 100%); }
+    .f2-hero-inner { position: relative; z-index: 3; padding: 0 var(--gutter) 4.5rem; max-width: 1000px; }
+
+    .f2-eyebrow { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--f2-signal); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px; }
+    .f2-eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--f2-signal); }
+
+    .f2-title { font-family: var(--ff-display); line-height: .84; margin: 0 0 1.25rem;
+      letter-spacing: 1px; color: #fff; }
+    .f2-title .l1 { display: block; font-size: clamp(38px, 6.2vw, 86px); color: var(--f2-chrome); }
+    .f2-title .l2 { display: block; font-size: clamp(56px, 11.5vw, 168px); color: #fff;
+      text-shadow: 0 0 70px rgba(255,46,136,.55), 0 0 4px rgba(255,46,136,.9); }
+    .f2-title .l3 { display: block; font-size: clamp(20px, 3.1vw, 44px); color: var(--f2-chrome);
+      letter-spacing: 3px; margin-top: .35rem; }
+
+    .f2-logline { font-family: var(--ff-body); font-size: clamp(16px, 1.5vw, 21px);
+      line-height: 1.5; color: rgba(255,255,255,.86); max-width: 60ch; margin: 0 0 1.75rem; font-weight: 300; }
+
+    .f2-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      font-family: var(--ff-mono); font-size: 12px; color: rgba(255,255,255,.55); margin-top: 1.75rem; }
+    .f2-meta-badge { background: var(--f2-signal-dim); border: 1px solid rgba(255,46,136,.45);
+      color: var(--f2-signal); padding: 3px 10px; border-radius: 3px; font-size: 10px; letter-spacing: 2px; }
+    .f2-dot { opacity: .35; }
+
+    /* ── Sections ───────────────────────────────────────────────────── */
+    .f2-sec { padding: 4.5rem var(--gutter); max-width: 1300px; margin: 0 auto; }
+    .f2-sec-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,.09); padding-bottom: .85rem; }
+    .f2-sec-num { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 3px; color: var(--f2-signal); }
+    .f2-sec-title { font-family: var(--ff-display); font-size: clamp(26px, 3.4vw, 44px);
+      letter-spacing: 2px; color: #fff; margin: 0; }
+
+    .f2-prose { font-family: var(--ff-body); font-weight: 300; font-size: 17px; line-height: 1.72;
+      color: rgba(255,255,255,.78); max-width: 68ch; }
+    .f2-prose p { margin: 0 0 1.15rem; }
+    .f2-prose strong { color: #fff; font-weight: 500; }
+
+    /* ── SIGNATURE: The Seven Signals ───────────────────────────────
+       The film numbers these in dialogue. The numbering is the content,
+       not decoration — each signal is a coordinate Max reads off a screen. */
+    .f2-signals { display: grid; gap: 0; border-top: 1px solid rgba(255,255,255,.09); }
+    .f2-signal-row {
+      display: grid; grid-template-columns: 92px 1fr 1.2fr; gap: 1.5rem; align-items: start;
+      padding: 1.6rem 0; border-bottom: 1px solid rgba(255,255,255,.09);
+      transition: background .25s ease, padding-left .25s ease;
+    }
+    .f2-signal-row:hover { background: linear-gradient(90deg, var(--f2-signal-dim), transparent 60%); padding-left: 14px; }
+    .f2-signal-id { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 2px;
+      color: var(--f2-signal); padding-top: 5px; white-space: nowrap; }
+    .f2-signal-who { font-family: var(--ff-display); font-size: 27px; letter-spacing: 1.5px;
+      line-height: 1.05; color: #fff; text-decoration: none; display: block; }
+    a.f2-signal-who:hover { color: var(--f2-signal); }
+    .f2-signal-where { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 1.6px;
+      text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: 5px; }
+    .f2-signal-note { font-family: var(--ff-body); font-weight: 300; font-size: 14.5px;
+      line-height: 1.62; color: rgba(255,255,255,.66); }
+    .f2-signal-yrs { color: var(--f2-chrome); font-family: var(--ff-mono); font-size: 12px; }
+
+    @media (max-width: 720px) {
+      .f2-signal-row { grid-template-columns: 62px 1fr; }
+      .f2-signal-note { grid-column: 2; }
+    }
+
+    /* ── The unnamed set ─────────────────────────────────────────────── */
+    .f2-stones { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 2rem; }
+    .f2-stone { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 4px; padding: 1.6rem 1.2rem; text-align: center; position: relative; overflow: hidden; }
+    .f2-stone-orb { width: 42px; height: 42px; border-radius: 50%; margin: 0 auto .9rem;
+      background: radial-gradient(circle at 35% 30%, rgba(201,168,76,.9), rgba(201,168,76,.15) 60%, transparent 72%);
+      box-shadow: 0 0 26px rgba(201,168,76,.35); }
+    .f2-stone-q { font-family: var(--ff-display); font-size: 30px; color: rgba(255,255,255,.22); line-height: 1; }
+    .f2-stone-cap { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 1.8px;
+      text-transform: uppercase; color: rgba(255,255,255,.42); }
+    .f2-stone-note { font-family: var(--ff-body); font-size: 12.5px; color: rgba(255,255,255,.55);
+      margin-top: .5rem; line-height: 1.5; font-weight: 300; }
+
+    /* ── Cast strip ──────────────────────────────────────────────────── */
+    .f2-cast { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .f2-cast-card { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: 4px;
+      overflow: hidden; text-decoration: none; display: block; transition: border-color .2s, transform .2s; }
+    .f2-cast-card:hover { border-color: rgba(255,46,136,.5); transform: translateY(-3px); }
+    .f2-cast-img { aspect-ratio: 2/3; background: linear-gradient(160deg, #14101c, #0a0710); position: relative; }
+    .f2-cast-img .wf-img-el { width: 100%; height: 100%; object-fit: cover; }
+    .f2-cast-body { padding: .8rem .85rem 1rem; }
+    .f2-cast-name { font-family: var(--ff-body); font-size: 13.5px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+    .f2-cast-role { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 1.4px;
+      text-transform: uppercase; color: rgba(255,255,255,.42); line-height: 1.4; }
+
+    /* ── Pull quote ──────────────────────────────────────────────────── */
+    .f2-pull { padding: 4rem var(--gutter); text-align: center; max-width: 900px; margin: 0 auto; }
+    .f2-pull-q { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400;
+      font-size: clamp(22px, 3.2vw, 40px); line-height: 1.32; color: #fff; margin: 0 0 1rem; }
+    .f2-pull-a { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--f2-signal); }
+
+    .f2-rule { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,46,136,.4), transparent);
+      max-width: 1300px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="wf-nav" id="navbar">
+  <a href="/index.html" class="wf-nav-logo"><span class="r">W</span><span class="g">restle</span><span class="r">Flix</span></a>
+  <div class="wf-nav-links">
+    <a href="/index.html#active">Active Brands</a>
+    <a href="/index.html#originals">Originals</a>
+    <a href="/index.html#legacy">Archive</a>
+    <a href="/brands/fight-2-win.html" style="color:#ff2e88;font-weight:600">Fight 2 Win</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="f2-hero">
+  <div class="f2-hero-art wf-img" data-type="hero" data-label="1920×1080 · Hero">
+    <!-- REPLACE: <img class="wf-img-el" src="/img/hero-f2w2.jpg" alt="Fight 2 Win 2"/> -->
+  </div>
+  <div class="f2-rain"></div>
+  <div class="f2-hero-scrim"></div>
+
+  <div class="f2-hero-inner">
+    <div class="f2-eyebrow">WrestleFlix Original Film</div>
+    <h1 class="f2-title">
+      <span class="l1">FIGHT 2 WIN</span>
+      <span class="l2">TWO</span>
+      <span class="l3">THE SEARCH FOR WRESTLEMECCA · PART 2</span>
+    </h1>
+    <p class="f2-logline">
+      Fifty-one years after the snap, a sentient mop wakes up on a ripperdoc's table
+      in a city owned by the man who caused it — carrying a dead wrestling scholar
+      in its head and a list of seven people who were never supposed to be found.
+    </p>
+    <div class="wf-hero-actions">
+      <a href="#" class="wf-btn wf-btn-primary"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Play</a>
+      <a href="#synopsis" class="wf-btn wf-btn-secondary"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>More Info</a>
+    </div>
+    <div class="f2-meta">
+      <span class="f2-meta-badge">WF ORIGINAL FILM</span>
+      <span class="f2-dot">·</span><span>Feature</span>
+      <span class="f2-dot">·</span><span>Sci-Fi · Cyberpunk · Wrestling</span>
+      <span class="f2-dot">·</span><span>Fight2Win City, 2077</span>
+      <span class="f2-dot">·</span><span class="wf-maturity">TV-MA</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SYNOPSIS ═══ -->
+<section class="f2-sec" id="synopsis">
+  <div class="f2-sec-head">
+    <span class="f2-sec-num">01</span>
+    <h2 class="f2-sec-title">The Job</h2>
+  </div>
+  <div class="f2-prose">
+    <p>
+      The heist went wrong the way heists go wrong — thoroughly, and to everyone.
+      A biochip came out of DevlinSaka Tower. Three people went in for it. One walked
+      out, and only because someone carried it.
+    </p>
+    <p>
+      What's on the chip is <strong>Zack Fantana</strong>, the world's leading Wrestling
+      Symbologist, dead for fifty-one years and considerably more talkative about it than
+      anyone expected. What's carrying him is <strong>The Mop</strong>, who does not remember
+      agreeing to any of this and would like the record to reflect that.
+    </p>
+    <p>
+      Seven people vanished at WrestleMecca in 2026. Not killed — <em>filed.</em> Scattered
+      into pocket dimensions and left there while the world moved on without noticing the gap.
+      Max can find them. Max cannot bring them back alone. And the only thing that can undo
+      what was done sits in a locked altar beneath the tallest building in a city that
+      Brennan Devlin owns outright.
+    </p>
+    <p>
+      Everyone who wants the championship would use it. That's the problem, and everyone
+      in the room knows it, and nobody says it out loud until it's far too late to matter.
+    </p>
+  </div>
+</section>
+
+<div class="f2-rule"></div>
+
+<!-- ═══ SIGNATURE — THE SEVEN SIGNALS ═══ -->
+<section class="f2-sec">
+  <div class="f2-sec-head">
+    <span class="f2-sec-num">02</span>
+    <h2 class="f2-sec-title">The Seven Signals</h2>
+  </div>
+  <p class="f2-prose" style="margin-bottom:2.25rem">
+    Seven readings on Max's board. Seven places that shouldn't exist, each one built out of
+    whatever the person inside it brought with them. All seven have been there
+    <span class="f2-signal-yrs">seventy-seven years.</span>
+  </p>
+
+  <div class="f2-signals">
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 01</div>
+      <div>
+        <a href="/characters/jove-belane.html" class="f2-signal-who">Jove Belane</a>
+        <div class="f2-signal-where">The Town · WrestleMecca Island</div>
+      </div>
+      <div class="f2-signal-note">
+        Kept a town alive against things wearing the faces of people he used to work with.
+        Championship belts nailed above every door, because they hold. The serum is nearly gone.
+        <em>"I kept the lights on."</em>
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 02</div>
+      <div>
+        <a href="/characters/jd-driftwood.html" class="f2-signal-who">JD Driftwood</a>
+        <div class="f2-signal-where">Bone Mountain</div>
+      </div>
+      <div class="f2-signal-note">
+        Seventy-seven years and nothing to hit. Swung first, asked after. Stopped cold at the
+        only fact that ever mattered to him: there was a title on the line and nobody let him
+        compete for it. Left with a souvenir. The bone counts.
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 03</div>
+      <div>
+        <a href="/characters/amy-stake.html" class="f2-signal-who">Amy Stake</a>
+        <div class="f2-signal-where">The House That Kept Building</div>
+      </div>
+      <div class="f2-signal-note">
+        A perfect home that never stopped adding rooms, and a competitor sealed inside it with
+        nothing to beat. Finished serving the course before she left, because leaving early
+        would have been rude. <em>"Are you here to take me somewhere I can hit something?"</em>
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 04</div>
+      <div>
+        <a href="/characters/harper-lee.html" class="f2-signal-who">Harper Lee Vale</a>
+        <div class="f2-signal-where">The Island · West Side Cave</div>
+      </div>
+      <div class="f2-signal-note">
+        Survived the crash. Did not survive what she found in the wreckage, or what it spent
+        fifty years telling her. The hardest retrieval in the film, and the only one where
+        The Mop had to go somewhere first and ask permission.
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 05</div>
+      <div>
+        <a href="/characters/hatchet-gully.html" class="f2-signal-who">Hatchet Gully &amp; A$hley Quidd</a>
+        <div class="f2-signal-where">Utopia</div>
+      </div>
+      <div class="f2-signal-note">
+        Accidentally achieved world peace and cannot agree on how. Heard the gong every year
+        for seventy-seven years, watched the planet lose its mind about it, and told nobody,
+        because it was funny. Packed on a Tuesday. Had a curry first.
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 06</div>
+      <div>
+        <a href="/characters/warrick-hill.html" class="f2-signal-who">Warrick Hill</a>
+        <div class="f2-signal-where">The Continental United States</div>
+      </div>
+      <div class="f2-signal-note">
+        Not trapped anywhere exotic. Just never arriving. Seventy-seven years of connecting
+        routes that don't connect, with a man whose map is wrong and a kid who fishes.
+        Found on a broken swan paddleboat, six weeks into a slow circle.
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 07</div>
+      <div>
+        <a href="/characters/waverly-winters.html" class="f2-signal-who">Waverly Winters</a>
+        <div class="f2-signal-where">The Island · Jurassic</div>
+      </div>
+      <div class="f2-signal-note">
+        Four hundred and seventeen marks scratched into concrete. Surviving the fauna was the
+        easy part. Reads a frequency Max has no category for — not the carrier wave,
+        something next to it, and older.
+      </div>
+    </div>
+
+    <div class="f2-signal-row">
+      <div class="f2-signal-id">SIGNAL 07<span style="opacity:.5">·B</span></div>
+      <div>
+        <a href="/characters/ursula-st-james.html" class="f2-signal-who">Ursula St. James</a>
+        <div class="f2-signal-where">The Island · Same Coordinates</div>
+      </div>
+      <div class="f2-signal-note">
+        Fell through the same crack and landed in the same place, and has spent every day since
+        trying to kill the other reading on this line. Has died approximately as many times as
+        Waverly has counted. Her own count is five lower. She carries it on a bent piece of metal.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="f2-rule"></div>
+
+<!-- ═══ THE UNNAMED SET ═══ -->
+<section class="f2-sec">
+  <div class="f2-sec-head">
+    <span class="f2-sec-num">03</span>
+    <h2 class="f2-sec-title">Five Readings, One Belt</h2>
+  </div>
+  <p class="f2-prose">
+    Max has been tracking five signatures inside the same object for four decades. They predate
+    human civilisation. She can measure them, chart them, and confirm they are getting stronger.
+    She cannot tell you what they are. Her working name for whatever put them there is
+    <em>"Wrestling Space Gods,"</em> which nobody likes, including her.
+  </p>
+  <div class="f2-stones">
+    <div class="f2-stone"><div class="f2-stone-orb"></div><div class="f2-stone-cap">Reading One</div><div class="f2-stone-note">Force. Things move that should not move.</div></div>
+    <div class="f2-stone"><div class="f2-stone-orb"></div><div class="f2-stone-cap">Reading Two</div><div class="f2-stone-note">Endings. Whatever it closes stays closed.</div></div>
+    <div class="f2-stone"><div class="f2-stone-orb"></div><div class="f2-stone-cap">Reading Three</div><div class="f2-stone-note">Structure. It knows how the mechanism works.</div></div>
+    <div class="f2-stone"><div class="f2-stone-orb"></div><div class="f2-stone-cap">Reading Four</div><div class="f2-stone-note">Record. The history says what it says.</div></div>
+    <div class="f2-stone"><div class="f2-stone-orb"></div><div class="f2-stone-cap">Reading Five</div><div class="f2-stone-note">Unclassified. Max stopped writing notes on this one.</div></div>
+  </div>
+</section>
+
+<!-- ═══ PULL QUOTE ═══ -->
+<div class="f2-pull">
+  <p class="f2-pull-q">"That's the finish, BBC. That's the finish."</p>
+  <div class="f2-pull-a">Zack Fantana · Wrestling Symbologist · 1994–2026</div>
+</div>
+
+<div class="f2-rule"></div>
+
+<!-- ═══ CAST ═══ -->
+<section class="f2-sec">
+  <div class="f2-sec-head">
+    <span class="f2-sec-num">04</span>
+    <h2 class="f2-sec-title">Cast</h2>
+  </div>
+  <div class="f2-cast">
+
+    <a href="/characters/the-mop.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-the-mop.jpg" alt="The Mop"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">The Mop</div><div class="f2-cast-role">Protagonist · Carrier</div></div>
+    </a>
+
+    <a href="/characters/zack-fantana.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-zack-fantana.jpg" alt="Zack Fantana"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Zack Fantana</div><div class="f2-cast-role">The Ghost in the Mop</div></div>
+    </a>
+
+    <a href="/characters/bbc.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-bbc.jpg" alt="BBC"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">BBC</div><div class="f2-cast-role">The Afterlife · The Last Key</div></div>
+    </a>
+
+    <a href="/characters/mad-max.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-mad-max.jpg" alt="Mad Max"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Mad Max</div><div class="f2-cast-role">Ripperdoc · Built the Board</div></div>
+    </a>
+
+    <a href="/characters/brennan-devlin.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-brennan-devlin.jpg" alt="Brennan Devlin"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Brennan Devlin</div><div class="f2-cast-role">DevlinSaka · Antagonist</div></div>
+    </a>
+
+    <a href="/characters/maddie-stokes.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-maddie-stokes.jpg" alt="Maddie Stokes"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Maddie Stokes</div><div class="f2-cast-role">Enforcer · Own Play</div></div>
+    </a>
+
+    <a href="/characters/flynn-howell.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-flynn-howell.jpg" alt="Cyborg Flynn Howell"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Cyborg Flynn Howell</div><div class="f2-cast-role">Melee Champion · 133–0</div></div>
+    </a>
+
+    <a href="/characters/skylar-wright-virtue.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-skylar-wright-virtue.jpg" alt="Skylar Wright-Virtue"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Skylar Wright-Virtue</div><div class="f2-cast-role">The Steady Hand</div></div>
+    </a>
+
+    <a href="/characters/onyx-busfin.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-onyx-busfin.jpg" alt="President Onyx Busfin"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Onyx Busfin</div><div class="f2-cast-role">President · Compromised</div></div>
+    </a>
+
+    <a href="/characters/holliday-sinclair.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-holliday-sinclair.jpg" alt="Holliday Sinclair"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Holliday Sinclair</div><div class="f2-cast-role">DevlinSaka Security</div></div>
+    </a>
+
+    <a href="/characters/brianna-west.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-brianna-west.jpg" alt="Brianna West"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">Brianna West</div><div class="f2-cast-role">The Cave · West Side</div></div>
+    </a>
+
+    <a href="/characters/american-tommy.html" class="f2-cast-card">
+      <div class="f2-cast-img wf-img" data-type="character"><!-- REPLACE: <img class="wf-img-el" src="/img/char-american-tommy.jpg" alt="American Tommy"/> --></div>
+      <div class="f2-cast-body"><div class="f2-cast-name">American Tommy</div><div class="f2-cast-role">Engram · Top Stairwell</div></div>
+    </a>
+
+  </div>
+</section>
+
+<div class="f2-rule"></div>
+
+<!-- ═══ RELATED ═══ -->
+<section class="f2-sec">
+  <div class="f2-sec-head">
+    <span class="f2-sec-num">05</span>
+    <h2 class="f2-sec-title">More From This Universe</h2>
+  </div>
+  <div class="wf-row-wrap">
+    <div class="wf-row">
+      <a href="/shows/wrestlemecca.html" class="wf-card wf-card-land">
+        <div class="wf-img" data-ratio="16-9" data-type="thumb"><!-- REPLACE: <img class="wf-img-el" src="/img/thumb-wrestlemecca.jpg" alt="WrestleMecca"/> --></div>
+        <span class="wf-badge wf-badge-orig">PPV</span>
+        <div class="wf-card-foot">
+          <div class="wf-card-eyebrow">Where it happened</div>
+          <div class="wf-card-title">WrestleMecca</div>
+          <div class="wf-card-desc">Three events. The snap. The night everyone on this page lost seventy-seven years.</div>
+        </div>
+      </a>
+      <a href="/brands/fight-2-win.html" class="wf-card wf-card-land">
+        <div class="wf-img" data-ratio="16-9" data-type="thumb"><!-- REPLACE: <img class="wf-img-el" src="/img/thumb-f2w.jpg" alt="Fight 2 Win"/> --></div>
+        <span class="wf-badge wf-badge-live">ACTIVE</span>
+        <div class="wf-card-foot">
+          <div class="wf-card-eyebrow">Fight 2 Win</div>
+          <div class="wf-card-title">The Brand</div>
+          <div class="wf-card-desc">Relaunched under the WrestleFlix banner by Lana Cuppola. Roster, titles, and current cards.</div>
+        </div>
+      </a>
+      <a href="/shows/howell-are-you-doing.html" class="wf-card wf-card-land">
+        <div class="wf-img" data-ratio="16-9" data-type="thumb"><!-- REPLACE: <img class="wf-img-el" src="/img/thumb-howell.jpg" alt="Howell Are You Doing"/> --></div>
+        <span class="wf-badge wf-badge-orig">ORIGINAL</span>
+        <div class="wf-card-foot">
+          <div class="wf-card-eyebrow">Red Lock Legion Productions</div>
+          <div class="wf-card-title">Howell Are You Doing?</div>
+          <div class="wf-card-desc">Scarlett Howell's talk show. Two red chairs. The Howell family before the chrome.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="wf-footer">
+  <div class="wf-footer-logo">WRESTLEFLIX</div>
+  <div class="wf-footer-grid">
+    <div class="wf-footer-col">
+      <h4>Active Brands</h4>
+      <a href="/shows/wrestlemecca.html">WrestleMecca</a>
+      <a href="/brands/aftershock.html">Aftershock</a>
+      <a href="/brands/fight-2-win.html">Fight 2 Win</a>
+      <a href="/brands/ccw.html">CCW</a>
+      <a href="/brands/ssw.html">SSW</a>
+      <a href="/shows/death-graps-series.html">Death Graps</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>WF Originals</h4>
+      <a href="/shows/fight-2-win-2.html">Fight 2 Win 2</a>
+      <a href="/shows/french-mime-assassins.html">French Mime Assassins</a>
+      <a href="/shows/invader-series.html">inVader</a>
+      <a href="/shows/howell-are-you-doing.html">Howell Are You Doing?</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>Archive</h4>
+      <a href="/shows/awe-massacre.html">AWE Massacre</a>
+      <a href="/shows/valor-pro-blitz.html">Valor Pro Blitz</a>
+      <a href="/archive/paw.html">Pure Amusement Wrestling</a>
+    </div>
+    <div class="wf-footer-col">
+      <h4>Info</h4>
+      <a href="/rosters/wrestlemecca-bracket.html">WrestleMecca Bracket</a>
+      <a href="/brands/aftershock.html">Aftershock Rules</a>
+    </div>
+  </div>
+  <div class="wf-footer-bottom">
+    <span class="wf-footer-copy">© WrestleFlix · wrestleflixx.github.io</span>
+    <span class="wf-footer-copy">Nobody knows how to fight a mop.</span>
+  </div>
+</footer>
+
+<script src="/js/wf.js"></script>
+</body>
+</html>
