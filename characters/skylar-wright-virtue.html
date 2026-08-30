@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skylar Wright-Virtue — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/wf.css"/>
+  <style>
+    :root { --ch-accent: #4f9d6e; --ch-accent-dim: rgba(79,157,110,.13); }
+
+    .ch-hero {
+      position: relative; min-height: 62vh; display: flex; align-items: flex-end;
+      background: radial-gradient(ellipse 70% 85% at 70% 25%, rgba(79,157,110,.17), transparent 68%), #07070a;
+      overflow: hidden;
+    }
+    .ch-hero-art { position: absolute; inset: 0; z-index: 0; }
+    .ch-hero-art .wf-img-el { width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: .5; }
+    .ch-scrim { position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, #07070a 3%, rgba(7,7,10,.85) 38%, rgba(7,7,10,.2) 78%, transparent 100%); }
+    .ch-hero-inner { position: relative; z-index: 2; padding: 0 var(--gutter) 3rem; max-width: 1200px; width: 100%; }
+
+    .ch-eyebrow { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 3.5px;
+      text-transform: uppercase; color: var(--ch-accent); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 10px; }
+    .ch-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--ch-accent); }
+
+    .ch-name { font-family: var(--ff-display); font-size: clamp(46px, 8.5vw, 108px);
+      line-height: .88; letter-spacing: 2px; color: #fff; margin: 0 0 .6rem; }
+    .ch-tag { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(16px, 2.1vw, 26px);
+      color: var(--ch-accent); margin: 0; }
+
+    .ch-body { max-width: 1200px; margin: 0 auto; padding: 3rem var(--gutter) 4rem;
+      display: grid; grid-template-columns: 1fr 300px; gap: 3.5rem; align-items: start; }
+    @media (max-width: 900px) { .ch-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .ch-sec-title { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--ch-accent); margin: 0 0 1rem;
+      padding-bottom: .6rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .ch-sec + .ch-sec { margin-top: 2.75rem; }
+
+    .ch-prose { font-family: var(--ff-body); font-weight: 300; font-size: 16.5px; line-height: 1.75;
+      color: rgba(255,255,255,.78); }
+    .ch-prose p { margin: 0 0 1.1rem; }
+    .ch-prose p:last-child { margin-bottom: 0; }
+    .ch-prose strong { color: #fff; font-weight: 500; }
+    .ch-prose em { color: rgba(255,255,255,.92); }
+
+    .ch-vitals { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 5px; padding: 1.4rem 1.5rem; }
+    .ch-vital { padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ch-vital:last-child { border-bottom: none; padding-bottom: 0; }
+    .ch-vital:first-child { padding-top: 0; }
+    .ch-vital-k { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 1.8px;
+      text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 3px; }
+    .ch-vital-v { font-family: var(--ff-body); font-size: 14.5px; color: #fff; font-weight: 400; line-height: 1.45; }
+
+    .ch-portrait { aspect-ratio: 2/3; border-radius: 5px; overflow: hidden; margin-bottom: 1.25rem;
+      background: linear-gradient(165deg, rgba(255,255,255,.05), rgba(0,0,0,.3)); border: 1px solid rgba(255,255,255,.09); }
+    .ch-portrait .wf-img-el { width: 100%; height: 100%; object-fit: cover; }
+
+    .ch-moves { list-style: none; padding: 0; margin: 0; }
+    .ch-move { display: flex; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      align-items: baseline; }
+    .ch-move:last-child { border-bottom: none; }
+    .ch-move-k { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 1.6px;
+      text-transform: uppercase; color: rgba(255,255,255,.4); min-width: 92px; flex-shrink: 0; }
+    .ch-move-v { font-family: var(--ff-display); font-size: 21px; letter-spacing: 1px; color: #fff; line-height: 1.15; }
+
+    .ch-quote { border-left: 2px solid var(--ch-accent); padding: .3rem 0 .3rem 1.4rem; margin: 1.75rem 0;
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; line-height: 1.5;
+      color: rgba(255,255,255,.9); }
+
+    .ch-appear { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ch-chip { display: inline-block; font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 1.4px;
+      text-transform: uppercase; padding: 7px 13px; border-radius: 3px; text-decoration: none;
+      background: var(--ch-accent-dim); border: 1px solid var(--ch-accent); color: var(--ch-accent);
+      transition: background .2s; }
+    .ch-chip:hover { background: var(--ch-accent); color: #07070a; }
+
+    .ch-back { display: inline-block; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; margin-bottom: 1.25rem; }
+    .ch-back:hover { color: var(--ch-accent); }
+  </style>
+</head>
+<body>
+
+<nav class="wf-nav" id="navbar">
+  <a href="/index.html" class="wf-nav-logo"><span class="r">W</span><span class="g">restle</span><span class="r">Flix</span></a>
+  <div class="wf-nav-links">
+    <a href="/index.html#active">Active Brands</a>
+    <a href="/index.html#originals">Originals</a>
+    <a href="/index.html#legacy">Archive</a>
+  </div>
+</nav>
+
+<section class="ch-hero">
+  <div class="ch-hero-art wf-img" data-type="hero" data-label="1920×1080 · Hero">
+    <!-- REPLACE: <img class="wf-img-el" src="/img/hero-skylar-wright-virtue.jpg" alt="Skylar Wright-Virtue"/> -->
+  </div>
+  <div class="ch-scrim"></div>
+  <div class="ch-hero-inner">
+    <div class="ch-eyebrow">The Afterlife · Evergreen 60s</div>
+    <h1 class="ch-name">Skylar Wright-Virtue</h1>
+    <p class="ch-tag">Knows when touch helps and when it doesn't.</p>
+  </div>
+</section>
+
+<div class="ch-body">
+  <div>
+    <a href="/index.html#characters" class="ch-back">‹ All Characters</a>
+    <div class="ch-sec">
+      <h2 class="ch-sec-title">Profile</h2>
+      <div class="ch-prose">
+        <p>One hand on BBC's shoulder with the practiced lightness of someone who has learned exactly when contact helps and when it is one more thing to carry.</p>
+        <p><em>“This wasn't the fault of BBC.”</em> She says it to the room in the clinic, quietly, and the room agrees the way people agree with things that are complicated but need, right at that moment, to be simple.</p>
+        <p>When BBC doubts — really doubts, before the tower — she does not tell him what to do. That restraint is the most useful thing anyone does for him in the entire film.</p>
+      </div>
+    </div>
+
+    <div class="ch-sec">
+      <h2 class="ch-sec-title">Appears In</h2>
+      <div class="ch-appear">
+        <a href="/shows/fight-2-win-2.html" class="ch-chip">Fight 2 Win 2</a>
+        <a href="/characters/bbc.html" class="ch-chip">BBC</a>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="ch-portrait wf-img" data-type="character" data-label="300×450 · Character">
+      <!-- REPLACE: <img class="wf-img-el" src="/img/char-skylar-wright-virtue.jpg" alt="Skylar Wright-Virtue"/> -->
+    </div>
+    <div class="ch-vitals">
+      <div class="ch-vital"><div class="ch-vital-k">Partner</div><div class="ch-vital-v">BBC</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Era</div><div class="ch-vital-v">Evergreen 60s</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Present For</div><div class="ch-vital-v">The clinic · The doubt · The tower</div></div>
+
+    </div>
+  </aside>
+</div>
+
+<footer class="wf-footer">
+  <div class="wf-footer-logo">WRESTLEFLIX</div>
+  <div class="wf-footer-bottom">
+    <span class="wf-footer-copy">© WrestleFlix · wrestleflixx.github.io</span>
+    <span class="wf-footer-copy">She didn't tell him what to do.</span>
+  </div>
+</footer>
+
+<script src="/js/wf.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Mop — WrestleFlix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/wf.css"/>
+  <style>
+    :root { --ch-accent: #9aa8b5; --ch-accent-dim: rgba(154,168,181,.13); }
+
+    .ch-hero {
+      position: relative; min-height: 62vh; display: flex; align-items: flex-end;
+      background: radial-gradient(ellipse 70% 85% at 70% 25%, rgba(154,168,181,.17), transparent 68%), #07070a;
+      overflow: hidden;
+    }
+    .ch-hero-art { position: absolute; inset: 0; z-index: 0; }
+    .ch-hero-art .wf-img-el { width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: .5; }
+    .ch-scrim { position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, #07070a 3%, rgba(7,7,10,.85) 38%, rgba(7,7,10,.2) 78%, transparent 100%); }
+    .ch-hero-inner { position: relative; z-index: 2; padding: 0 var(--gutter) 3rem; max-width: 1200px; width: 100%; }
+
+    .ch-eyebrow { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 3.5px;
+      text-transform: uppercase; color: var(--ch-accent); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 10px; }
+    .ch-eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--ch-accent); }
+
+    .ch-name { font-family: var(--ff-display); font-size: clamp(46px, 8.5vw, 108px);
+      line-height: .88; letter-spacing: 2px; color: #fff; margin: 0 0 .6rem; }
+    .ch-tag { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(16px, 2.1vw, 26px);
+      color: var(--ch-accent); margin: 0; }
+
+    .ch-body { max-width: 1200px; margin: 0 auto; padding: 3rem var(--gutter) 4rem;
+      display: grid; grid-template-columns: 1fr 300px; gap: 3.5rem; align-items: start; }
+    @media (max-width: 900px) { .ch-body { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .ch-sec-title { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--ch-accent); margin: 0 0 1rem;
+      padding-bottom: .6rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .ch-sec + .ch-sec { margin-top: 2.75rem; }
+
+    .ch-prose { font-family: var(--ff-body); font-weight: 300; font-size: 16.5px; line-height: 1.75;
+      color: rgba(255,255,255,.78); }
+    .ch-prose p { margin: 0 0 1.1rem; }
+    .ch-prose p:last-child { margin-bottom: 0; }
+    .ch-prose strong { color: #fff; font-weight: 500; }
+    .ch-prose em { color: rgba(255,255,255,.92); }
+
+    .ch-vitals { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 5px; padding: 1.4rem 1.5rem; }
+    .ch-vital { padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ch-vital:last-child { border-bottom: none; padding-bottom: 0; }
+    .ch-vital:first-child { padding-top: 0; }
+    .ch-vital-k { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 1.8px;
+      text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 3px; }
+    .ch-vital-v { font-family: var(--ff-body); font-size: 14.5px; color: #fff; font-weight: 400; line-height: 1.45; }
+
+    .ch-portrait { aspect-ratio: 2/3; border-radius: 5px; overflow: hidden; margin-bottom: 1.25rem;
+      background: linear-gradient(165deg, rgba(255,255,255,.05), rgba(0,0,0,.3)); border: 1px solid rgba(255,255,255,.09); }
+    .ch-portrait .wf-img-el { width: 100%; height: 100%; object-fit: cover; }
+
+    .ch-moves { list-style: none; padding: 0; margin: 0; }
+    .ch-move { display: flex; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid rgba(255,255,255,.07);
+      align-items: baseline; }
+    .ch-move:last-child { border-bottom: none; }
+    .ch-move-k { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 1.6px;
+      text-transform: uppercase; color: rgba(255,255,255,.4); min-width: 92px; flex-shrink: 0; }
+    .ch-move-v { font-family: var(--ff-display); font-size: 21px; letter-spacing: 1px; color: #fff; line-height: 1.15; }
+
+    .ch-quote { border-left: 2px solid var(--ch-accent); padding: .3rem 0 .3rem 1.4rem; margin: 1.75rem 0;
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; line-height: 1.5;
+      color: rgba(255,255,255,.9); }
+
+    .ch-appear { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ch-chip { display: inline-block; font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 1.4px;
+      text-transform: uppercase; padding: 7px 13px; border-radius: 3px; text-decoration: none;
+      background: var(--ch-accent-dim); border: 1px solid var(--ch-accent); color: var(--ch-accent);
+      transition: background .2s; }
+    .ch-chip:hover { background: var(--ch-accent); color: #07070a; }
+
+    .ch-back { display: inline-block; font-family: var(--ff-mono); font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; margin-bottom: 1.25rem; }
+    .ch-back:hover { color: var(--ch-accent); }
+  </style>
+</head>
+<body>
+
+<nav class="wf-nav" id="navbar">
+  <a href="/index.html" class="wf-nav-logo"><span class="r">W</span><span class="g">restle</span><span class="r">Flix</span></a>
+  <div class="wf-nav-links">
+    <a href="/index.html#active">Active Brands</a>
+    <a href="/index.html#originals">Originals</a>
+    <a href="/index.html#legacy">Archive</a>
+  </div>
+</nav>
+
+<section class="ch-hero">
+  <div class="ch-hero-art wf-img" data-type="hero" data-label="1920×1080 · Hero">
+    <!-- REPLACE: <img class="wf-img-el" src="/img/hero-the-mop.jpg" alt="The Mop"/> -->
+  </div>
+  <div class="ch-scrim"></div>
+  <div class="ch-hero-inner">
+    <div class="ch-eyebrow">Fight 2 Win · Protagonist</div>
+    <h1 class="ch-name">The Mop</h1>
+    <p class="ch-tag">“The Mop got them back.”</p>
+  </div>
+</section>
+
+<div class="ch-body">
+  <div>
+    <a href="/index.html#characters" class="ch-back">‹ All Characters</a>
+    <div class="ch-sec">
+      <h2 class="ch-sec-title">Profile</h2>
+      <div class="ch-prose">
+        <p>An industrial mop, frayed at the edges with the specific dignity of a thing that has been used hard and survived it. Extremely accomplished. The running problem, across every match it has ever had, is that <strong>nobody knows how to fight a mop.</strong></p>
+        <p>It was headed to WrestleMecca in 2026 and did not arrive in the way it intended. Its memory is selective in a pattern nobody has mapped, including The Mop, which refers to itself in the third person without exception and has never explained why.</p>
+        <p>It is the only one who can see or hear Zack Fantana. The exceptions are three engrams sharing a frequency, and none of them are in the room when it matters.</p>
+      </div>
+    </div>
+
+    <div class="ch-quote">The Mop thinks. The Mop knows. The Mop is aware.</div>
+
+    <div class="ch-sec">
+      <h2 class="ch-sec-title">The Job That Started It</h2>
+      <div class="ch-prose">
+        <p>Hired with Jackie Welles and the netrunner T-Bug by the fixer Dexter DeShaun to take a biochip out of DevlinSaka Tower. They saw something in that penthouse they were not supposed to see.</p>
+        <p>T-Bug went first, remotely. Jackie put the chip in his own neural port and died getting The Mop clear. Dexter shot The Mop and left it in a landfill. BBC settled that, then carried what was left to Max's clinic.</p>
+        <p>Asked honestly: The Mop would not have been altruistic with the championship either.</p>
+      </div>
+    </div>
+
+    <div class="ch-sec">
+      <h2 class="ch-sec-title">Appears In</h2>
+      <div class="ch-appear">
+        <a href="/shows/fight-2-win-2.html" class="ch-chip">Fight 2 Win 2</a>
+        <a href="/shows/wrestlemecca.html" class="ch-chip">WrestleMecca</a>
+        <a href="/characters/zack-fantana.html" class="ch-chip">Zack Fantana</a>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="ch-portrait wf-img" data-type="character" data-label="300×450 · Character">
+      <!-- REPLACE: <img class="wf-img-el" src="/img/char-the-mop.jpg" alt="The Mop"/> -->
+    </div>
+    <div class="ch-vitals">
+      <div class="ch-vital"><div class="ch-vital-k">Classification</div><div class="ch-vital-v">Sentient complex synthetic organism</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Frame</div><div class="ch-vital-v">Polymer carbon alloy · synthetic endochassis</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Locomotion</div><div class="ch-vital-v">Walks on the stick end</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Carrying</div><div class="ch-vital-v">One biochip. One dead man.</div></div>
+      <div class="ch-vital"><div class="ch-vital-k">Self-Reference</div><div class="ch-vital-v">Third person. Always.</div></div>
+
+    </div>
+  </aside>
+</div>
+
+<footer class="wf-footer">
+  <div class="wf-footer-logo">WRESTLEFLIX</div>
+  <div class="wf-footer-bottom">
+    <span class="wf-footer-copy">© WrestleFlix · wrestleflixx.github.io</span>
+    <span class="wf-footer-copy">Nobody knows how to fight a mop.</span>
+  </div>
+</footer>
+
+<script src="/js/wf.js"></script>
+</body>
+</html>
